@@ -8,9 +8,9 @@ from bson import ObjectId
 app = Blueprint('k_means_clustering', __name__)
 
 
-@app.route('/simulation/ml/k-means-clustering')
+@app.route('/simulation/ml/k-means-clustering/')
 def k_means_clustering():
-    name = '5abe73f95db85f1d10f6fd92'
+    name = '5b8842c376cc9d18036c6eb4'
     data = db.k_means_clustering.find_one({"_id": ObjectId(name)})
     data = data['data']
     saved = 0

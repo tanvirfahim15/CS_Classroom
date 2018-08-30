@@ -8,9 +8,9 @@ from bson import ObjectId
 app = Blueprint('logistic_regression', __name__)
 
 
-@app.route('/simulation/ml/logistic-regression')
+@app.route('/simulation/ml/logistic-regression/')
 def logistic_regression():
-    name = '5b76a9627033b703f464b308'
+    name = '5b88479676cc9d1a09a1aeb5'
     data = db.logistic_regression.find_one({"_id": ObjectId(name)})
     data.pop('_id')
     max_iter = len(data['data'])/5

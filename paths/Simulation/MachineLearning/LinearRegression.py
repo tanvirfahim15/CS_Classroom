@@ -11,7 +11,7 @@ app = Blueprint('linear_regression', __name__)
 
 @app.route('/simulation/ml/linear-regression/')
 def linear_regression():
-    return redirect('/simulation/ml/linear-regression/5b761a357033b71cc432d99e')
+    return redirect('/simulation/ml/linear-regression/5b883b3b76cc9d150046f9ab')
 
 
 @app.route("/simulation/ml/linear-regression/entry")
