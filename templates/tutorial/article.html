@@ -1,0 +1,12 @@
+{% extends '/tutorial/layout.html' %}
+
+{% block body %}
+  {% for article in articles %}
+  <h1>{{article['title']}}</h1>
+  <small>Written by {{article['author']}} on {{article['date']}}</small>
+  <hr>
+  <div>
+    {{article['body'] | safe}}
+  </div>
+  {% endfor %}
+{% endblock %}

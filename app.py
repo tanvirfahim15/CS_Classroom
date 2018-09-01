@@ -6,6 +6,7 @@ from paths.Simulation.MachineLearning.main import app as machine_learning_simula
 from paths.Simulation.MachineLearning.LinearRegression import app as linear_regression
 from paths.Simulation.MachineLearning.LogisticRegression import app as logistic_regression
 from paths.Simulation.MachineLearning.KMeansClustering import app as k_means_clustering
+from paths.Tutorial.OnlineForum.ForumArticle import app as online_forum
 
 app = Flask(__name__)
 app.secret_key = 'UIBBN*E(DNJ'
@@ -19,6 +20,8 @@ app.register_blueprint(linear_regression)
 app.register_blueprint(logistic_regression)
 app.register_blueprint(k_means_clustering)
 
+# Online Forum paths
+app.register_blueprint(online_forum)
 
 @app.route("/")
 def home():
@@ -27,4 +30,4 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
