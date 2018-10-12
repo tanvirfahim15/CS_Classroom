@@ -1,5 +1,6 @@
 import pattern.ObserverPattern as ObserverPattern
 from utility.database import db
+import classes.Blog.Subscription.MailReciever as MailReciever
 
 
 class Writer(ObserverPattern.Subject):
@@ -36,5 +37,8 @@ class Writer(ObserverPattern.Subject):
             writer['readers'].remove(observer)
             db.subsription.replace_one({'writer_id': self.writer_id}, writer)
 
-    def notify_observer(self):
-        super().notify_observer()
+    def notify_observer(self, article_id):
+        writer = db.subsription.find_one({'writer_id': self.writer_id})
+        for reader in writer['readers']:
+            MailReciever.MailReciever(reader).update((self.writer_id, article_id))
+

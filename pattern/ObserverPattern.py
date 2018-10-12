@@ -8,3 +8,8 @@ class Subject:
 
     def notify_observer(self):
         pass
+
+
+class Observer:
+    def update(self, message):
+        pass

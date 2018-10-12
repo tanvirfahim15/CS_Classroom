@@ -1,6 +1,7 @@
 from bson import ObjectId
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, session, Blueprint
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+import classes.Blog.Subscription.Writer as Writer
 from utility.database import db
 import datetime
 
@@ -52,10 +53,11 @@ def add_article():
         body = form.body.data
         author = session['username']
 
-        db.article.insert({"title": title, "author": author, "body": body, "date": str(now)})
+        article_id = db.article.insert({"title": title, "author": author, "body": body, "date": str(now)})
+        article_id = str(article_id)
         flash('Article Created', 'success')
-
-        return redirect('/dashboard')
+        Writer.Writer(session['username']).notify_observer(article_id)
+        return redirect('/article/'+article_id+'/')
 
     return render_template('/tutorial/add_article.html', form=form)
 
