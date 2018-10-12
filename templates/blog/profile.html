@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>CS Classroom | Home</title>
+
+
+    <script>
+
+        window.onload=function () {
+            login();
+            document.getElementById("footer").className += " fixed-bottom";
+        }
+
+
+    </script>
+
+
+    {% include "nav.html" %}
+
+
+</head>
+
+<body>
+<div align="center">
+    <div style="width: 80%">
+        <br/>
+        <br/>
+        {% if user is none %}
+        <br/>
+        <br/>
+        <br/>
+        <h1>No such profile found</h1>
+        {% else %}
+            <h1 >&nbsp; {{user["username"]}}</h1>
+            {{user["institute"]}} {{user["country"]}}
+            <br/>
+            <br/>
+            <hr/>
+            {% if articles.count() == 0 %}
+                <br/>
+                <br/>
+                <h1 style="color: #999999">No articles found</h1>
+            {% else %}
+                {% for item in articles %}
+                    <div align="left">
+                        <h4>
+                            <a href="/article/{{item['_id']}}">{{item['title']}}</a>
+                        </h4>
+                        {{item['date']}}<br/>
+                        {{item['body']  | safe}}
+                    </div>
+                    <br/>
+                    <hr/>
+
+                {% endfor %}
+            {% endif %}
+
+
+
+        {% endif %}
+
+    </div>
+</div>
+</body>
+<footer> {% include "footer.html" %}</footer>
+
+</html>

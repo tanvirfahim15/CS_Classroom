@@ -1,16 +1,14 @@
 from bson import ObjectId
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, session, Blueprint
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
-from functools import wraps
 from utility.database import db
-import time
 import datetime
-import random
 
 
-app = Blueprint('online_forum', __name__)
+app = Blueprint('blog_write', __name__)
 
 now = datetime.datetime.now()
+
 
 @app.route('/articles')
 def articles():
@@ -21,6 +19,7 @@ def articles():
     else:
         msg = 'No Articles Found'
         return render_template('/tutorial/articles.html', msg=msg)
+
 
 @app.route('/article/<string:id>/')
 def article(id):
@@ -44,6 +43,7 @@ class ArticleForm(Form):
     title = StringField('Title', [validators.Length(min=1, max=200)])
     body = TextAreaField('Body', [validators.Length(min=4)])
 
+
 @app.route('/add_article', methods=['GET', 'POST'])
 def add_article():
     form = ArticleForm(request.form)
@@ -58,6 +58,7 @@ def add_article():
         return redirect('/dashboard')
 
     return render_template('/tutorial/add_article.html', form=form)
+
 
 @app.route('/online_forum/forum_home')
 def forum_home():
