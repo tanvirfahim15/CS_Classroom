@@ -1,4 +1,7 @@
+import flask_login
 from flask import Flask, render_template
+from flask_login import LoginManager
+
 from paths.Auth import app as auth
 from paths.Profile import app as profile
 from paths.Simulation.MachineLearning.main import app as machine_learning_simulation
@@ -8,9 +11,13 @@ from paths.Simulation.MachineLearning.KMeansClustering import app as k_means_clu
 from paths.Blog.Write import app as online_forum
 from paths.Blog.Read import app as blog_read
 from paths.Blog.Subscription import app as blog_subscription
+import utility.flask_loginmanager as log
+from paths.OnlineIde.ide import app as online_ide
+
 
 app = Flask(__name__)
 app.secret_key = 'UIBBN*E(DNJ'
+
 
 app.register_blueprint(auth)
 app.register_blueprint(profile)
@@ -25,6 +32,11 @@ app.register_blueprint(k_means_clustering)
 app.register_blueprint(online_forum)
 app.register_blueprint(blog_read)
 app.register_blueprint(blog_subscription)
+
+log.login_manager.init_app(app)
+
+# Online Editor paths
+app.register_blueprint(online_ide)
 
 @app.route("/")
 def home():

@@ -1,3 +1,4 @@
+import flask_login
 from bson import ObjectId
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, session, Blueprint
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
@@ -9,7 +10,6 @@ import datetime
 app = Blueprint('blog_write', __name__)
 
 now = datetime.datetime.now()
-
 
 @app.route('/articles')
 def articles():
