@@ -22,37 +22,37 @@
                 if(current['type']=='ml'){
                     var doc = document.getElementById('ml');
                     if (current['algo']=='lr'){
-                        doc.innerHTML+= "Linear Regression: <a href='/ml/linear-regression/"
+                        doc.innerHTML+= "Linear Regression: <a href='/simulation/ml/linear-regression/"
                             +current['algo_id'] + "'>" + current['algo_id'] + "</a><br/>";
                     }
                     if (current['algo']=='lgr'){
-                        doc.innerHTML+= "Logistic Regression: <a href='/ml/logistic-regression/"
+                        doc.innerHTML+= "Logistic Regression: <a href='/simulation/ml/logistic-regression/"
                             +current['algo_id'] + "'>" + current['algo_id'] + "</a><br/>";
                     }
                     if (current['algo']=='km'){
-                        doc.innerHTML+= "K-Means Clustering: <a href='/ml/k-means-clustering/"
+                        doc.innerHTML+= "K-Means Clustering: <a href='/simulation/ml/k-means-clustering/"
                             +current['algo_id'] + "'>" + current['algo_id'] + "</a><br/>";
                     }
                 }
                 if(current['type']=='la'){
                     var doc = document.getElementById('la');
                     if (current['algo']=='gs'){
-                        doc.innerHTML+= "Gauss Elimination: <a href='/la/gauss-elimination/"
+                        doc.innerHTML+= "Gauss Elimination: <a href='/simulation/la/gauss-elimination/"
                             +current['algo_id'] + "'>" + current['algo_id'] + "</a><br/>";
                     }
                     if (current['algo']=='gj'){
-                        doc.innerHTML+= "Gauss Jordan Elimination: <a href='/la/gauss-jordan-elimination/"
+                        doc.innerHTML+= "Gauss Jordan Elimination: <a href='/simulation/la/gauss-jordan-elimination/"
                             +current['algo_id'] + "'>" + current['algo_id'] + "</a><br/>";
                     }
                     if (current['algo']=='ev'){
-                        doc.innerHTML+= "Eigen Value Computaion: <a href='/la/eigen-value/"
+                        doc.innerHTML+= "Eigen Value Computaion: <a href='/simulation/la/eigen-value/"
                             +current['algo_id'] + "'>" + current['algo_id'] + "</a><br/>";
                     }
                 }
                 if(current['type']=='idp'){
                     var doc = document.getElementById('idp');
                     if (current['algo']=='lcs'){
-                        doc.innerHTML+= "Longest Common Subsequence: <a href='/idp/longest-common-subsequence/"
+                        doc.innerHTML+= "Longest Common Subsequence: <a href='/simulation/idp/longest-common-subsequence/"
                             +current['algo_id'] + "'>" + current['algo_id'] + "</a><br/>";
                     }
                 }
@@ -81,7 +81,7 @@
 <div align="center">
     <div style="width: 80%">
         <h1>{{session['username']}}</h1>
-        {{institute}} {{country}}
+        {{user_data['institute']}} {{user_data['country']}}
         <br/>
         <a href="/auth/change-info">Change Profile Information</a>
         <br/><br/>

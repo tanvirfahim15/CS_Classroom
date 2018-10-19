@@ -1,5 +1,5 @@
 import pattern.ObserverPattern as ObserverPattern
-from utility.database import db
+from Database.database import db
 import classes.Mail.SendMail as Mail
 
 

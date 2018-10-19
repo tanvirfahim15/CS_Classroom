@@ -38,6 +38,7 @@ log.login_manager.init_app(app)
 # Online Editor paths
 app.register_blueprint(online_ide)
 
+
 @app.route("/")
 def home():
     return render_template(

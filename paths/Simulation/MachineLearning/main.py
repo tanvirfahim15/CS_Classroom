@@ -1,5 +1,4 @@
-from flask import render_template, request, redirect, session, Blueprint
-from utility.database import db
+from flask import render_template, Blueprint
 
 app = Blueprint('machine_learning_simulation', __name__)
 

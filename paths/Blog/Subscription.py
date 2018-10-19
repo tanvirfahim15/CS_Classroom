@@ -1,5 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, session, Blueprint
-from utility.database import db
+from flask import request, session, Blueprint
 import classes.Blog.Subscription.Writer as Writer_Subject
 
 app = Blueprint('blog_subscribe', __name__)

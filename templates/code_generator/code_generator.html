@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <title>ML Square| Code Generator</title>
+
+    <script>
+        window.onload=function () {
+            login();
+            document.getElementById("footer").className += " fixed-bottom";
+        }
+        function process() {
+            var dataset = document.getElementById("dataset").selectedIndex;
+            var testsize = document.getElementById("testsize").selectedIndex;
+            var algorithm = document.getElementById("algorithm").selectedIndex;
+            var filter_features=document.getElementById("filter_features").selectedIndex-1;
+            var filter_operation=document.getElementById("filter_operation").selectedIndex;
+            var filter_value=document.getElementById("filter_value").value;
+            if(isNaN(parseFloat(filter_value))&&filter_value!=''){
+                document.getElementById("msg").innerHTML = "Filter value must be float";
+                document.getElementById('data-title').innerText='Error';
+                document.getElementById('data-content').innerHTML="Filter value must be float";
+                return;
+            }
+            if(algorithm>0&&testsize>0&&dataset>0){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById('data-content').innerHTML=this.responseText;
+                        document.getElementById('data-title').innerText='Output';
+                    }
+                };
+                xhttp.open("POST", "/code-generator/", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("dataset="+dataset+"&algorithm="+algorithm+"&testsize="+testsize+"&selections="+selections+"&filter_features="+filter_features +"&filter_operation="+filter_operation+"&filter_value="+filter_value);
+            }
+            else{
+                document.getElementById('msg').innerText='Select an Algorithm'
+            }
+        }
+        function dataset_onchange() {
+            var dataset = document.getElementById("dataset").selectedIndex;
+            if(dataset==1){
+                document.getElementById('import_dataset').innerHTML='import pandas as pd' +
+                    '<br/>import numpy as np'
+                document.getElementById('code_dataframe').innerHTML='df = pd.read_csv(\'<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_dataset(0)">' +
+                    'abalone.csv</a>\',sep=\',\', header=None)'
+                document.getElementById('code_dataset').innerHTML=
+                    '<br/>arr = np.array(df)<br/>' +
+                    '<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_X(0)">' +
+                    'X</a> =arr[:,0:7]<br/>' +
+                    '<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_y(0)">y' +
+                    '</a>=arr[:,7]';
+                loadfeatures(0);
+            }
+            if(dataset==2){
+                document.getElementById('import_dataset').innerHTML='import pandas as pd' +
+                    '<br/>import numpy as np'
+                document.getElementById('code_dataframe').innerHTML='df = pd.read_csv(\'<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_dataset(1)">' +
+                    'breast_cancer.csv</a>\',sep=\',\', header=None)' ;
+                document.getElementById('code_dataset').innerHTML='arr = np.array(df)<br/>' +
+                    '<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_X(1)">' +
+                    'X</a>=arr[:,0:9]<br/>' +
+                    '<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_y(1)">' +
+                    'y</a>=arr[:,9]'
+                loadfeatures(1);
+            }
+        }
+        var selections=[];
+        var ds=0;
+        function loadfeatures(n) {
+            ds=n;
+            var items = [];
+            if(n==0){
+                items=['Length', 'Diameter', 'Height', 'Whole weight', 'Shucked weight', 'Viscera weight', 'Shell weight',
+                    'Rings'];
+            }
+            else if (n==1){
+                items=['Clump Thickness', 'Uniformity of Cell Size', 'Uniformity of Cell Shape'
+                    , 'Marginal Adhesion', 'Single Epithelial Cell Size', 'Bare Nuclei', 'Bland Chromatin',
+                    'Normal Nucleoli ','Mitoses','Class'];
+            }
+            selections=[]
+            document.getElementById('code_filter').innerHTML='';
+            remove_all_option();
+            for(var i=0;i<items.length-1;i++){
+                add_option(items[i],i+1);
+            }
+            var str='<div class="table table-dark" align="center" style="font-size:X-large">Feature list and distribution</div>'
+            var odd=''
+            var even=''
+            for(var i=0;i<items.length-1;i++){
+                if(i%2==0){
+                    odd+='<div class="checkbox">' +
+                        '  <label><input type="checkbox" value="" id="features-'+i+
+                        '" checked onclick="check('+i+')">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" onclick="showDistribution('+n+','+i+')" style="font-size: x-large">'+items[i]+'</a></label>' +
+                        '</div>'
+                }
+                else{
+                    even+='<div class="checkbox">' +
+                        '  <label><input type="checkbox" value="" id="features-'+i+
+                        '" checked onclick="check('+i+')">' +
+                        '<a href="#" data-toggle="modal" data-target="#myModal" onclick="showDistribution('+n+','+i+')" style="font-size: x-large">'+items[i]+'</a></label>' +
+                        '</div>'
+                }
+                selections.push(true);
+            }
+            document.getElementById('features').innerHTML=str;
+            document.getElementById('odd').innerHTML=odd;
+            document.getElementById('even').innerHTML=even;
+        }
+        function showDistribution(dataset, feature) {
+            document.getElementById('data-content').innerHTML='';
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var result = this.responseText;
+                    result=result.split(',');
+                    var x= [];
+                    for(var i=0;i<result.length;i++){
+                        x.push(parseFloat(result[i]));
+                    }
+                    var trace = {
+                        x: x,
+                        type: 'histogram',
+                    };
+                    var data = [trace];
+                    Plotly.newPlot('data-content', data);
+                    document.getElementById('data-title').innerText='Feature Distribution';
+                }
+            };
+            xhttp.open("POST", "/code-generator/get-feature-distribution", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("dataset="+dataset+"&feature="+feature);
+        }
+        function check(n) {
+            var doc=document.getElementById('features-'+n);
+            selections[n]=doc.checked;
+            var truecount=0;
+            for(var i=0;i<selections.length;i++){
+                if(selections[i]==true){
+                    truecount++;
+                }
+            }
+            if(truecount==0){
+                document.getElementById('msg').innerText='Select one feature at least';
+                return;
+            }
+            else {
+                document.getElementById('msg').innerText='';
+            }
+            if(truecount==selections.length){
+                document.getElementById('code_filter').innerHTML='';
+                return;
+            }
+            var code='selections = np.array([';
+            for(var i=0;i<selections.length;i++){
+                if(selections[i]==true){
+                    code+='True';
+                }
+                else {
+                    code+='False';
+                }
+                if(i<selections.length-1){
+                    code+=', ';
+                }
+            }
+            code+='])<br/><a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_X_select(ds)">X</a>' +
+                '=X[:, selections]';
+            document.getElementById('code_filter').innerHTML=code;
+        }
+        function testsize_onchange() {
+            var sizearr=[0.2,0.3,0.4,0.5];
+            var testsize = document.getElementById("testsize").selectedIndex;
+            var dataset = document.getElementById("dataset").selectedIndex;
+            if(dataset==0){
+                document.getElementById('msg').innerText='Select a Dataset First';
+                document.getElementById("testsize").selectedIndex='0';
+                return;
+            }
+            if(testsize==0)
+                return;
+            document.getElementById('import_testsize').innerHTML=
+                'from sklearn.model_selection import train_test_split';
+            document.getElementById('code_testsize').innerHTML=
+                'X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=' +
+                sizearr[testsize-1] +
+                ', random_state=42)\n'
+        }
+        function algorithm_onchange() {
+            var testsize = document.getElementById("testsize").selectedIndex;
+            var algorithm = document.getElementById("algorithm").selectedIndex;
+            if(testsize==0){
+                document.getElementById('msg').innerText='Select Test Size First';
+                document.getElementById("algorithm").selectedIndex='0';
+                return;
+            }
+            if(algorithm==1){
+                document.getElementById('import_algorithm').innerHTML='from sklearn.linear_model import LinearRegression' +
+                    '<br/>' +
+                    'from sklearn.metrics import mean_squared_error';
+                document.getElementById('code_algorithm').innerHTML='clf = LinearRegression()<br/>' +
+                    'clf.fit(X_train,y_train)<br/>' +
+                    '<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_y_pred()">y_pred</a> = clf.predict(X_test)<br/>' +
+                    'print(mean_squared_error(y_pred,y_test))';
+            }
+            if(algorithm==2){
+                document.getElementById('import_algorithm').innerHTML='from sklearn.linear_model import LogisticRegression' +
+                    '<br/>' +
+                    'from sklearn.metrics import accuracy_score';
+                document.getElementById('code_algorithm').innerHTML='clf = LinearRegression()<br/>' +
+                    'clf.fit(X_train,y_train)<br/>' +
+                    '<a  data-toggle="modal" data-target="#myModal" style="color: blue" href="#data" onclick="show_y_pred()">y_pred</a> = clf.predict(X_test)<br/>' +
+                    'print(accuracy_score(y_pred,y_test))';
+            }
+        }
+        function show_dataset(n) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('data-content').innerHTML=this.responseText;
+                    if (n==0)
+                        document.getElementById('data-title').innerText='abalone.csv';
+                    if (n==1)
+                        document.getElementById('data-title').innerText='breast_cancer.csv';
+                }
+            };
+            xhttp.open("POST", "/code-generator/get-dataset", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("data="+n+"&type=0");
+        }
+        function show_X(n) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('data-content').innerHTML=this.responseText;
+                    document.getElementById('data-title').innerText='X';
+                }
+            };
+            xhttp.open("POST", "/code-generator/get-dataset", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("data="+n+"&type=1");
+        }
+        function show_y(n) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('data-content').innerHTML=this.responseText;
+                    document.getElementById('data-title').innerText='y';
+                }
+            };
+            xhttp.open("POST", "/code-generator/get-dataset", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("data="+n+"&type=2");
+        }
+        function show_X_select(n) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('data-content').innerHTML=this.responseText;
+                    document.getElementById('data-title').innerText='X';
+                }
+            };
+            xhttp.open("POST", "/code-generator/get-dataset", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("data="+n+"&type=3"+"&selections="+selections);
+        }
+        function show_y_pred() {
+            var dataset = document.getElementById("dataset").selectedIndex;
+            var testsize = document.getElementById("testsize").selectedIndex;
+            var algorithm = document.getElementById("algorithm").selectedIndex;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('data-content').innerHTML=this.responseText;
+                    document.getElementById('data-title').innerText='y_pred';
+                }
+            };
+            xhttp.open("POST", "/code-generator/get-dataset", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("dataset="+dataset+"&type=4"+"&algorithm="+algorithm+"&selections="+selections+"&testsize="+testsize);
+        }
+        function add_option(feature, index) {
+            var x = document.getElementById("filter_features");
+            var option = document.createElement("option");
+            option.text = feature;
+            x.add(option, index);
+        }
+        function remove_all_option() {
+            var x = document.getElementById("filter_features");
+            x.innerHTML='<option>Select Feature</option>'
+        }
+        function update_filter_code() {
+            var filter_features=document.getElementById("filter_features").selectedIndex-1;
+            var filter_operation=document.getElementById("filter_operation").selectedIndex;
+            var filter_value=document.getElementById("filter_value").value;
+            if(isNaN(parseFloat(filter_value))&&filter_value!=''){
+                document.getElementById('code_dataframe_filter').innerHTML='';
+                return;
+            }
+            var codefield = document.getElementById('code_dataframe_filter');
+            if(filter_features>=0&&filter_value!=''){
+                if(filter_operation==0){
+                    codefield.innerHTML='df = df[df['+filter_features+'] != '+filter_value+']'
+                }
+                if(filter_operation==1){
+                    codefield.innerHTML='df = df[df['+filter_features+'] > '+filter_value+']'
+                }
+                if(filter_operation==2){
+                    codefield.innerHTML='df = df[df['+filter_features+'] < '+filter_value+']'
+                }
+            }
+        }
+    </script>
+
+
+    {% include "nav.html" %}
+
+
+    <style type="text/css">
+        .bigmodal{
+            width:1200px;
+        }
+        .modal-dialog {
+            position: absolute;
+            left: 10%;
+        }
+    </style>
+</head>
+
+<body>
+<div align="center">
+    <div style="width: 80%">
+        <h1>Code Generator</h1>
+        <br/>
+        <div id="msg" style="color: red"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6" align="center" >
+                    <div class="form-group" style="width: 100%;">
+                        <label for="dataset" class="table table-dark" style="font-size: x-large">
+                            Dataset
+                        </label>
+                        <table><tr><td width="90%" style="padding-top: 25px">
+                            <select class="form-control" id="dataset" name="dataset" onchange="dataset_onchange()" style="font-size: larger" >
+                                <option>Select Dataset</option>
+                                <option>Abalone</option>
+                                <option>Breast Cancer</option>
+                            </select>
+                            <br/>
+                        </td>
+                            <td>
+                                <button class="btn btn-dark" id="view_ds_btn">View dataset</button>
+                            </td>
+                        </tr></table>
+                    </div>
+
+                    <div class="form-group" id="features" align="left" >
+
+                    </div>
+                    <table width="100%"><tr>
+                        <td id="odd" width="50%"></td>
+                        <td id="even" width="50%"></td>
+                    </tr></table>
+                    <br/>
+                    <div class="form-group">
+                        <label for="algorithm"  class="table table-dark" style="font-size: x-large">
+                            Filter
+                        </label>
+                        <table><tr><td>
+                            <select class="form-control" id="filter_features" onchange="update_filter_code()" style="font-size: larger">
+                                <option>Select Feature</option>
+                            </select>
+
+                        </td><td>
+                            <select class="form-control" id="filter_operation" onchange="update_filter_code()" style="font-size: larger">
+                                <option>=</option>
+                                <option>&lt;</option>
+                                <option>&gt;</option>
+                            </select>
+                        </td><td>
+                            <input type="text" class="form-control" id="filter_value"  onkeydown="update_filter_code()" style="font-size: larger">
+
+                        </td></tr></table>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label for="testsize" class="table table-dark" style="font-size: x-large">
+                            Test size
+                        </label>
+                        <select class="form-control" id="testsize" name="testsize" onchange="testsize_onchange()" style="font-size: larger">
+                            <option>Select Test Size</option>
+                            <option>0.2</option>
+                            <option>0.3</option>
+                            <option>0.4</option>
+                            <option>0.5</option>
+                        </select>
+                    </div>
+                    <br/>
+
+                    <div class="form-group">
+                        <label for="algorithm"  class="table table-dark" style="font-size: x-large">
+                            Learning Algorithm
+                        </label>
+                        <select class="form-control" id="algorithm" name="algorithm" onchange="algorithm_onchange()"  style="font-size: larger">
+                            <option>Select Algorithm</option>
+                            <option>Linear Regression</option>
+                            <option>Logistic Regression</option>
+                        </select>
+                    </div>
+
+                    <button   data-toggle="modal" data-target="#myModal" onclick="process()" class="btn btn-success btn-lg" style="width: 250px">Run</button>
+                </div>
+                <div class="col-sm-6" align="left" style="background-color: #2d2d2d;" >
+                    <h4 align="center" style="color: #3bdd79;padding-top: 10px"><b>Generated Source Code</b></h4><hr/>
+                    <div  style="background-color: whitesmoke;padding-left: 20px;font-size: x-large">
+                        <div id="import_dataset"></div>
+                        <div id="import_testsize"></div>
+                        <div id="import_algorithm"></div>
+                        <br/>
+                        <div id="code_dataframe"></div>
+
+
+                        <div id="code_dataframe_filter"></div>
+                        <div id="code_dataset"></div>
+                        <div id="code_filter"></div>
+                        <div id="code_testsize"></div>
+                        <div id="code_algorithm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" >
+
+        <!-- Modal content-->
+        <div class="modal-content bigmodal">
+            <div class="modal-header" align="left">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 style="position: absolute;left: 2%" id="data-title">Modal Header</h4>
+            </div>
+            <div class="modal-body"id="data-content">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<footer> {% include "footer.html" %}</footer>
+
+</html>
