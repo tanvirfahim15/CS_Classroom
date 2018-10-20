@@ -4,6 +4,7 @@ from wtforms import Form, StringField, TextAreaField, validators
 import classes.Blog.Subscription.Writer as Writer
 from Database.database import db
 import datetime
+from paths.Blog.BlogArticleConcreteStrategy import BlogArticleConcreteStrategy
 
 
 app = Blueprint('blog_write', __name__)
@@ -48,14 +49,19 @@ class ArticleForm(Form):
 def add_article():
     form = ArticleForm(request.form)
     if request.method == 'POST' and form.validate():
-        title = form.title.data
-        body = form.body.data
-        author = session['username']
+        articles = BlogArticleConcreteStrategy()
+        articles.setTitle(form.title.data)
+        articles.setBody(form.body.data)
+        articles.setAuthor(session['username'])
 
-        article_id = db.article.insert({"title": title, "author": author, "body": body, "date": str(now)})
+        # title = form.title.data
+        # body = form.body.data
+        # author = session['username']
+
+        article_id = db.article.insert({"title": articles.getTitle(), "author": articles.getAuthor(), "body": articles.getBody(), "date": str(now)})
         article_id = str(article_id)
         flash('Article Created', 'success')
-        Writer.Writer(session['username']).notify_observer(article_id)
+        #Writer.Writer(session['username']).notify_observer(article_id)
         return redirect('/article/'+article_id+'/')
 
     return render_template('/tutorial/add_article.html', form=form)
