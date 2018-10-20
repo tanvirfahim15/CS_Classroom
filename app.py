@@ -11,6 +11,7 @@ from paths.Simulation.MachineLearning.KMeansClustering import app as k_means_clu
 from paths.Blog.Write import app as online_forum
 from paths.Blog.Read import app as blog_read
 from paths.Blog.Subscription import app as blog_subscription
+from paths.CodeGenerator import app as code_generator
 import utility.flask_loginmanager as log
 from paths.OnlineIde.ide import app as online_ide
 
@@ -37,6 +38,9 @@ log.login_manager.init_app(app)
 
 # Online Editor paths
 app.register_blueprint(online_ide)
+
+# Code generator paths
+app.register_blueprint(code_generator)
 
 
 @app.route("/")
