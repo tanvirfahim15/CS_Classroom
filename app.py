@@ -16,6 +16,7 @@ import utility.flask_loginmanager as log
 from paths.OnlineIde.ide import app as online_ide
 from paths.Simulation.IterativeDp.KnapsackApp import app as knpsack
 from paths.Simulation.IterativeDp.main import app as iterative_dp_simulation
+from paths.Simulation.IterativeDp.EditDistanceApp import app as edit_distance
 
 app = Flask(__name__)
 app.secret_key = 'UIBBN*E(DNJ'
@@ -46,6 +47,7 @@ app.register_blueprint(code_generator)
 # Iterative Dp paths
 app.register_blueprint(iterative_dp_simulation)
 app.register_blueprint(knpsack)
+app.register_blueprint(edit_distance)
 
 
 
