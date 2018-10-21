@@ -1,7 +1,8 @@
 import flask_login
-from flask import Flask, render_template
+from flask import Flask, render_template, session, flash
 from flask_login import LoginManager
 
+from Database.database import db
 from paths.Auth import app as auth
 from paths.Profile import app as profile
 from paths.Simulation.MachineLearning.main import app as machine_learning_simulation
@@ -19,6 +20,8 @@ from paths.Simulation.IterativeDp.main import app as iterative_dp_simulation
 from paths.Simulation.IterativeDp.EditDistanceApp import app as edit_distance
 from paths.Simulation.IterativeDp.LISApp import app as lis
 from paths.Simulation.IterativeDp.FibonacciApp import app as dpfib
+
+
 
 app = Flask(__name__)
 app.secret_key = 'UIBBN*E(DNJ'
@@ -52,7 +55,6 @@ app.register_blueprint(knpsack)
 app.register_blueprint(edit_distance)
 app.register_blueprint(lis)
 app.register_blueprint(dpfib)
-
 
 
 @app.route("/")

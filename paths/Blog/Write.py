@@ -1,5 +1,5 @@
 from bson import ObjectId
-from flask import render_template, flash, redirect, request, session, Blueprint
+from flask import render_template, flash, redirect, request, session, Blueprint, url_for
 from wtforms import Form, StringField, TextAreaField, validators
 import classes.Blog.Subscription.Writer as Writer
 from Database.database import db
@@ -33,6 +33,7 @@ def article(id):
 def dashboard():
     articles = db.article.find({"author": session['username']})
     print(articles)
+
     if articles is not None:
         return render_template('/tutorial/dashboard.html', articles=articles)
     else:
@@ -67,8 +68,38 @@ def add_article():
     return render_template('/tutorial/add_article.html', form=form)
 
 
+@app.route('/edit_article/<string:id>', methods=['GET', 'POST'])
+def edit_article(id):
+    articles = db.article.find_one({"_id": ObjectId(id)})
+    form = ArticleForm(request.form)
+
+    form.title.data = articles['title']
+    form.body.data = articles['body']
+
+
+
+    if request.method == 'POST' and form.validate():
+        title = request.form['title']
+        body = request.form['body']
+
+        articles['title'] = title
+        articles['body'] = body
+        db.article.save(articles)
+
+        flash('Article Updated', 'success')
+        return redirect(url_for('blog_write.dashboard'))
+    return render_template('/tutorial/edit_article.html', form=form)
+
+@app.route('/delete_article/<string:id>', methods=['GET', 'POST'])
+def delete_article(id):
+    print(id)
+    db.article.remove({"_id": ObjectId(id)})
+    flash('Article Deleted', 'success')
+    return redirect(url_for('blog_write.dashboard'))
+
 @app.route('/online_forum/forum_home')
 def forum_home():
     return render_template('/tutorial/forum_home.html', **locals())
+
 
 
