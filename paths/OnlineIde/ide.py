@@ -79,6 +79,7 @@ class OnlineIde(metaclass=Singleton):
         # print(O_IDE)
         return O_IDE
 
+
 @app.route('/online_ide/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':

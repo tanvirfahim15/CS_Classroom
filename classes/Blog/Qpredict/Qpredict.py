@@ -1,16 +1,20 @@
 from bs4 import BeautifulSoup
 
-input = open('/home/forkkr/PycharmProjects/CS_Classroom/classes/Blog/Qpredict/idf.txt', encoding="utf8").readlines()
 
-idf = {}
-for line in input:
-    tokens = line.replace("\n","").split(",")
-    key = tokens[0]
-    value = float(tokens[1])
-    idf[key] = value
+def load_idf():
+    input = open('classes/Blog/Qpredict/idf.txt', encoding="utf8").readlines()
+
+    idf = {}
+    for line in input:
+        tokens = line.replace("\n", "").split(",")
+        key = tokens[0]
+        value = float(tokens[1])
+        idf[key] = value
+    return idf
 
 
 def Qpredict(input=None):
+    idf = load_idf()
     input = BeautifulSoup(input,features="html.parser").text.replace('\n', '').replace('\xa0',' ')
     sentences = input.split('.')
     out = []
