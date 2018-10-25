@@ -23,6 +23,7 @@ from paths.Simulation.IterativeDp.FibonacciApp import app as dpfib
 from paths.Simulation.IterativeDp.LCS import app as lcs
 from paths.OnlineClassroom.ClassroomFeed import app as classroom_feed
 from paths.Simulation.LinearAlgebra.GaussElimination import app as gauss_elimination
+from paths.Simulation.LinearAlgebra.main import app as linear_algebra
 
 
 app = Flask(__name__)
@@ -60,6 +61,7 @@ app.register_blueprint(dpfib)
 app.register_blueprint(lcs)
 
 # Linear Algebra Path
+app.register_blueprint(linear_algebra)
 app.register_blueprint(gauss_elimination)
 
 
