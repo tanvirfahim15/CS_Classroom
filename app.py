@@ -34,7 +34,7 @@ from paths.Simulation.LinearAlgebra.GaussJordanElimination import app as gauss_j
 from paths.Simulation.LinearAlgebra.GaussElimination import app as gauss_elimination
 from paths.Simulation.LinearAlgebra.EigenValue import app as eigen_value
 from paths.Simulation.LinearAlgebra.main import app as linear_algebra
-
+from paths.Simulation.DBMS.main import app as dbms
 
 app = Flask(__name__)
 app.secret_key = 'UIBBN*E(DNJ'
@@ -83,6 +83,10 @@ app.register_blueprint(linear_algebra)
 app.register_blueprint(gauss_elimination)
 app.register_blueprint(gauss_jordan_elimination)
 app.register_blueprint(eigen_value)
+
+# DBMS path
+app.register_blueprint(dbms)
+
 
 # Online Classroom
 app.register_blueprint(classroom_feed)
