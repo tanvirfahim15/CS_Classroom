@@ -21,9 +21,16 @@ from paths.Simulation.IterativeDp.EditDistanceApp import app as edit_distance
 from paths.Simulation.IterativeDp.LISApp import app as lis
 from paths.Simulation.IterativeDp.FibonacciApp import app as dpfib
 from paths.Simulation.IterativeDp.LCS import app as lcs
+from paths.Simulation.IterativeDp.CoinChangeVariant1 import app as ccv1
+from paths.Simulation.IterativeDp.CoinChangeVariant2 import app as ccv2
+from paths.Simulation.IterativeDp.CoinChangeVariant3 import app as ccv3
+from paths.Simulation.IterativeDp.CoinChangeVariant4 import app as ccv4
+from paths.Simulation.IterativeDp.CoinChangeVariant5 import app as ccv5
+from paths.Simulation.IterativeDp.MatrixChainMultiplication import app as mcm
+from paths.Simulation.IterativeDp.SCS import app as scs
+from paths.Simulation.IterativeDp.RockClimbing import app as rc
 from paths.OnlineClassroom.ClassroomFeed import app as classroom_feed
-from paths.Simulation.LinearAlgebra.GaussElimination import app as gauss_elimination
-from paths.Simulation.LinearAlgebra.main import app as linear_algebra
+
 
 
 app = Flask(__name__)
@@ -59,10 +66,14 @@ app.register_blueprint(edit_distance)
 app.register_blueprint(lis)
 app.register_blueprint(dpfib)
 app.register_blueprint(lcs)
-
-# Linear Algebra Path
-app.register_blueprint(linear_algebra)
-app.register_blueprint(gauss_elimination)
+app.register_blueprint(ccv1)
+app.register_blueprint(ccv2)
+app.register_blueprint(ccv3)
+app.register_blueprint(ccv4)
+app.register_blueprint(ccv5)
+app.register_blueprint(mcm)
+app.register_blueprint(scs)
+app.register_blueprint(rc)
 
 
 # Online Classroom
