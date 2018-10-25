@@ -4,6 +4,7 @@ from classes.Simulation.MachineLearning.LogisticRegression import LogisticRegres
 from classes.Simulation.MachineLearning.LogisticRegression import Utility as lgr_util
 import numpy as np
 from bson import ObjectId
+from pattern.SimulationStrategy.Context import SimulationContext
 
 
 def logistic_regression_simulation(name):
@@ -28,9 +29,11 @@ def logistic_regression_data_entry_data(data):
     x2 = data[1]
     y = np.asarray(data[2])
     x = lgr_util.combine(x1, x2)
-    l = lgr.LogisticRegression(x, y)
+    simulation_strategy = lgr.LogisticRegression(x, y, iterations, steps, alpha)
+    simulation_context = SimulationContext(simulation_strategy)
+
     data = dict()
-    data['data'] = l.get_data(iterations, steps, alpha)
+    data['data'] = simulation_context.get_data()
     data['x1'] = x1
     data['x2'] = x2
     data['y'] = list(y)

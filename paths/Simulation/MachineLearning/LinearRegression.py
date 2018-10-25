@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, Blueprint
-from Service.MachineLearning import LinearRegression as service
+from Service.Simulation.MachineLearning import LinearRegression as service
 
 app = Blueprint('linear_regression', __name__)
 

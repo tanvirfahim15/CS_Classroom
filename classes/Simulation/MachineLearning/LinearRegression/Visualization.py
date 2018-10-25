@@ -22,4 +22,4 @@ y = np.asarray(y)
 
 
 ln = LinearRegression.LinearRegression(theta, x, y, alpha, 2000, 100)
-print(ln.get_dictionary())
+print(ln.get_data())

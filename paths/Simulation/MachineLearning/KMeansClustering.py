@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, Blueprint
 from classes.Simulation.MachineLearning.KMeansClustering import Utility as km_util
-from Service.MachineLearning import KMeansClustering as service
+from Service.Simulation.MachineLearning import KMeansClustering as service
 
 app = Blueprint('k_means_clustering', __name__)
 

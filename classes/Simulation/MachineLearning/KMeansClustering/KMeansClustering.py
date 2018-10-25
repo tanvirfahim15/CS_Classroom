@@ -1,9 +1,10 @@
 import numpy as np
 import math
 import random
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
 
-class KMeans:
+class KMeans(SimulationStrategy):
     points = []
     centroids = []
     cluster = []

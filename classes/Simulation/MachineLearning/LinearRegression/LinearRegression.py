@@ -1,8 +1,9 @@
 import numpy as np
 import math
-import pandas as pd
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
-class LinearRegression:
+
+class LinearRegression(SimulationStrategy):
     alpha = float(0)
     theta = np.array([0.0, 0.0, 0.0])
     x = np.array([[0.0, 0.0], [0.0, 0.0]])
@@ -70,7 +71,7 @@ class LinearRegression:
         for i in range(self.iterations):
             self.gradient_decent()
 
-    def get_dictionary(self):
+    def get_data(self):
         costs = []
         thetas = []
         theta = []

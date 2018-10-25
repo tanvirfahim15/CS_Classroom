@@ -1,15 +1,18 @@
 import numpy as np
 import math
-import pandas as pd
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
 
-class LogisticRegression:
+class LogisticRegression(SimulationStrategy):
     x = np.array([[0.0, 0.0], [0.0, 0.0]])
     y = np.array([0.0, 0.0])
 
-    def __init__(self, x, y):
+    def __init__(self, x, y,iterations, steps, alpha):
         self.x = np.append(np.ones((x.__len__(), 1)), x, axis=1)
         self.y = y
+        self.iterations = iterations
+        self.steps =steps
+        self.alpha = alpha
 
     def h(self, theta):
         return self.sigmoid(np.matmul(self.x, theta))
@@ -47,7 +50,8 @@ class LogisticRegression:
         off = np.matmul(one, np.multiply(self.x, np.reshape((self.h(theta)-self.y), (-1, 1)))).flatten()
         return theta-off
 
-    def get_data(self, iterations, steps, alpha):
+    def get_data(self):
+        iterations, steps, alpha = self.iterations, self.steps, self.alpha
         data = []
         theta = np.array([0, 0, 0])
         iteration = 0

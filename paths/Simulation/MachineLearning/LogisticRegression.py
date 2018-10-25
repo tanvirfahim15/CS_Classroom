@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, Blueprint
 from classes.Simulation.MachineLearning.LogisticRegression import Utility as lgr_util
-from Service.MachineLearning import LogisticRegression as service
+from Service.Simulation.MachineLearning import LogisticRegression as service
 
 app = Blueprint('logistic_regression', __name__)
 

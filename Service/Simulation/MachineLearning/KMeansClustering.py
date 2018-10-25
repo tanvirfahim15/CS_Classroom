@@ -4,6 +4,7 @@ from classes.Simulation.MachineLearning.KMeansClustering import KMeansClustering
 from classes.Simulation.MachineLearning.KMeansClustering import Utility as km_util
 import random
 from bson import ObjectId
+from pattern.SimulationStrategy.Context import SimulationContext
 
 
 def k_means_clustering_simulation(name):
@@ -29,9 +30,10 @@ def k_means_clustering_entry_data(data):
             if min_p > entry:
                 min_p = entry
     centroids = [[random.uniform(min_p, max_p), random.uniform(min_p, max_p)] for i in range(int(data['clusters']))]
-    k = km.KMeans(points, centroids)
+    simulation_strategy = km.KMeans(points, centroids)
+    simulation_context = SimulationContext(simulation_strategy)
     data = dict()
-    data['data'] = k.get_data()
+    data['data'] = simulation_context.get_data()
     posts = db.k_means_clustering
     post_id = posts.insert_one(data).inserted_id
     return post_id

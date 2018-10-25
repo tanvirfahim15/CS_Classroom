@@ -5,6 +5,7 @@ from Database.database import db
 from bson.objectid import ObjectId
 from classes.Simulation.MachineLearning.LinearRegression import LinearRegression as lr
 import classes.Simulation.MachineLearning.LinearRegression.Utility as lr_util
+from pattern.SimulationStrategy.Context import SimulationContext
 
 
 def linear_regression_data_entry_data(data):
@@ -68,8 +69,10 @@ def linear_regression_data_entry_data(data):
     x = np.asarray(x)
     y = np.asarray(y)
 
-    ln = lr.LinearRegression(theta, x, y, alpha, iterations, steps)
-    data = ln.get_dictionary()
+    simulation_strategy = lr.LinearRegression(theta, x, y, alpha, iterations, steps)
+    simulation_context = SimulationContext(simulation_strategy)
+
+    data = simulation_context.get_data()
 
     if data['overshoot']:
         return 0, ret_data
