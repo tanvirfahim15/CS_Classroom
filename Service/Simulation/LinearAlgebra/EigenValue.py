@@ -4,6 +4,7 @@ from bson import ObjectId
 import json
 from classes.Simulation.LinearAlgebra.EigenValue import Utility as eigen_util
 from classes.Simulation.LinearAlgebra.EigenValue import EigenValue as eigen
+from pattern.SimulationStrategy.Context import SimulationContext
 
 
 def eigen_value():
@@ -40,7 +41,11 @@ def eigen_value_entry_data(data):
     if eigen_util.validate_entry(data) is False:
         return False, data.replace('\"', '').replace('\\r\\n', '\n')
     else:
-        data = eigen.EigenValue(eigen_util.get_matrix(data)).get_data()
+
+        simulation_strategy = eigen.EigenValue(eigen_util.get_matrix(data))
+        simulation_context = SimulationContext(simulation_strategy)
+        data = simulation_context.get_data()
+
         posts = db.eigen_value
         post_id = posts.insert_one(data).inserted_id
         return True, str(post_id)

@@ -4,6 +4,7 @@ import json
 from classes.Simulation.LinearAlgebra.GaussJordanElimination import GaussJordanElimination as gj
 import classes.Simulation.LinearAlgebra.GaussJordanElimination.Utility as gj_util
 from bson import ObjectId
+from pattern.SimulationStrategy.Context import SimulationContext
 
 
 def gauss_jordan_elimination():
@@ -44,8 +45,11 @@ def gauss_jordan_elimination_entry_data(data):
         return False, data.replace('\"', '').replace('\\r\\n', '\n')
     else:
         mat = gj_util.get_matrix(data)
-        gj_obj = gj.GaussJordanElimination(mat)
-        data = gj_obj.get_data()
+
+        simulation_strategy = gj.GaussJordanElimination(mat)
+        simulation_context = SimulationContext(simulation_strategy)
+        data = simulation_context.get_data()
+
         posts = db.gauss_jordan_elimination
         post_id = posts.insert_one(data).inserted_id
         return True, str(post_id)
