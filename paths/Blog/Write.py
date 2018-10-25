@@ -4,45 +4,18 @@ from wtforms import Form, StringField, TextAreaField, validators
 import classes.Blog.Subscription.Writer as Writer
 from Database.database import db
 import datetime
-from paths.Blog.BlogArticleConcreteStrategy import BlogArticleConcreteStrategy
-
+from paths.Blog.BlogArticleConcreteStrategy import BlogArticleConcreteStrategy, Context
+from Service.Blog import Read as read
 
 app = Blueprint('blog_write', __name__)
 
 now = datetime.datetime.now()
 
-class Context:
-    title = ""
-    body = ""
-    author = ""
 
-    def __init__(self, strategy):
-        self._strategy = strategy
-
-    def context_interface(self):
-        self._strategy.algorithm_interface()
-
-    def getTitle(self):
-        return self.title
-
-    def getBody(self):
-        return self.body
-
-    def getAuthor(self):
-        return self.author
-
-    def setTitle(self, title):
-        self.title = title
-
-    def setBody(self, body):
-        self.body = body
-
-    def setAuthor(self, author):
-        self.author = author
 
 @app.route('/articles')
 def articles():
-    articles = db.article.find()
+    articles = read.blog_article_find(None, None)
 
     if articles is not None:
         return render_template('/tutorial/articles.html', articles=articles)
@@ -53,15 +26,16 @@ def articles():
 
 @app.route('/article/<string:id>/')
 def article(id):
-    articles = db.article.find({"_id": ObjectId(id)})
+    #articles = db.article.find({"_id": ObjectId(id)})
+    articles = read.blog_article_find(id, None)
     print(articles)
     return render_template('/tutorial/article.html', articles=articles,id=id)
 
 
 @app.route('/dashboard')
 def dashboard():
-    articles = db.article.find({"author": session['username']})
-    print(articles)
+    #articles = db.article.find({"author": session['username']})
+    articles = read.blog_article_find(None, session['username'])
 
     if articles is not None:
         return render_template('/tutorial/dashboard.html', articles=articles)
@@ -90,7 +64,8 @@ def add_article():
         # body = form.body.data
         # author = session['username']
 
-        article_id = db.article.insert({"title": articles.getTitle(), "author": articles.getAuthor(), "body": articles.getBody(), "date": str(now)})
+        #article_id = db.article.insert({"title": articles.getTitle(), "author": articles.getAuthor(), "body": articles.getBody(), "date": str(now)})
+        article_id = read.blog_artcile_insert(articles)
         article_id = str(article_id)
         flash('Article Created', 'success')
         #Writer.Writer(session['username']).notify_observer(article_id)
@@ -102,6 +77,7 @@ def add_article():
 @app.route('/edit_article/<string:id>', methods=['GET', 'POST'])
 def edit_article(id):
     articles = db.article.find_one({"_id": ObjectId(id)})
+    #articles = read.blog_article_find(id, None)
     form = ArticleForm(request.form)
 
     form.title.data = articles['title']
@@ -112,10 +88,9 @@ def edit_article(id):
     if request.method == 'POST' and form.validate():
         title = request.form['title']
         body = request.form['body']
-
         articles['title'] = title
         articles['body'] = body
-        db.article.save(articles)
+        read.blog_article_save(articles)
 
         flash('Article Updated', 'success')
         return redirect(url_for('blog_write.dashboard'))
@@ -123,8 +98,8 @@ def edit_article(id):
 
 @app.route('/delete_article/<string:id>', methods=['GET', 'POST'])
 def delete_article(id):
-    print(id)
-    db.article.remove({"_id": ObjectId(id)})
+    #db.article.remove({"_id": ObjectId(id)})
+    read.blog_article_remove(id)
     flash('Article Deleted', 'success')
     return redirect(url_for('blog_write.dashboard'))
 

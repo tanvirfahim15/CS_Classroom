@@ -2,6 +2,7 @@ import ast
 from bson import ObjectId
 from flask import render_template, request, redirect, session, app, Blueprint
 from Database.database import db
+from pattern.SimulationStrategy.Context import SimulationContext
 
 import classes.Simulation.IterativeDp.Knapsack as knpsck
 
@@ -50,9 +51,9 @@ def knapsack_simulation(name):
     print(knapsack_array1)
     print(knapsack_array2)
 
-    l_temp = knpsck.KnapSack(int(knapsack_size), int(arr_size2), knapsack_array1, knapsack_array2)
-
-    data = l_temp.get_data()
+    simulation_strategy = knpsck.KnapSack(int(knapsack_size), int(arr_size2), knapsack_array1, knapsack_array2)
+    simulation_context = SimulationContext(simulation_strategy)
+    data = simulation_context.get_data()
     saved = 0
     if 'username' in session.keys():
         key = db.saved_simulation.find_one({'algo_id': name, "username": session['username'], "type": "idp",

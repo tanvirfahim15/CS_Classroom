@@ -2,6 +2,7 @@ import ast
 from bson import ObjectId
 from flask import render_template, request, redirect, session, app, Blueprint
 from Database.database import db
+from pattern.SimulationStrategy.Context import SimulationContext
 
 import classes.Simulation.IterativeDp.LIS as lis
 
@@ -35,8 +36,9 @@ def longest_increasing_subsequence_simulation(name):
         lis_array[i+1] = int(arr[i])
         arr_size+=1
 
-    l_temp = lis.LIS(int(arr_size), lis_array)
-    data = l_temp.get_data()
+    simulation_strategy = lis.LIS(int(arr_size), lis_array)
+    simulation_context = SimulationContext(simulation_strategy)
+    data = simulation_context.get_data()
     saved = 0
     if 'username' in session.keys():
         key = db.saved_simulation.find_one({'algo_id': name, "username": session['username'], "type": "idp",

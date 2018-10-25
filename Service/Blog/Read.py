@@ -1,8 +1,12 @@
+import datetime
+
 from Database.database import db
 import classes.Blog.Subscription.Writer as Writer_Subject
 from flask import session
 from bson import ObjectId
+from paths.Blog.BlogArticleConcreteStrategy import BlogArticleConcreteStrategy, Context
 
+now = datetime.datetime.now()
 
 def blog_profile(id):
     user = db.users.find_one({'username': id})
@@ -34,3 +38,21 @@ def blog_newsfeed():
 def blog_qpredict(id):
     return db.article.find_one({"_id": ObjectId(id)})['body']
 
+
+def blog_article_find(id, author):
+    if id == None and author == None:
+        return db.article.find()
+    elif author == None:
+        return db.article.find({"_id": ObjectId(id)})
+    else:
+        return db.article.find({"author": session['username']})
+
+def blog_article_save(articles):
+    db.article.save(articles)
+
+def blog_article_remove(id):
+    db.article.remove({"_id": ObjectId(id)})
+
+def blog_artcile_insert(articles):
+    return db.article.insert(
+        {"title": articles.getTitle(), "author": articles.getAuthor(), "body": articles.getBody(), "date": str(now)})

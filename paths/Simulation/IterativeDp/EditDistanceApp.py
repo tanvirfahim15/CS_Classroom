@@ -3,6 +3,7 @@ from bson import ObjectId
 from flask import render_template, request, redirect, session, app, Blueprint
 from Database.database import db
 import classes.Simulation.IterativeDp.EditDistance as edis
+from pattern.SimulationStrategy.Context import SimulationContext
 
 app = Blueprint('edit_distance', __name__)
 
@@ -29,8 +30,9 @@ def edit_distance_simulation(name):
 
     print(data['string1'])
 
-    l_temp = edis.EditDistance(data['string1'], data['string2'])
-    data = l_temp.get_data()
+    simulation_strategy = edis.EditDistance(data['string1'], data['string2'])
+    simulation_context = SimulationContext(simulation_strategy)
+    data = simulation_context.get_data()
 
     saved = 0
     if 'username' in session.keys():
