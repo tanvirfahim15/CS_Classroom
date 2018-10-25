@@ -20,6 +20,7 @@ from paths.Simulation.IterativeDp.main import app as iterative_dp_simulation
 from paths.Simulation.IterativeDp.EditDistanceApp import app as edit_distance
 from paths.Simulation.IterativeDp.LISApp import app as lis
 from paths.Simulation.IterativeDp.FibonacciApp import app as dpfib
+from paths.Simulation.IterativeDp.LCS import app as lcs
 
 
 
@@ -55,6 +56,7 @@ app.register_blueprint(knpsack)
 app.register_blueprint(edit_distance)
 app.register_blueprint(lis)
 app.register_blueprint(dpfib)
+app.register_blueprint(lcs)
 
 
 @app.route("/")
