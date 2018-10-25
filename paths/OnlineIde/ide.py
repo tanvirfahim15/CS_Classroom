@@ -82,14 +82,14 @@ class OnlineIde(metaclass=Singleton):
 @app.route('/online_ide/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        return render_template("/editor/home.html", languages=languages)
+        return render_template("/editor/home.html", **locals(), languages=languages)
     elif request.method == 'POST':
         code = request.form.get('code')
         language = request.form.get('lang')
         input_ = request.form.get('testcase')
         if language == "-1":
             flash("Please enter language")
-            return render_template("/editor/home.html", languages=languages)
+            return render_template("/editor/home.html", **locals(), languages=languages)
         if input_ == "":
             input_ = " "
         ide = OnlineIde()
@@ -97,10 +97,9 @@ def home():
         flag = False
         if guest['result'] == "Successfully Executed":
             flag = True
-        return render_template('/editor/home_submit.html', code=code, language=int(language), input=input_,
-                               output=guest['output'], \
-                               result=guest['result'], time=guest['time'], mem=guest['memory'], languages=languages,
-                               flag=flag)
+        return render_template('/editor/home_submit.html', **locals(), input=input_,
+                               output=guest['output'],
+                               result=guest['result'], time=guest['time'], mem=guest['memory'], languages=languages)
 
 @app.errorhandler(404)
 def page_not_found(e):

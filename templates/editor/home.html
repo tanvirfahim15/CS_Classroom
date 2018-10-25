@@ -4,12 +4,18 @@
   <meta charset ="utf-8">
   <title>ONLINE IDE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script>
+
+        window.onload=function () {
+            login();
+        }
+
+   </script>
+
+  {% include "nav.html" %}
 </head>
 <body style="background: #F5F5F5;">
-  <header>
-      <div class="container">{% include "nav.html" %}</div>
-
-  </header>
   <br>
   {% with messages = get_flashed_messages() %}
    {% if messages %}

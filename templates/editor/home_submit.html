@@ -7,12 +7,19 @@
   <link href="{{url_for('static',filename='CSS/bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{url_for('static',filename='CSS/bootstrap-responsive.css')}}" rel="stylesheet">
   <link href="{{ url_for('static',filename='CSS/bootstrap-responsive.css')}}" rel="stylesheet">
+
+
+  <script>
+
+        window.onload=function () {
+            login();
+        }
+
+   </script>
+
+  {% include "nav.html" %}
 </head>
 <body style="background: #F5F5F5;">
-  <header>
-      <div class="container">{% include "nav.html" %}</div>
-
-  </header>
   <br>
   {% with messages = get_flashed_messages() %}
    {% if messages %}
