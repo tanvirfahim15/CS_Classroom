@@ -21,6 +21,7 @@ from paths.Simulation.IterativeDp.EditDistanceApp import app as edit_distance
 from paths.Simulation.IterativeDp.LISApp import app as lis
 from paths.Simulation.IterativeDp.FibonacciApp import app as dpfib
 from paths.Simulation.IterativeDp.LCS import app as lcs
+from paths.OnlineClassroom.ClassroomFeed import app as classroom_feed
 
 
 
@@ -58,6 +59,9 @@ app.register_blueprint(lis)
 app.register_blueprint(dpfib)
 app.register_blueprint(lcs)
 
+
+# Online Classroom
+app.register_blueprint(classroom_feed)
 
 @app.route("/")
 def home():

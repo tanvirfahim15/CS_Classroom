@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-input = open('classes/Blog/Qpredict/idf.txt', encoding="utf8").readlines()
+input = open('/home/forkkr/PycharmProjects/CS_Classroom/classes/Blog/Qpredict/idf.txt', encoding="utf8").readlines()
 
 idf = {}
 for line in input:
