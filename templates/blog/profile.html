@@ -82,8 +82,9 @@
             <h1 >&nbsp; {{user["username"]}}</h1>
             {{user["institute"]}} {{user["country"]}}
             <br/>
-            <button type="button" class="btn btn-success " id="subscribe" onclick="subscribe()" style="width: 150px">Subscribe</button>
-
+                {% if own is none %}
+                <button type="button" class="btn btn-success " id="subscribe" onclick="subscribe()" style="width: 150px">Subscribe</button>
+                {% endif %}
             <br/>
             <hr/>
             {% if articles.count() == 0 %}

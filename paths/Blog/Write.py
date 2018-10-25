@@ -26,7 +26,7 @@ def articles():
 def article(id):
     articles = db.article.find({"_id": ObjectId(id)})
     print(articles)
-    return render_template('/tutorial/article.html', articles=articles)
+    return render_template('/tutorial/article.html', articles=articles,id=id)
 
 
 @app.route('/dashboard')
@@ -62,7 +62,7 @@ def add_article():
         article_id = db.article.insert({"title": articles.getTitle(), "author": articles.getAuthor(), "body": articles.getBody(), "date": str(now)})
         article_id = str(article_id)
         flash('Article Created', 'success')
-        #Writer.Writer(session['username']).notify_observer(article_id)
+        Writer.Writer(session['username']).notify_observer(article_id)
         return redirect('/article/'+article_id+'/')
 
     return render_template('/tutorial/add_article.html', form=form)
