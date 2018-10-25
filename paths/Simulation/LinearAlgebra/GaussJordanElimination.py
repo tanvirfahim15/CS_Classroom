@@ -1,9 +1,4 @@
 from flask import render_template, request, redirect, session, app, Blueprint
-from Database.database import db
-import json
-from classes.Simulation.LinearAlgebra.GaussJordanElimination import GaussJordanElimination as gj
-import classes.Simulation.LinearAlgebra.GaussJordanElimination.Utility as gj_util
-from bson import ObjectId
 from Service.Simulation.LinearAlgebra import GaussJordanElimination as service
 
 app = Blueprint('gauss_jordan_elimination', __name__)

@@ -32,6 +32,7 @@ from paths.Simulation.IterativeDp.RockClimbing import app as rc
 from paths.OnlineClassroom.ClassroomFeed import app as classroom_feed
 from paths.Simulation.LinearAlgebra.GaussJordanElimination import app as gauss_jordan_elimination
 from paths.Simulation.LinearAlgebra.GaussElimination import app as gauss_elimination
+from paths.Simulation.LinearAlgebra.EigenValue import app as eigen_value
 from paths.Simulation.LinearAlgebra.main import app as linear_algebra
 
 
@@ -81,9 +82,11 @@ app.register_blueprint(rc)
 app.register_blueprint(linear_algebra)
 app.register_blueprint(gauss_elimination)
 app.register_blueprint(gauss_jordan_elimination)
+app.register_blueprint(eigen_value)
 
 # Online Classroom
 app.register_blueprint(classroom_feed)
+
 
 @app.route("/")
 def home():
