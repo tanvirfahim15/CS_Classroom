@@ -1,7 +1,7 @@
 import numpy as np
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
-
-class Fibonacci:
+class Fibonacci(SimulationStrategy):
     n = 0
     fib_array = [0, 1]
 

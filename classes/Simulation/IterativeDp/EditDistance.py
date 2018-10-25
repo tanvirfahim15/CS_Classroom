@@ -1,7 +1,8 @@
 import numpy as np
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
 
-class EditDistance:
+class EditDistance(SimulationStrategy):
     String1 = ""
     String2 = ""
     dp = [0][0]

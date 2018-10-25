@@ -1,6 +1,7 @@
 import numpy as np
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
-class LIS:
+class LIS(SimulationStrategy):
     n = 0
     number_of_items = 0
     lis_array = [0][0]

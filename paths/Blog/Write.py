@@ -11,6 +11,35 @@ app = Blueprint('blog_write', __name__)
 
 now = datetime.datetime.now()
 
+class Context:
+    title = ""
+    body = ""
+    author = ""
+
+    def __init__(self, strategy):
+        self._strategy = strategy
+
+    def context_interface(self):
+        self._strategy.algorithm_interface()
+
+    def getTitle(self):
+        return self.title
+
+    def getBody(self):
+        return self.body
+
+    def getAuthor(self):
+        return self.author
+
+    def setTitle(self, title):
+        self.title = title
+
+    def setBody(self, body):
+        self.body = body
+
+    def setAuthor(self, author):
+        self.author = author
+
 @app.route('/articles')
 def articles():
     articles = db.article.find()
@@ -50,7 +79,9 @@ class ArticleForm(Form):
 def add_article():
     form = ArticleForm(request.form)
     if request.method == 'POST' and form.validate():
-        articles = BlogArticleConcreteStrategy()
+        concrete_strategy = BlogArticleConcreteStrategy()
+        articles = Context(concrete_strategy)
+        articles.context_interface()
         articles.setTitle(form.title.data)
         articles.setBody(form.body.data)
         articles.setAuthor(session['username'])
@@ -62,7 +93,7 @@ def add_article():
         article_id = db.article.insert({"title": articles.getTitle(), "author": articles.getAuthor(), "body": articles.getBody(), "date": str(now)})
         article_id = str(article_id)
         flash('Article Created', 'success')
-        Writer.Writer(session['username']).notify_observer(article_id)
+        #Writer.Writer(session['username']).notify_observer(article_id)
         return redirect('/article/'+article_id+'/')
 
     return render_template('/tutorial/add_article.html', form=form)

@@ -5,6 +5,9 @@ class BlogArticleConcreteStrategy(ArticleStrategy.ArticleStrategy):
     body = ""
     author = ""
 
+    def algorithm_interface(self):
+        pass
+
     def BlogArticleConcreteStrategy(self):
         pass
 
