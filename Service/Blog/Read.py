@@ -5,6 +5,7 @@ import classes.Blog.Subscription.Writer as Writer_Subject
 from flask import session
 from bson import ObjectId
 from paths.Blog.BlogArticleConcreteStrategy import BlogArticleConcreteStrategy, Context
+from pattern.SearchArticle import SearchStrategy
 
 now = datetime.datetime.now()
 
@@ -28,15 +29,40 @@ def blog_newsfeed():
             writers.append(writer['writer_id'])
     articles = []
     for writer in writers:
-        article_s=db.article.find( { 'author' : writer })
+        article_s=db.article.find({'author': writer})
         for article in article_s:
             articles.append(article)
-    articles = sorted(articles, key=lambda k: k['date'],reverse=True)
+    articles = sorted(articles, key=lambda k: k['date'], reverse=True)
     return articles
 
 
 def blog_qpredict(id):
     return db.article.find_one({"_id": ObjectId(id)})['body']
+
+
+def blog_search(post, data):
+    if post:
+        search_strategy = None
+        if data['class'] == 'and':
+            search_strategy = SearchStrategy.AndSearchStrategy(data['gender'], data['institute'], data['country'], data['author_name'], data['article_name'])
+        else:
+            search_strategy = SearchStrategy.OrSearchStrategy(data['gender'], data['institute'], data['country'], data['author_name'], data['article_name'])
+
+        search_context = SearchStrategy.SearchContext(search_strategy)
+        articles = search_context.get_articles()
+        return data, articles
+    else:
+
+        data = dict()
+        data['article_name'] = ''
+        data['author_name'] = ''
+        data['institute'] = ''
+        data['gender'] = '0'
+        data['country'] = '0'
+        data['class'] = 'and'
+        articles = []
+        return data, articles
+
 
 
 def blog_article_find(id, author):

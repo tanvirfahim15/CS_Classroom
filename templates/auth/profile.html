@@ -87,7 +87,7 @@
         <br/><br/>
 
         <div class="card-header">
-                    <a class="card-link" href="/blog/profile/aaaaaa">
+                    <a class="card-link" href="/blog/profile/{{ session['username'] }}">
                         My Blog
                     </a>
         </div>
@@ -95,6 +95,12 @@
         <div class="card-header">
                     <a class="card-link" href="/dashboard">
                         Dashboard
+                    </a>
+        </div>
+        <br/>
+        <div class="card-header">
+                    <a class="card-link" href="/blog/search/">
+                        Search
                     </a>
         </div>
         <br/>
