@@ -7,11 +7,16 @@ from werkzeug.utils import secure_filename
 import sqlite3
 import os
 import xlrd
+from bson import ObjectId
+from flask import Flask, render_template, request, redirect, session
+from Database.database import db
 
 # from AdapterPattern import testquery, doquery
 # from AdapterPattern.AdapteeSql import AdapteeSql
 # from AdapterPattern.SqlAdapter import SqlAdapter
 from classes.management_class.BasicStudent import BasicStudent
+from classes.management_class.ObserverPattern.AdminObserver import AdminObserver
+from classes.management_class.ObserverPattern.EnrollmentData import EnrollmentData
 from classes.management_class.addStudent import MyServer
 
 
@@ -320,11 +325,45 @@ def admin_cou_set(period=None):
 @app.route('/admin_cou_upd', methods=['POST', 'GET'])
 @app.route('/admin_cou_upd/<cno>', methods=['POST', 'GET'])
 def admin_cou_upd(cno=None):
+
+    print("In course update")
     if not session.get('role') or session['role'] != 'admin':
         error = "You are not logged in or you are not an administrator"
         return render_template("educational_management/login.html", error=error)
     if request.method != 'POST' and not cno:
-        return render_template('educational_management/xadmin_cou_upd.html')
+
+        enroll_stu = []
+        for data in db.xenrolled_student.find():
+                stu={}
+                stu['sno']=data['sno']
+                stu['cno']=data['cno']
+                enroll_stu.append(stu)
+
+        enroll_tea = []
+        for data in db.xenrolled_techer.find():
+            tea = {}
+            tea['tno'] = data['tno']
+            tea['cno'] = data['cno']
+            enroll_tea.append(tea)
+
+        # enroll_stu = db.xenrolled_student.find("sno"  , "cno")
+        # enroll_stu= db.xenrolled_student.({"sno": str(sno)})
+        # enroll_tech = db.xenrolled_techer.find("tno"  , "cno")
+        #
+        # s = list(enroll_stu)
+        # stu_list={}
+        # stu_list['cno']=s[0]
+        # stu_list['sno']=s[1]
+        # t= list(enroll_tech)
+        # tea_list ={}
+        # tea_list['cno'] = t[0]
+        # tea_list['sno'] = t[1]
+
+
+        print(enroll_tea)
+        print(enroll_stu)
+        return render_template('educational_management/xadmin_cou_upd.html', stu_list=enroll_stu, tea_list=enroll_tea)
+
     if not cno:
         cno = request.form['cno']
     cursor = get_db()
@@ -1055,21 +1094,37 @@ def student_cho_sub():
         return render_template("educational_management/login.html", error=error)
     cursor = get_db()
     if request.method == 'POST':
-        if cursor.execute("SELECT period FROM period").fetchone()[0] != "Elective course":
-            return fail_msg("It is not a class time now.，Can't choose course", '/student_cho_sub')
+        # if cursor.execute("SELECT period FROM period").fetchone()[0] != "Elective course":
+        #     return fail_msg("It is not a class time now.，Can't choose course", '/student_cho_sub')
         cno = request.form['cno']
         exist = cursor.execute("SELECT * FROM tc WHERE cno=?", (cno,)).fetchone()
         if not exist or not exist[0]:
             return fail_msg(content="The course does not exist!", return_url="/student_cho_sub")
-        ctime = cursor.execute("SELECT ctime FROM tc WHERE cno=?", (cno,)).fetchone()[0]
-        time_conflict = cursor.execute("SELECT * FROM sc,tc WHERE sc.cno=tc.cno AND sno=? AND ctime=?",
-                                       (session['username'], ctime)).fetchone()
-        if time_conflict:
-            return fail_msg("Your class time conflicts with this class, please adjust and choose", '/student_cho_sub')
-        cmaxcount = cursor.execute("SELECT cmaxcount FROM tc WHERE cno=?", (cno,)).fetchone()[0]
-        cselected = cursor.execute("SELECT count(*) FROM sc WHERE cno=?", (cno,)).fetchone()[0]
-        if cmaxcount <= cselected:
-            return fail_msg("The course is full, please choose another course", return_url="/student_cho_sub")
+        # ctime = cursor.execute("SELECT ctime FROM tc WHERE cno=?", (cno,)).fetchone()[0]
+        # time_conflict = cursor.execute("SELECT * FROM sc,tc WHERE sc.cno=tc.cno AND sno=? AND ctime=?",
+        #                                (session['username'], ctime)).fetchone()
+        # if time_conflict:
+        #     return fail_msg("Your class time conflicts with this class, please adjust and choose", '/student_cho_sub')
+        # cmaxcount = cursor.execute("SELECT cmaxcount FROM tc WHERE cno=?", (cno,)).fetchone()[0]
+        # cselected = cursor.execute("SELECT count(*) FROM sc WHERE cno=?", (cno,)).fetchone()[0]
+        # if cmaxcount <= cselected:
+        #     return fail_msg("The course is full, please choose another course", return_url="/student_cho_sub")
+
+
+        # ObserverPattern
+        studentdata = {}
+        enrollData = EnrollmentData()
+        studentdata['sno'] = session['username']
+        studentdata['cno'] = cno
+
+        adminObserver = AdminObserver()
+        enrollData.registerObserver(adminObserver)
+        enrollData.putStudentRequest(studentdata)
+        enrollData.removeObserver(adminObserver)
+
+
+
+
         cursor.execute("INSERT INTO sc(sno,cno) VALUES(?,?)", (session['username'], cno))
         cursor.commit()
         return success_msg("Successful course selection!", return_url="/student_cho_sub")
@@ -1079,7 +1134,8 @@ def student_cho_sub():
 
 
 
-    return render_template('educational_management/student_cho_sub.html', cous=cous, result=result)
+    # return render_template('educational_management/student_cho_sub.html', cous=cous, result=result)
+    return render_template('educational_management/student_cho_sub.html', cous=cous)
 
 
 
@@ -1451,6 +1507,8 @@ def teacher_cho_seted(tno):
 
 
 # when teach chooses new course
+
+
 @app.route('/teacher_cho_course', methods=['POST', 'GET'])
 def teacher_cho_course():
     if not session.get('role') or session['role'] != 'teacher':
@@ -1474,6 +1532,24 @@ def teacher_cho_course():
         # if cmaxcount <= cselected:
         #     return fail_msg("The course is full, please choose another course", return_url="/student_cho_sub")
         tno=session['username']
+
+
+        # observer Pattern
+        teachdata={}
+        enrollData= EnrollmentData()
+        teachdata['tno']=session['username']
+        teachdata['cno']=cno
+        teachdata['clocation']='x'
+        teachdata['cmaxcount']=10
+        teachdata['ctime']='y'
+        teachdata['cstatus']='z'
+
+        adminObserver=AdminObserver()
+        enrollData.registerObserver(adminObserver)
+        enrollData.putTeacherRequest(teachdata)
+        enrollData.removeObserver(adminObserver)
+
+
         cursor.execute("INSERT INTO tc(tno,cno,clocation,cmaxcount,ctime,cstatus) VALUES(?,?,?,?,?,?)", (session['username'], cno, 'x',10, 'y' ,'z'))
         cursor.commit()
         return success_msg("Successful course selection!", return_url="/teacher_cho_course")
