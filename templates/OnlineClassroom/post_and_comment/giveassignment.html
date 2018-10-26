@@ -34,12 +34,12 @@ form {
 <script type=text/javascript>
   $(function() {
     $('#button').bind('click', function() {
-      $.getJSON('/_add_numbers', {
+      $.getJSON('/add_assignment', {
         a: String(document.getElementById("appt-time").value),
         b: String(document.getElementById("start").value),
           c:String(document.getElementById("details").value)
       }, function(data) {
-
+            $("#result").text(data.result);
       });
       return false;
     });
@@ -47,6 +47,7 @@ form {
 </script>
 <fieldset>
     <legend>assignment details</legend>
+    <a href="{{ url_for('classroom_feed.show_news_feed') }}">back</a>
     <form>
     <label for="appt-time" style="background-color: dodgerblue">Details</label>
         <br>
@@ -64,7 +65,8 @@ form {
                min="2018-01-01" max="2018-12-31" required/>
     </div>
          <button id="button">submit</button>
+        <br>
+        <span id=result style="background-color: #0e90d2" ></span>
     </form>
-    <p id="pid">
-    </p>
+
 </fieldset>

@@ -1,6 +1,6 @@
 from flask import Blueprint
 from bson import ObjectId
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session,jsonify
 from Service.OnlineClassroom import ClassroomFeed as service
 app = Blueprint('classroom_feed', __name__)
 
@@ -37,7 +37,7 @@ def update_comment(id):
 @app.route("/assignment")
 def assingmnet():
     return render_template('OnlineClassroom/post_and_comment/giveassignment.html')
-@app.route('/_add_numbers')
+@app.route('/add_assignment')
 def add_numbers():
     a = request.args.get('a', 0, type=str)
     b = request.args.get('b', 0, type=str)
@@ -45,4 +45,4 @@ def add_numbers():
     print(a)
     print(b)
     print(c)
-    return "nothing"
+    return jsonify(result="assignment added")
