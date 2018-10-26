@@ -9,19 +9,18 @@ app = Blueprint('lcs-idp', __name__)
 def longest_common_subsequence():
     data, saved = service.longest_common_subsequence()
     return render_template(
-        'simulation/lcs_iterative_dp/lcs_iterative_dp_simulation.html', **locals())
+        'simulation/iterative_dp/lcs_iterative_dp/lcs_iterative_dp_simulation.html', **locals())
 
 
 @app.route("/simulation/idp/longest-common-subsequence/entry", methods=['POST', 'GET'])
 def longest_common_subsequence_entry():
     return render_template(
-        'simulation/lcs_iterative_dp/lcs_iterative_dp_entry.html', **locals())
+        'simulation/iterative_dp/lcs_iterative_dp/lcs_iterative_dp_entry.html', **locals())
 
 
 @app.route("/simulation/idp/longest-common-subsequence/entry_data", methods=['POST', 'GET'])
 def longest_common_subsequence_entry_data():
     if request.method == 'POST':
-        print(request.form)
         post_id = service.longest_common_subsequence_entry_data(request.form)
         return redirect('/simulation/idp/longest-common-subsequence/' + str(post_id))
     return redirect('/simulation/idp/longest-common-subsequence/entry')
@@ -31,4 +30,4 @@ def longest_common_subsequence_entry_data():
 def longest_common_subsequence_simulation(name):
     data, saved = service.longest_common_subsequence_simulation(name)
     return render_template(
-        'simulation/lcs_iterative_dp/lcs_iterative_dp_simulation.html', **locals())
+        'simulation/iterative_dp/lcs_iterative_dp/lcs_iterative_dp_simulation.html', **locals())
