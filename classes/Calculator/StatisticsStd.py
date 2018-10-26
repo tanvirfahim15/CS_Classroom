@@ -19,6 +19,10 @@ class Statistics:
     arr3 = []
     count_arr = []
     std_dev = 0
+    upper_quartile = 0
+    upper_quartile = 0
+    decision = [0, 0, 0]
+
 
 
     def __init__(self, _n, _given_array):
@@ -39,6 +43,7 @@ class Statistics:
         self.sum1 = 0
         self.sum2 = 0
         self.sum3 = 0
+        self.decision = [0, 0, 0]
 
     def solve_function(self, n, given_array):
         for i in range(n):
@@ -68,6 +73,15 @@ class Statistics:
             self.sum2 += self.arr2[i]
             self.sum3 += self.arr3[i]
 
+        self.upper_quartile = np.percentile(self.arr, 75)
+        self.lower_quartile = np.percentile(self.arr, 25)
+        if self.upper_quartile - self.median == self.median - self.lower_quartile:
+            self.decision[1] = 1
+        elif self.upper_quartile - self.median < self.median - self.lower_quartile:
+            self.decision[0] = 1
+        else:
+            self.decision[2] = 1;
+
     def get_data(self):
         self.solve_function(self.n, self.given_array)
-        return [self.arr, len(self.arr), self.arr2, self.arr3, self.mean, self.median, self.sum1, self.sum2, self.sum3, self.std_dev]
+        return [self.arr, len(self.arr), self.arr2, self.arr3, self.mean, self.median, self.sum1, self.sum2, self.sum3, self.std_dev, self.lower_quartile, self.upper_quartile, self.upper_quartile-self.lower_quartile, self.decision]

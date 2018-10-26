@@ -16,6 +16,10 @@
         var mean = data[4];
         var median = data[5];
         var std_dev = data[9];
+        var q1 = data[10];
+        var q3 = data[11];
+        var iqr = data[12];
+        var dec = data[13];
 
         window.onload = function() {
             login();
@@ -49,13 +53,38 @@
             var nTable2 = document.getElementById("statfreqtable2");
             var ntableContent2 = "";
 
+            if(dec[0] == 1) {
+                ntableContent2 += "<tr>";
+                ntableContent2 += "<td align='center'> Nature of Distribution: </td>";
+                ntableContent2 += "<td align='center'> Skewed Left </td>";
+                ntableContent2 += "</tr>";
+            }
+            else if(dec[1] == 1) {
+                ntableContent2 += "<tr>";
+                ntableContent2 += "<td align='center'> Nature of Distribution: </td>";
+                ntableContent2 += "<td align='center'> Symmetric </td>";
+                ntableContent2 += "</tr>";
+            }
+            else {
+                ntableContent2 += "<tr>";
+                ntableContent2 += "<td align='center'> Nature of Distribution: </td>";
+                ntableContent2 += "<td align='center'> Skewed Right </td>";
+                ntableContent2 += "</tr>";
+            }
+
             ntableContent2 += "<tr>";
-            ntableContent2 += "<td align='center'>" + "Mean: </td><td align='center'>" + parseFloat(mean).toFixed(0) + "</td>";
+            ntableContent2 += "<td align='center'>" + "Q1: </td><td align='center'>" + parseFloat(q1).toFixed(0) + "</td>";
             ntableContent2 += "</tr>";
             ntableContent2 += "<tr>";
             ntableContent2 += "<td align='center'>" + "Median: </td><td align='center'>" + parseFloat(median).toFixed(0) + "</td>";
             ntableContent2 += "</tr>";
+            ntableContent2 += "<tr>";
+            ntableContent2 += "<td align='center'>" + "Q3: </td><td align='center'>" + parseFloat(q3).toFixed(0) + "</td>";
+            ntableContent2 += "</tr>";
 
+            ntableContent2 += "<tr>";
+            ntableContent2 += "<td align='center'>" + "IQR: </td><td align='center'>" + parseFloat(iqr).toFixed(0) + "</td>";
+            ntableContent2 += "</tr>";
 
             nTable2.innerHTML = ntableContent2;
         }
