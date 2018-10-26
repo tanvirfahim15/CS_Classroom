@@ -38,11 +38,23 @@ def update_comment(id):
 def assingmnet():
     return render_template('OnlineClassroom/post_and_comment/giveassignment.html')
 @app.route('/add_assignment')
-def add_numbers():
-    a = request.args.get('a', 0, type=str)
-    b = request.args.get('b', 0, type=str)
-    c = request.args.get('c', 0, type=str)
-    print(a)
-    print(b)
-    print(c)
+def add_assignment():
+    time = request.args.get('time', 0, type=str)
+    date = request.args.get('date', 0, type=str)
+    details= request.args.get('details', 0, type=str)
+    print(time)
+    print(date)
+    print(details)
     return jsonify(result="assignment added")
+@app.route('/class')
+def class_add():
+    return render_template('OnlineClassroom/post_and_comment/addclass.html')
+@app.route('/add_class')
+def add_class():
+    starttime = request.args.get('starttime', 0, type=str)
+    endtime = request.args.get('endtime', 0, type=str)
+    details= request.args.get('details', 0, type=str)
+    print(starttime)
+    print(endtime)
+    print(details)
+    return jsonify(result="new class time has been announced")

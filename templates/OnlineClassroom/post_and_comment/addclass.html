@@ -9,7 +9,6 @@ legend {
     color: #fff;
     padding: 3px 6px;
 }
-
 .control {
     margin: 1rem 0;
 }
@@ -34,10 +33,10 @@ form {
 <script type=text/javascript>
   $(function() {
     $('#button').bind('click', function() {
-      $.getJSON('/add_assignment', {
-        time: String(document.getElementById("appt-time").value),
-        date: String(document.getElementById("start").value),
-          details:String(document.getElementById("details").value)
+      $.getJSON('/add_class', {
+        starttime: String(document.getElementById("appt-time").value),
+        endtime: String(document.getElementById("endtime").value),
+        details:String(document.getElementById("details").value)
       }, function(data) {
             $("#result").text(data.result);
       });
@@ -53,16 +52,14 @@ form {
         <br>
     <input type="text" id="details" >
         <br>
-        <label for="appt-time" style="background-color: dodgerblue">Time</label>
+        <label for="appt-time" style="background-color: dodgerblue">Start Time</label>
     <div class="control">
         <input type="time" id="appt-time"/>
     </div>
-        <label for="appt-time" style="background-color: dodgerblue">Date</label>
+        <label for="appt-time" style="background-color: dodgerblue">End Time</label>
     <div>
 
-        <input type="date" id="start" name="trip"
-               value="2018-07-22"
-               min="2018-01-01" max="2018-12-31" required/>
+         <input type="time" id="endtime"/>
     </div>
          <button id="button">submit</button>
         <br>
