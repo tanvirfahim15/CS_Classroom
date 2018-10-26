@@ -1,6 +1,8 @@
 from flask import request, session, url_for, render_template
 
 
+
+
 class MyServer:
     def __init__(self):
         self.globalData = "hello"

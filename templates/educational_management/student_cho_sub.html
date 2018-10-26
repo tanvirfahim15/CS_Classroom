@@ -53,16 +53,16 @@
 	<br><br><br>
 
 {#  extra#}
-    <table border = 1>
-         {% for key in result%}
-
-            <tr>
-               <th> {{ key }} </th>
-
-            </tr>
-
-         {% endfor %}
-      </table>
+{#    <table border = 1>#}
+{#         {% for key in result%}#}
+{##}
+{#            <tr>#}
+{#               <th> {{ key }} </th>#}
+{##}
+{#            </tr>#}
+{##}
+{#         {% endfor %}#}
+{#      </table>#}
 
   <div align="center">
   <form name="formdelcou" action="{{ url_for('student_cho_sub') }}" method="post" onsubmit="return isValid(this);">
