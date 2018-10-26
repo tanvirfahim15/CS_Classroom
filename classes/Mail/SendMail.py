@@ -35,7 +35,6 @@ def SendMessage(to, subject, msgHtml, msgPlain):
     message1 = CreateMessage(SENDER, to, subject, msgHtml, msgPlain)
     SendMessageInternal(service, "me", message1)
 
-
 def SendMessageInternal(service, user_id, message):
     try:
         message = (service.users().messages().send(userId=user_id, body=message).execute())

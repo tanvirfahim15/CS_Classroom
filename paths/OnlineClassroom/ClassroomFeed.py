@@ -34,3 +34,15 @@ def update_comment(id):
         data = request.form
         service.update_comment(id ,data)
     return redirect('/comment_entry/'+str(id))
+@app.route("/assignment")
+def assingmnet():
+    return render_template('OnlineClassroom/post_and_comment/giveassignment.html')
+@app.route('/_add_numbers')
+def add_numbers():
+    a = request.args.get('a', 0, type=str)
+    b = request.args.get('b', 0, type=str)
+    c = request.args.get('c', 0, type=str)
+    print(a)
+    print(b)
+    print(c)
+    return "nothing"
