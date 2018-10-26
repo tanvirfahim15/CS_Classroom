@@ -37,6 +37,8 @@ from paths.Simulation.LinearAlgebra.main import app as linear_algebra
 from paths.Simulation.DBMS.main import app as dbms
 from paths.StatisticalCalculator.DeviationCalculator import app as dev_calc
 from paths.StatisticalCalculator.FrequencyCalculator import app as freq_calc
+from paths.StatisticalCalculator.main import app as statis_calc
+from paths.StatisticalCalculator.BoxPlot import app as box_plot
 
 app = Flask(__name__)
 app.secret_key = 'UIBBN*E(DNJ'
@@ -95,8 +97,11 @@ app.register_blueprint(classroom_feed)
 
 
 # Statistical Calculator
+app.register_blueprint(statis_calc)
 app.register_blueprint(freq_calc)
 app.register_blueprint(dev_calc)
+app.register_blueprint(box_plot)
+
 
 @app.route("/")
 def home():
