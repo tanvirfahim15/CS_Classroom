@@ -1047,6 +1047,7 @@ def student_cho_selrs():
     return render_template('educational_management/student_cho_sel.html')
 
 
+#this one
 @app.route('/student_cho_sub', methods=['POST', 'GET'])
 def student_cho_sub():
     if not session.get('role') or session['role'] != 'student':
@@ -1076,10 +1077,11 @@ def student_cho_sub():
         "SELECT sc.cno,cname,ccredit,tname,ctime,clocation FROM course,sc,tc,teacher WHERE sc.sno=? AND course.cno=sc.cno AND tc.cno=sc.cno AND tc.tno=teacher.tno",
         (session['username'],)).fetchall()
 
-    # extra
-    result={"1","2"}
+
 
     return render_template('educational_management/student_cho_sub.html', cous=cous, result=result)
+
+
 
 
 @app.route('/student_cho_sub_cno/<cno>', methods=['POST', 'GET'])
@@ -1423,7 +1425,12 @@ def teacher_cho_seted(tno):
         for cou in cous:
             info = dict()
             info['cno'] = cou[1]
+            # print(cou[1])
             res = cursor.execute("SELECT cname,ccredit FROM course WHERE cno = ?", (cou[1],)).fetchone()
+
+            # query= "SELECT cname,ccredit FROM course WHERE cno = \'COM0011\'"
+            # print(query)
+            # res= cursor.execute(query)
             info['cname'] = res[0]
             info['ccredit'] = res[1]
             # info['clocation'] = cou[2]
@@ -1435,9 +1442,64 @@ def teacher_cho_seted(tno):
             # else:
             #     info['cstudentcount'] = 0
             data.append(info)
+        print(data)
+        print("I have data")
         return render_template('educational_management/teacher_cho_seted.html', data=data, tno=tno)
     else:
+        print("I dont")
         return render_template('educational_management/teacher_cho_seted.html', data=None, tno=tno)
+
+
+# when teach chooses new course
+@app.route('/teacher_cho_course', methods=['POST', 'GET'])
+def teacher_cho_course():
+    if not session.get('role') or session['role'] != 'teacher':
+        error = "You are not logged in or you are not a teacher"
+        return render_template("educational_management/login.html", error=error)
+    cursor = get_db()
+    if request.method == 'POST':
+        # if cursor.execute("SELECT period FROM period").fetchone()[0] != "Elective course":
+        #     return fail_msg("It is not a class time now.，Can't choose course", '/student_cho_sub')
+        cno = request.form['cno']
+        # exist = cursor.execute("SELECT * FROM tc WHERE cno=?", (cno,)).fetchone()
+        # if not exist or not exist[0]:
+        #     return fail_msg(content="The course does not exist!", return_url="/student_cho_sub")
+        # ctime = cursor.execute("SELECT ctime FROM tc WHERE cno=?", (cno,)).fetchone()[0]
+        # time_conflict = cursor.execute("SELECT * FROM sc,tc WHERE sc.cno=tc.cno AND sno=? AND ctime=?",
+        #                                (session['username'], ctime)).fetchone()
+        # if time_conflict:
+        #     return fail_msg("Your class time conflicts with this class, please adjust and choose", '/student_cho_sub')
+        # cmaxcount = cursor.execute("SELECT cmaxcount FROM tc WHERE cno=?", (cno,)).fetchone()[0]
+        # cselected = cursor.execute("SELECT count(*) FROM sc WHERE cno=?", (cno,)).fetchone()[0]
+        # if cmaxcount <= cselected:
+        #     return fail_msg("The course is full, please choose another course", return_url="/student_cho_sub")
+        tno=session['username']
+        cursor.execute("INSERT INTO tc(tno,cno,clocation,cmaxcount,ctime,cstatus) VALUES(?,?,?,?,?,?)", (session['username'], cno, 'x',10, 'y' ,'z'))
+        cursor.commit()
+        return success_msg("Successful course selection!", return_url="/teacher_cho_course")
+
+
+    tno = session['username']
+    cursor = get_db()
+    cous = cursor.execute("SELECT * FROM tc WHERE tno = ?", (tno,)).fetchall()
+    data = []
+    if cous:
+        for cou in cous:
+            info = dict()
+            info['cno'] = cou[1]
+            # print("coursemine")
+            # print(cou)
+            res = cursor.execute("SELECT cname,ccredit FROM course WHERE cno = ?", (cou[1],)).fetchone()
+            info['cname'] = res[0]
+            info['ccredit'] = res[1]
+
+            data.append(info)
+
+    print(data)
+    return render_template('educational_management/teacher_cho_seted.html', data=data, tno=tno)
+# till here
+
+
 
 
 @app.route('/teacher_frame')
