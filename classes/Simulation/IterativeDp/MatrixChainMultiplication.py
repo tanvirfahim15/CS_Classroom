@@ -1,7 +1,8 @@
 import numpy as np
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
 
-class MatrixChainMultiplication:
+class MatrixChainMultiplication(SimulationStrategy):
     number_of_matrix = 0
     dp_matrix = [0][0]
     dimensions = []

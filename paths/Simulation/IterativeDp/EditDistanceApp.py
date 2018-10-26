@@ -7,6 +7,7 @@ from pattern.SimulationStrategy.Context import SimulationContext
 
 app = Blueprint('edit_distance', __name__)
 
+
 @app.route("/idp/edit-distance/entry", methods=['POST', 'GET'])
 def edit_distance_entry():
     return render_template(

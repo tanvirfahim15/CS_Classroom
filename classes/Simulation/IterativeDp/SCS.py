@@ -1,6 +1,8 @@
 import numpy as np
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
-class SCS:
+
+class SCS(SimulationStrategy):
     String1 = "aaa"
     String2 = "cccd"
     dpArray = [0][0]

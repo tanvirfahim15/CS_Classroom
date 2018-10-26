@@ -1,8 +1,9 @@
 import numpy as np
 import sys
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
 
-class CoinChangeVariant5:
+class CoinChangeVariant5(SimulationStrategy):
     amount = 0
     coin_array_length = 0
     needed = [0][0]

@@ -1,7 +1,8 @@
 import numpy as np
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
 
-class RodCutting:
+class RodCutting(SimulationStrategy):
     n = 0
     k = 0
     possible = [0][0]

@@ -1,7 +1,8 @@
 import numpy as np
+from pattern.SimulationStrategy.Strategy import SimulationStrategy
 
 
-class RockClimbing:
+class RockClimbing(SimulationStrategy):
     row = 0
     col = 0
     inf = 10**9
