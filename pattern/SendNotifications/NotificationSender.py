@@ -42,5 +42,5 @@ class Sender(Subject):
     def notify_observer(self):
         course = db.courses.find_one({'_id': ObjectId(self.course_id)})
         for user in course['enrolled']:
-            NotificationReceiver.Receiver(user , self.notifications).update()
+            NotificationReceiver.Receiver(user, self.notifications).update()
         return

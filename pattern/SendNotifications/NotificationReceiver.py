@@ -18,6 +18,12 @@ class Receiver(Observer):
         self.notifications = notifications
 
     def update(self):
-        user = db.notifications.find_one({'user_id': self.user_id})
+        user = db.notifications.find_one({'username': self.user_id})
+        if user==None:
+            data = {'username':self.user_id, 'notifications':[]}
+            db.notifications.insert_one(data)
+            user = db.notifications.find_one({'username': self.user_id})
+
         user['notifications'].append(self.notifications)
+        db.notifications.replace_one({'username':self.user_id} , user)
         return

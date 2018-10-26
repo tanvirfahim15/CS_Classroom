@@ -1,4 +1,5 @@
 <div class="col-md-3">
+{#    <! ------------- Assignments Part -------------- >#}
     <div class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
@@ -18,6 +19,8 @@
             <a href="#" class="card-link">Another Related link</a>
         </div>
     </div>
+
+{#    -----------------Notifications------------------#}
     <div class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
@@ -28,13 +31,24 @@
                 </div>
             </div>
         </div>
-        <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-muted">SDP First Progress</h6>
-            <p class="card-text">Ayush have posted on 'SDP LAB' Classroom</p>
-            <a href="#" class="card-link">go to article</a>
-            <a href="#" class="card-link">Another related link</a>
-        </div>
+        {% for notify in notifications %}
+        <li class="list-group-item" align="center">
+            <a href="#">@{{ notify['username'] }} posted on '{{ notify['course_name'] }}' Classroom</a>
+{#            <a href="#" class="card-link">Dibyo have posted on 'SDP LAB' Classroom</a>#}
+        </li>
+        {% endfor %}
+        <li class="list-group-item" align="center">
+            <a href="#">@Ayush posted on 'SDP LAB' Classroom</a>
+{#            <a href="#" class="card-link">Dibyo have posted on 'SDP LAB' Classroom</a>#}
+        </li>
+{#        <div class="li" align="center">#}
+{#            <a href="#" class="card-link">Ayush have posted on 'SDP LAB' Classroom</a>#}
+{#            <a href="#" class="card-link">@Dibyo have posted on 'SDP LAB' Classroom</a>#}
+{#        </div>#}
     </div>
+
+{#    ------------Populart Tutorials-----------------#}
+
     <div class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
