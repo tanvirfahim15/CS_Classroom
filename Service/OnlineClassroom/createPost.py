@@ -1,9 +1,19 @@
 class post:
 
-    def __init__(self,posttext,postfile,authors):
+    posttext=""
+    postfile=""
+    author=""
+    def __init__(self,posttext,postfile,author):
         self.posttext=posttext
         self.postfile=postfile
-        self.authors=authors
+        self.author=author
     def getdescription(self):
 
-        return
+        return self.posttext+" "+self.postfile+self.author
+    def getposttext(self):
+        return self.posttext
+    def getpostfile(self):
+        return self.postfile
+
+    def getauthor(self):
+        return self.author
