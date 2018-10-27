@@ -1,11 +1,10 @@
 from flask import Blueprint
-from bson import ObjectId
-from flask import Flask, render_template, request, redirect, session,jsonify
+from flask import render_template, request, redirect, session,jsonify
 from Service.OnlineClassroom import ClassroomFeed as service
-from Service.OnlineClassroom.assingment import assignment
-from Service.OnlineClassroom.addclass import addclass
-from Service.OnlineClassroom.assignmenttopostAdapter import addassignmenttAdapter
-from Service.OnlineClassroom.addclasstopostAdapter import addclasspostAdapter
+
+from pattern.AdapterPattern.addclasstopost import addclasstopost
+from pattern.AdapterPattern.assignmenttopost import assignmenttopost
+
 app = Blueprint('classroom_feed', __name__)
 
 
@@ -49,8 +48,7 @@ def add_assignment():
     print(time)
     print(date)
     print(details)
-    assign=assignment(time,date,details,session['username'])
-    service.save_to_database(addassignmenttAdapter(assign))
+    assignmenttopost(time,date,details,session['username'])
     return jsonify(result="assignment added")
 @app.route('/class')
 def class_add():
@@ -63,6 +61,5 @@ def add_class():
     print(starttime)
     print(endtime)
     print(details)
-    classtime=addclass(starttime,endtime,details,session['username'])
-    service.save_to_database(addclasspostAdapter(classtime))
+    addclasstopost(starttime,endtime,details,session['username'])
     return jsonify(result="new class time has been announced")

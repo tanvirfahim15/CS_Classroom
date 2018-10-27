@@ -1,4 +1,4 @@
-from Service.OnlineClassroom.createPost import post
+from classes.OnlineClassroom.createPost import post
 class addassignmenttAdapter(post):
     def __init__(self,assignment):
         self.assignment=assignment

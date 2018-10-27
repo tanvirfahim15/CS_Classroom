@@ -1,9 +1,8 @@
-from flask import Blueprint
 from bson import ObjectId
-from flask import Flask, render_template, request, redirect, session
+from flask import session
 from Database.database import db
 from pattern.SendNotifications import NotificationSender
-from Service.OnlineClassroom.createPost import post
+from classes.OnlineClassroom.createPost import post
 
 def show_news_feed(course_id):
     pymongo_cursor = db.hello_world123.find()

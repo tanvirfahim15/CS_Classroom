@@ -1,4 +1,4 @@
-from Service.OnlineClassroom.createPost import post
+from classes.OnlineClassroom.createPost import post
 class addclasspostAdapter(post):
     def __init__(self,addclass):
         self.addclass=addclass
