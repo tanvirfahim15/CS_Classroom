@@ -10,6 +10,8 @@ def show_news_feed(course_id):
     all_data = list(pymongo_cursor)
     data = all_data
     print(data)
+    data.reverse()
+    print(data)
     course = db.courses.find_one({'_id':ObjectId(course_id)})
     users = course['enrolled']
     if session['username'] not in users:
@@ -19,7 +21,8 @@ def show_news_feed(course_id):
         notifications = []
     else:
         notifications = notifications['notifications']
-    return data, users, notifications
+    notifications.reverse()
+    return course, data, users, notifications
 
 
 def update_post(data , course_id):
@@ -34,12 +37,19 @@ def update_post(data , course_id):
     return
 
 
-def comment_entry(id):
+def comment_entry(id, course_id):
+    course_info = db.courses.find_one({'_id': ObjectId(course_id)})
+    notifications = db.notifications.find_one({'username': session['username']})
+    if notifications == None:
+        notifications = []
+    else:
+        notifications = notifications['notifications']
     poststring=db.classroom_newsfeed.find_one({'_id': ObjectId(id)});
     pymongo_cursor = db.comments.find( { "postid" : id} )
     all_comments = list(pymongo_cursor)
     comments= all_comments
-    return poststring, comments
+    notifications.reverse()
+    return poststring, comments, course_info, notifications
 
 
 def update_comment(id , data):

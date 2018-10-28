@@ -43,7 +43,7 @@
         </div>
         <div class="card-footer">
 {#            <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>#}
-            <a href="{{ url_for('classroom_feed.comment_entry',id = dt["_id"]) }}" class="card-link" method='POST'><i class="fa fa-comment"></i> Comment</a>
+            <a href="{{ url_for('classroom_feed.comment_entry',id = dt["_id"] , course_id = course_info['_id']) }}" class="card-link" method='POST'><i class="fa fa-comment"></i> Comment</a>
 {#            <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>#}
         </div>
     </div>
