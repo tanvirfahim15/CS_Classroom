@@ -8,20 +8,20 @@ from pattern.AdapterPattern.assignmenttopost import assignmenttopost
 app = Blueprint('classroom_feed', __name__)
 
 
-@app.route("/news-feed")
-def show_news_feed():
-    course_id ='5bd316f051b1980fab57b706'
+@app.route("/news-feed/<course_id>")
+def show_news_feed(course_id):
+    #course_id ='5bd316f051b1980fab57b706'
     data, users, notifications = service.show_news_feed(course_id)
     return render_template('OnlineClassroom/post_and_comment/feed.html', **locals())
 
 
-@app.route("/entry_data" , methods=['POST', 'GET'])
-def update_post():
-    course_id = '5bd316f051b1980fab57b706'
+@app.route("/entry_data/<course_id>" , methods=['POST', 'GET'])
+def update_post(course_id):
+    #course_id = '5bd316f051b1980fab57b706'
     if request.method=="POST":
         data = request.form
         service.update_post(data , course_id)
-    return redirect('/news-feed')
+    return redirect('/news-feed/'+str(course_id))
 
 
 @app.route("/comment_entry/<id>" , methods=['POST', 'GET'])
