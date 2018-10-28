@@ -12,7 +12,6 @@ app = Blueprint('classroom_feed', __name__)
 def show_news_feed():
     course_id ='5bd316f051b1980fab57b706'
     data, users, notifications = service.show_news_feed(course_id)
-    #print(notifications)
     return render_template('OnlineClassroom/post_and_comment/feed.html', **locals())
 
 
@@ -37,9 +36,13 @@ def update_comment(id):
         data = request.form
         service.update_comment(id ,data)
     return redirect('/comment_entry/'+str(id))
+
+
 @app.route("/assignment")
 def assingmnet():
     return render_template('OnlineClassroom/post_and_comment/giveassignment.html')
+
+
 @app.route('/add_assignment')
 def add_assignment():
     time = request.args.get('time', 0, type=str)
@@ -50,9 +53,13 @@ def add_assignment():
     print(details)
     assignmenttopost(time,date,details,session['username'])
     return jsonify(result="assignment added")
+
+
 @app.route('/class')
 def class_add():
     return render_template('OnlineClassroom/post_and_comment/addclass.html')
+
+
 @app.route('/add_class')
 def add_class():
     starttime = request.args.get('starttime', 0, type=str)
