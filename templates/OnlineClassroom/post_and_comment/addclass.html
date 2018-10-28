@@ -44,25 +44,24 @@ form {
     });
   });
 </script>
-<fieldset>
-    <legend>assignment details</legend>
-    <a href="{{ url_for('classroom_feed.show_news_feed') }}">back</a>
-    <form>
-    <label for="appt-time" style="background-color: dodgerblue">Details</label>
-        <br>
-    <input type="text" id="details" >
-        <br>
-        <label for="appt-time" style="background-color: dodgerblue">Start Time</label>
-    <div class="control">
-        <input type="time" id="appt-time"/>
-    </div>
-        <label for="appt-time" style="background-color: dodgerblue">End Time</label>
-    <div>
+{% extends '/tutorial/layout.html' %}
 
-         <input type="time" id="endtime"/>
-    </div>
-         <button id="button">submit</button>
+{% block body %}
+    <a class="btn btn-success" href="{{ url_for('classroom_feed.show_news_feed') }}">back</a>
+    <br/>
+    <div class="jumbotron text-center">
+        <h3>Class Details</h3>
+        <input type="text" id="details" >
         <br>
-        <span id=result style="background-color: #0e90d2" ></span>
-    </form>
-</fieldset>
+        <h4>Start Time</h4>
+        <input type="time" id="appt-time"/>
+        <h4>End Time</h4>
+        <input type="time" id="endtime"/>
+        <br>
+        <br>
+        <a class="btn btn-success" id="button" >Submit</a>
+        <br>
+        <br>
+        <span id=result style="background-color: #3bdd79" ></span>
+    </div>
+{% endblock %}

@@ -6,4 +6,4 @@ from classes.OnlineClassroom.addclasstopostAdapter import addclasspostAdapter
 def addclasstopost(starttime,endtime,details,author):
     classtime = addclass(starttime, endtime, details, author)
     service.save_to_database(addclasspostAdapter(classtime))
-    return
+    return 
