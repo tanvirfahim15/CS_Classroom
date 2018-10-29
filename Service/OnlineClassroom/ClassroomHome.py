@@ -33,7 +33,11 @@ def join_class_info_update(data):
         db.course_users.replace_one({'username': session['username']} , user)
 
     course_id = data['course_id']
+    if len(course_id) != 24:
+        return -1
     course = db.courses.find_one({'_id': ObjectId(course_id)})
+    if course == None:
+        return -1
     users = course['enrolled']
     if session['username'] not in users:
         NotificationSender.Sender(course_id, "").register_observer(session['username'])

@@ -7,6 +7,8 @@ app = Blueprint('classroom_home', __name__)
 
 @app.route("/classroom-courses-dashboard")
 def show_course_dashboard():
+    if "username" not in session.keys():
+        return redirect("/auth/login/")
     return render_template('OnlineClassroom/classroom_with_courses/dashboard.html', **locals())
 
 
@@ -25,8 +27,14 @@ def show_join_classes():
 def show_join_classes_entry_data():
     if request.method=='POST':
         data = request.form
+        data['course_id'].strip()
+        if len(data['course_id']) != 24:
+            return redirect('/classroom-courses-join')
+        get_error = service.join_class_info_update(data)
+        if get_error == -1:
+            return redirect('/classroom-courses-join')
         #print(data)
-        service.join_class_info_update(data)
+        # service.join_class_info_update(data)
     return render_template('OnlineClassroom/classroom_with_courses/dashboard.html' ,**locals())
 
 
