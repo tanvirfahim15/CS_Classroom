@@ -8,9 +8,9 @@
  <SCRIPT Language="javascript">
  <!--
   function isValid()
-  {	
+  {
   	if(formaddstu.sno.value == "")
-  	{	
+  	{
   		window.alert("Student number cannot be empty！");
  		document.formaddstu.elements[0].focus();
   		return  false;
@@ -19,53 +19,53 @@
   	{
   		window.alert("Name cannot be empty！");
   		document.formaddstu.elements[1].focus();
-  		return  false; 
+  		return  false;
   	}
-  	
+
     if(formaddstu.ssex.value == "")
     {
       window.alert("Gender cannot be empty！");
       document.formaddstu.elements[2].focus();
-      return  false; 
+      return  false;
     }
     if(formaddstu.sage.value == "")
     {
       window.alert("Age cannot be empty！");
       document.formaddstu.elements[3].focus();
-      return  false; 
+      return  false;
     }
   	if(formaddstu.sdept.value == "")
   	{
   		window.alert("Professional can't be empty！");
   		document.formaddstu.elements[4].focus();
-  		return  false; 
+  		return  false;
   	}
   	if(formaddstu.spassword.value == "")
   	{
   		window.alert("password can not be blank！");
   		document.formaddstu.elements[6].focus();
-  		return  false; 
+  		return  false;
   	}
   	formaddstu.submit();
  }
   -->
-  </SCRIPT>		
+  </SCRIPT>
 <SCRIPT Language="javascript">
  <!--
   function isValid2()
-  {	
+  {
   	if(formaddcouxls.filepath.value == "")
-  	{	
+  	{
   		window.alert("Please select a file");
- 		
+
   		return  false;
   	}
   	 formaddcouxls.submit();
  }
   -->
   </SCRIPT>
-      
-      
+
+
 {#      <script>#}
 {#          var oldVal = "";#}
 {#$("#sno").on("change keyup paste", function() {#}
@@ -77,11 +77,11 @@
 {#    oldVal = currentVal;#}
 {#    //action to be performed on textarea changed#}
 {#    alert("changed!");#}
-{#});#}
+
 {##}
 {#      </script>#}
-      
-      
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -132,7 +132,7 @@ $(document).ready(function(){
   </head>
   
   <body bgcolor="#8dd8f8">
-  <form name="formaddstu" role="form" action="{{ url_for('admin_stu_add') }}" method="post" onsubmit="return isValid(this);"><div align="center"> 
+  <form name="formaddstu" role="form" action="{{ url_for('admin_stu_add') }}" method="post" onsubmit="return isValid(this);"><div align="center">
     </div><table class="table1" border="1" width="600" height="120" align="center" cellspacing="0" cellpadding="0">
     <tbody>
     <tr><th colspan="2" height="25"><font size="4">Please enter student information</font></th></tr>
@@ -155,7 +155,7 @@ $(document).ready(function(){
     <tr><td height="20"><input type="reset" value="RESET"/></td><td><input type="submit" value="SUBMIT"/></td></tr>
     </tbody>
     </table>
-    
+
     </form>
     <br/><br/><br/>
     <form name="formaddcouxls" action="{{ url_for('admin_stu_import') }}" method="post" onsubmit="return isValid2(this);" enctype="multipart/form-data">

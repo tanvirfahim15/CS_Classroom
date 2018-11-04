@@ -1,4 +1,4 @@
-from classes.management_class.ComponentPerson import ComponentPerson
+from classes.ClassManagement.ComponentPerson import ComponentPerson
 
 
 class BasicTeacher(ComponentPerson):

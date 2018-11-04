@@ -1,5 +1,5 @@
 # Python 3.4+
-from classes.management_class.ComponentPerson import ComponentPerson
+from classes.ClassManagement.ComponentPerson import ComponentPerson
 
 from abc import ABCMeta
 import  six

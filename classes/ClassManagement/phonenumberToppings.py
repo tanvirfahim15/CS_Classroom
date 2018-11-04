@@ -1,4 +1,4 @@
-from classes.management_class.studentDecorator import studentDecorator
+from classes.ClassManagement.studentDecorator import studentDecorator
 
 
 class phonenumberToppings(studentDecorator):

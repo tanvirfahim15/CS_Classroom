@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+</style>
+
+    <meta charset="utf-8">
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    <title>CS Classroom</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background-color: #eeeeee;
+        }
+
+        .h7 {
+            font-size: 0.8rem;
+        }
+
+        .gedf-wrapper {
+            margin-top: 0.97rem;
+        }
+
+        @media (min-width: 992px) {
+            .gedf-main {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+            .gedf-card {
+                margin-bottom: 2.77rem;
+            }
+        }
+
+        /**Reset Bootstrap*/
+        .dropdown-toggle::after {
+            content: none;
+            display: none;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    <script>
+
+        window.onload = function () {
+            login();
+            document.getElementById("footer").className += " fixed-bottom";
+        };
+
+    </script>
+
+
+
+</head>
+<body>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+
+
+ <table width="1024"  align="center" border="0" cellspacing="0" cellpadding="0">
+    <tr><td><table border="0" cellpadding="0" cellspacing="0"  bgcolor="#a1e3f9">
+    <tr><td width="1024" height="50"  align="center">
+    <table><tr><td width="624" height="35" ></td><td></td></tr>
+        <tr><td width="624" ></td><td><h3>Classroom Management</h3></td></tr>
+    </table>
+    </td></tr>
+    <tr><td>
+    <table width="1024"  height="20"  align="center">
+	<tr><td>
+	<div id="Whatever">
+	<ul class="TabBarLevel1" id="TabPage1">
+
+
+        <li id="Tab0" class="Selected"><a target="mainframe" href="{{ url_for('manage_classroom.admin_dummy') }}" onclick="javascript:switchTab('TabPage1','Tab0');">&nbsp;&nbsp;<strong> First&nbsp;Page</strong>&nbsp;&nbsp;</a></li>
+
+
+
+
+		<li id="Tab1"><a target="mainframe" href="{{ url_for('manage_classroom.admin_stu_add') }}" onclick="javascript:switchTab('TabPage1','Tab1');">&nbsp; <strong>Student management</strong>&nbsp;</a></li>
+		<li id="Tab2"><a target="mainframe" href="{{ url_for('manage_classroom.admin_tea_add') }}" onclick="javascript:switchTab('TabPage1','Tab2');">&nbsp; <strong>Teacher management</strong>&nbsp;</a></li>
+		<li id="Tab3"><a target="mainframe" href="{{ url_for('manage_classroom.admin_stu_add') }}" onclick="javascript:switchTab('TabPage1','Tab3');">&nbsp; <strong>Course management</strong>&nbsp;</a></li>
+		<li id="Tab5"><a target="mainframe" href="{{ url_for('manage_classroom.admin_stu_add') }}" onclick="javascript:switchTab('TabPage1','Tab5');">&nbsp;<strong>change Password</strong>&nbsp;</a></li>
+		<li id="Tab6"><a target=_parent href="{{ url_for('manage_classroom.admin_stu_add') }}" onclick="javascript:switchTab('TabPage1','Tab6');">&nbsp;<strong>drop out</strong>&nbsp;</a></li>
+	</ul>
+</div>
+<script language="JavaScript">
+//Switch Tab Effect
+function switchTab(tabpage,tabid){
+    var oItem = document.getElementById(tabpage);
+	for(var i=0;i<oItem.children.length;i++){
+		var x = oItem.children[i];
+		x.className = "";
+		var y = x.getElementsByTagName('a');
+		y[0].style.color="#a1e3f9";
+	}
+	document.getElementById(tabid).className = "Selected";
+}
+</script>
+</td></tr>
+</table>
+</td></tr>
+</table></td></tr></table>
+
+
+
+
+
+
+<script>
+
+    function updatePost()
+    {
+        document.getElementById("postid").submit();
+    }
+
+</script>
+
+<div class="container-fluid gedf-wrapper">
+    {% block body %} {% endblock %}
+</div>
+<script type="text/javascript">
+
+</script>
+</body>
+{#<footer> {% include "footer.html" %}</footer>#}
+</html>

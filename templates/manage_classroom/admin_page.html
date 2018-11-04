@@ -1,0 +1,17 @@
+{% extends 'manage_classroom/admin_layout.html' %}
+
+{% block body %}
+
+
+
+  <body>
+    <table width="1024" height="750" bgcolor="#1fa0eb" align="center">
+    <tr><td align="center"><iframe name="topnavi" src="{{ url_for('manage_classroom.admin_navi') }}" width="1024" height="141" scrolling="no" frameborder="0"></iframe></td></tr>
+    <tr><td width="1024" height="610">
+    <iframe name="mainframe" src="{{ url_for('manage_classroom.admin_stu_add') }}" width="1024" height="610" scrolling="no" frameborder="0"></iframe>
+    </td></tr>
+    </table>
+
+
+
+{% endblock %}

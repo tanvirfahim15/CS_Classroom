@@ -1,4 +1,4 @@
-from classes.management_class.ObserverPattern.IEnrollmentSubject import IEnrollmentSubject
+from classes.ClassManagement.ObserverPattern.IEnrollmentSubject import IEnrollmentSubject
 
 
 class EnrollmentData(IEnrollmentSubject):

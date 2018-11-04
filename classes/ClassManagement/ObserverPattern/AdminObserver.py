@@ -1,4 +1,4 @@
-from classes.management_class.ObserverPattern.IEnrollmentObserver import IEnrollmentObserver
+from classes.ClassManagement.ObserverPattern.IEnrollmentObserver import IEnrollmentObserver
 from flask import Blueprint
 from bson import ObjectId
 from flask import Flask, render_template, request, redirect, session

@@ -31,6 +31,9 @@ from paths.Simulation.IterativeDp.SCSApp import app as scs
 from paths.Simulation.IterativeDp.RockClimbingApp import app as rc
 from paths.OnlineClassroom.ClassroomFeed import app as classroom_feed
 from paths.OnlineClassroom.ClassroomHomeApp import app as classroom_home
+
+from paths.ClassManagement.ManageClassroom import app as manage_classroom
+
 from paths.Simulation.LinearAlgebra.GaussJordanElimination import app as gauss_jordan_elimination
 from paths.Simulation.LinearAlgebra.GaussElimination import app as gauss_elimination
 from paths.Simulation.LinearAlgebra.EigenValue import app as eigen_value
@@ -97,6 +100,7 @@ app.register_blueprint(dbms)
 app.register_blueprint(classroom_feed)
 app.register_blueprint(classroom_home)
 
+app.register_blueprint(manage_classroom)
 
 # Statistical Calculator
 app.register_blueprint(statis_calc)
