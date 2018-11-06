@@ -111,6 +111,7 @@ app.register_blueprint(box_plot)
 
 app.register_blueprint(manage_classroom)
 
+
 @app.route("/")
 def home():
     return render_template(

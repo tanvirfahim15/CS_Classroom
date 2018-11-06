@@ -1,57 +1,32 @@
-import httplib2
-import os
-import oauth2client
-from oauth2client import client, tools
-import base64
+import smtplib
+
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from apiclient import errors, discovery
 
-SCOPES = 'https://www.googleapis.com/auth/gmail.send'
-CLIENT_SECRET_FILE = 'client_secret.json'
-APPLICATION_NAME = 'Gmail API Python Send Email'
-SENDER = 'csclassroom89@gmail.com'
-
-
-def get_credentials():
-    home_dir = os.path.expanduser('~')
-    credential_dir = os.path.join(home_dir, '.credentials')
-    if not os.path.exists(credential_dir):
-        os.makedirs(credential_dir)
-    credential_path = os.path.join(credential_dir, 'gmail-python-email-send.json')
-    store = oauth2client.file.Storage(credential_path)
-    credentials = store.get()
-    if not credentials or credentials.invalid:
-        flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
-        flow.user_agent = APPLICATION_NAME
-        credentials = tools.run_flow(flow, store)
-    return credentials
+username = 'csclassroom89@gmail.com'
+password = 'csclassroomcsedu'
 
 
 def SendMessage(to, subject, msgHtml, msgPlain):
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build('gmail', 'v1', http=http)
-    message1 = CreateMessage(SENDER, to, subject, msgHtml, msgPlain)
-    SendMessageInternal(service, "me", message1)
-
-def SendMessageInternal(service, user_id, message):
-    try:
-        message = (service.users().messages().send(userId=user_id, body=message).execute())
-        return message
-    except errors.HttpError as error:
-        print('An error occurred: %s' % error)
+    send_email(username, password, to, subject, msgHtml, msgPlain)
 
 
-def CreateMessage(sender, to, subject, msgHtml, msgPlain):
+def send_email(user, pwd, recipient, subject, html, text):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
-    msg['From'] = sender
-    msg['To'] = to
-    msg.attach(MIMEText(msgPlain, 'plain'))
-    msg.attach(MIMEText(msgHtml, 'html'))
-    raw = base64.urlsafe_b64encode(msg.as_bytes())
-    raw = raw.decode()
-    body = {'raw': raw}
-    return body
-
+    msg['From'] = user
+    msg['To'] = recipient
+    part1 = MIMEText(text, 'plain')
+    part2 = MIMEText(html, 'html')
+    msg.attach(part1)
+    msg.attach(part2)
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.ehlo()
+        server.starttls()
+        server.login(user, pwd)
+        server.sendmail(user, recipient, msg.as_string())
+        server.close()
+        print('successfully sent the mail')
+    except:
+        print("failed to send mail")

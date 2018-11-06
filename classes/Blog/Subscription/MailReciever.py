@@ -4,7 +4,7 @@ import classes.Mail.SendMail as Mail
 
 
 class MailReciever(ObserverPattern.Observer):
-    SUBJECT = "New Article Update from Cs Classroom"
+    SUBJECT = "New Article Update from CS Classroom"
     reciever_id = ""
 
     def __init__(self, reciever):
@@ -12,12 +12,12 @@ class MailReciever(ObserverPattern.Observer):
 
     def get_html(self,message):
         writer, article = message
-        return writer+" has published new article<br/><a href=\""+"http://127.0.0.1:5000/article/"+article\
+        return writer+" has published new article<br/><a href=\""+"http://csclassroom-sdp.herokuapp.com/article/"+article\
                + "/\">Click here to see</a>"
 
     def get_text(self, message):
         writer, article = message
-        return writer + " has published new article: " + "http://127.0.0.1:5000/article/" + article \
+        return writer + " has published new article: " + "http://csclassroom-sdp.herokuapp.com/article/" + article \
                + "/"
 
     def update(self, message):
