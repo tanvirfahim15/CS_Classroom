@@ -1,22 +1,16 @@
 import pandas as pd
 import numpy as np
+from pattern.CsvToHtmlAdapter.Adapter import CsvToHtmlAdapter
 
 
 def get_dataset():
-    df = pd.read_csv('classes/CodeGenerator/abalone.csv', sep=',', header=None)
-    arr = np.array(df)[:, 0:8]
-
     header = ['Length', 'Diameter', 'Height', 'Whole weight', 'Shucked weight', 'Viscera weight', 'Shell weight',
               'Rings']
     ret = '<table class="table"><thead><tr>'
     for item in header:
         ret += '<th>' + item + '</th>'
     ret += '</tr></thead>'
-    for row in arr:
-        ret += '<tr>'
-        for col in row:
-            ret += '<td>' + str(col) + '</td>'
-        ret += '</tr>'
+    ret+= CsvToHtmlAdapter().get_html(filename='abalone.csv')
     ret += '</table>'
     return ret
 

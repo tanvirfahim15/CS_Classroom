@@ -3,12 +3,10 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from pattern.CsvToHtmlAdapter.Adapter import CsvToHtmlAdapter
 
 
 def get_dataset():
-    df = pd.read_csv('classes/CodeGenerator/breast_cancer.csv', sep=',', header=None)
-    arr = np.array(df)
-
     header = ['Clump Thickness', 'Uniformity of Cell Size', 'Uniformity of Cell Shape'
         , 'Marginal Adhesion', 'Single Epithelial Cell Size', 'Bare Nuclei', 'Bland Chromatin',
               'Normal Nucleoli ','Mitoses','Class']
@@ -16,11 +14,7 @@ def get_dataset():
     for item in header:
         ret += '<th>' + item + '</th>'
     ret += '</tr></thead>'
-    for row in arr:
-        ret += '<tr>'
-        for col in row:
-            ret += '<td>' + str(col) + '</td>'
-        ret += '</tr>'
+    ret+= CsvToHtmlAdapter().get_html(filename='breast_cancer.csv')
     ret += '</table>'
     return ret
 
