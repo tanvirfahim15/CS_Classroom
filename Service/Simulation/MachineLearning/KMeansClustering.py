@@ -30,10 +30,12 @@ def k_means_clustering_entry_data(data):
             if min_p > entry:
                 min_p = entry
     centroids = [[random.uniform(min_p, max_p), random.uniform(min_p, max_p)] for i in range(int(data['clusters']))]
+
     simulation_strategy = km.KMeans(points, centroids)
     simulation_context = SimulationContext(simulation_strategy)
     data = dict()
     data['data'] = simulation_context.get_data()
+
     posts = db.k_means_clustering
     post_id = posts.insert_one(data).inserted_id
     return post_id
