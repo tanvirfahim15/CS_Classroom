@@ -11,5 +11,16 @@
         {% endif %}
         <a class="btn btn-success" href="/classroom-courses-join">Join Class</a>
         <a class="btn btn-success" href="/classroom-courses-create">Create Class</a>
+
+        <br><br>
+        {% if flag == 1 %}
+            <p class="lead"> Enrolled as student  </p>
+        {% endif %}
+         {% if flag == 2 %}
+            <p class="lead"> Enrolled as Teacher  </p>
+        {% endif %}
+
+
+
     </div>
 {% endblock %}

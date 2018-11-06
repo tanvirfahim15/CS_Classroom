@@ -9,7 +9,9 @@ from classes.ClassManagement.nameToppings import nameToppings
 from classes.ClassManagement.passwordToppings import passwordToppings
 from classes.ClassManagement.phonenumberToppings import phonenumberToppings
 from classes.ClassManagement.studentidtoppings import studentidtoppings
+
 from Database.database import db
+from flask_mail import Message, Mail
 
 app = Blueprint('manage_classroom', __name__)
 
@@ -20,8 +22,29 @@ def show_course_dashboard():
     print("shohan")
     # if "username" not in session.keys():
     #     return redirect("/auth/login/")
+    # return render_template('manage_classroom/admin_page.html', **locals())
+    return render_template('manage_classroom/enter_classroom.html', **locals())
+
+
+@app.route("/access_control", methods=['POST', 'GET'])
+def access_control():
+
+    if request.method == 'POST':
+        print("delete")
+        role = request.form.get('role')
+        passw= request.form.get('password')
+
+        print(role,passw)
+
+        if(role!='admin' and passw!='admin'):
+            return render_template('manage_classroom/enter_classroom.html', **locals())
+
+
+    print("shohan")
+    # if "username" not in session.keys():
+    #     return redirect("/auth/login/")
+    # return render_template('manage_classroom/admin_page.html', **locals())
     return render_template('manage_classroom/admin_page.html', **locals())
-    # return render_template('manage_classroom/admin_navi.html')
 
 
 
@@ -41,11 +64,23 @@ def admin_navi():
 @app.route("/admin_dummy")
 def admin_dummy():
 
-    print("shohan")
+    msg = Message("Hello",
+                  sender="from@example.com",
+                  recipients=["to@example.com"])
+
+
+    app.config.from_pyfile('config.cfg')
+    mail = Mail(app)
+    mail.send(msg)
+
+    # if(flag==0):
+         # return render_template('manage_classroom/admin_page.html', message="You dont have access")
+
+
     # if "username" not in session.keys():
     #     return redirect("/auth/login/")
     # return render_template('OnlineClassroom/classroom_with_courses/dashboard.html', **locals())
-    return "Hapa"
+    return "Happy"
 
 
 #

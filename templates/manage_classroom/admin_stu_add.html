@@ -114,13 +114,13 @@ $(document).ready(function(){
 
       $("#sname").change(function(){
          var sname=$('#sname').val()
-          alert("sname")
+          {#alert("sname")#}
         $.post("/receivedata", {"sname": sname})
     });
 
     $("#sno").change(function(){
         var sno=$('#sno').val()
-        alert("sno")
+        {#alert("sno")#}
         $.post("/receivedata", {"sno": sno})
 
     });

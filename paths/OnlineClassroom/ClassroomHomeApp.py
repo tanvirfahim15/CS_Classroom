@@ -1,5 +1,7 @@
 from flask import Blueprint
 from flask import render_template, request, redirect, session,jsonify
+
+from Database.database import db
 from Service.OnlineClassroom import ClassroomHome as service
 
 app = Blueprint('classroom_home', __name__)
@@ -9,6 +11,28 @@ app = Blueprint('classroom_home', __name__)
 def show_course_dashboard():
     if "username" not in session.keys():
         return redirect("/auth/login/")
+
+
+    # start
+    enroll = db.xenrolled_student.find(
+        {
+            "Name": session['username']
+        }
+    )
+
+    flag = 0
+
+    for x in enroll:
+        print(x['Name'])
+        if (session['username'] == x['Name']):
+            flag = 1;
+    if (flag == 0):
+        return render_template('manage_classroom/access_denied.html')
+
+
+    # end
+
+
     return render_template('OnlineClassroom/classroom_with_courses/dashboard.html', **locals())
 
 

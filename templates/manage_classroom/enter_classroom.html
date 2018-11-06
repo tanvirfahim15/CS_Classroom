@@ -1,0 +1,34 @@
+{% extends 'manage_classroom/admin_layout.html' %}
+
+{% block body %}
+
+
+
+<div align="center">
+    <div style="width: 80%">
+        <br/>
+        <h2>Online Classroom</h2>
+        <br/>
+
+        <form action = "/access_control" method = "POST" style="width: 30%">
+            <div class="form-group">
+                <label for="role">Your role</label>
+                <input type="text" class="form-control" id="role" name="role" placeholder="teacher/student">
+                <span id="username_msg" style="font-size: small;color: red"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <span id="password_msg" style="font-size: small;color: red"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-dark btn-lg" value="Enter">
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+{% endblock %}
