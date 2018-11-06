@@ -3,6 +3,8 @@ from flask import render_template, request, redirect, session,jsonify
 
 from Database.database import db
 from Service.OnlineClassroom import ClassroomHome as service
+from classes.ClassManagement.ObserverPattern.AdminObserver import AdminObserver
+from classes.ClassManagement.ObserverPattern.EnrollmentData import EnrollmentData
 
 app = Blueprint('classroom_home', __name__)
 
@@ -14,18 +16,33 @@ def show_course_dashboard():
 
 
     # start
-    enroll = db.xenrolled_student.find(
+    enrollstu = db.xenrolled_student.find(
         {
             "Name": session['username']
         }
     )
 
+
+    # teacher not implemented yet
+    enrolltea = db.xenrolled_teacher.find(
+        {
+            "tName": session['username']
+        }
+    )
+
     flag = 0
 
-    for x in enroll:
+    for x in enrollstu:
         print(x['Name'])
         if (session['username'] == x['Name']):
-            flag = 1;
+            flag = 1
+
+    for x in enrolltea:
+        print(x['Name'])
+        if (session['username'] == x['tName']):
+            flag = 2
+
+
     if (flag == 0):
         return render_template('manage_classroom/access_denied.html')
 
@@ -71,5 +88,23 @@ def show_create_classes():
 def show_create_classes_entry_data():
     if request.method=='POST':
         data = request.form
-        service.create_class_info_update(data)
+
+
+
+        print(data['course_name'])
+        print(data['course_code'])
+
+
+        # start
+        createClassData = data
+        enrollData = EnrollmentData()
+
+        adminObserver = AdminObserver()
+        enrollData.registerObserver(adminObserver)
+        enrollData.putTeacherRequest(createClassData)
+        enrollData.removeObserver(adminObserver)
+
+        #end
+
+        # service.create_class_info_update(data)
     return render_template('OnlineClassroom/classroom_with_courses/dashboard.html' ,**locals())

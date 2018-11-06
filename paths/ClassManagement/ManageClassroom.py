@@ -1,12 +1,13 @@
 from flask import Blueprint
 from flask import render_template, request, redirect, session,jsonify
 from Service.OnlineClassroom import ClassroomHome as service
+from classes.ClassManagement.mailToppings import mailToppings
 from classes.ClassManagement.BasicStudent import BasicStudent
-from classes.ClassManagement.addStudent import MyServer
+from classes.ClassManagement.addStudent import MyServer, send_email
 from classes.ClassManagement.ageToppings import ageToppings
 from classes.ClassManagement.genderTopping import genderToppings
 from classes.ClassManagement.nameToppings import nameToppings
-from classes.ClassManagement.passwordToppings import passwordToppings
+
 from classes.ClassManagement.phonenumberToppings import phonenumberToppings
 from classes.ClassManagement.studentidtoppings import studentidtoppings
 
@@ -64,14 +65,7 @@ def admin_navi():
 @app.route("/admin_dummy")
 def admin_dummy():
 
-    msg = Message("Hello",
-                  sender="from@example.com",
-                  recipients=["to@example.com"])
 
-
-    app.config.from_pyfile('config.cfg')
-    mail = Mail(app)
-    mail.send(msg)
 
     # if(flag==0):
          # return render_template('manage_classroom/admin_page.html', message="You dont have access")
@@ -81,7 +75,6 @@ def admin_dummy():
     #     return redirect("/auth/login/")
     # return render_template('OnlineClassroom/classroom_with_courses/dashboard.html', **locals())
     return "Happy"
-
 
 #
 # @app.route("/admin_stu_add")
@@ -124,10 +117,12 @@ def receive_data():
         my_person = ageToppings(request.form.get('sage'), my_person)
 
     if (request.form.get('sphone') != None):
+        print("receiving phone")
         my_person = phonenumberToppings(request.form.get('sphone'), my_person)
 
-    if (request.form.get('spassword') != None):
-        my_person = passwordToppings(request.form.get('spassword'), my_person)
+    if (request.form.get('semail') != None):
+        print("receiving mail")
+        my_person = mailToppings(request.form.get('semail'), my_person)
 
 
     print(my_person.getDescription())
@@ -190,10 +185,16 @@ def admin_tea_add():
         info['tId'] = request.form['tno']
         info['tName'] = request.form['tname']
         info['tPhone'] = request.form['tphone']
-        info['tPassword'] = request.form['tpassword']
+        info['tEmail'] = request.form['temail']
 
         enroll_tea = db.xenrolled_teacher
         enroll_tea.insert_one(info)
+
+        subject = "Enrollment in Online Classroom"
+        msg = "Hello " + info['tName'] + ",\n  You have been enrolled in CS Online Classroom as a teacher"
+        send_email(subject, msg, info['tEmail'])
+
+
 
     return render_template('manage_classroom/admin_tea_add.html')
 
@@ -206,11 +207,13 @@ def admin_tea_list():
 
 
     if request.method == 'POST':
-        print("delete")
+        print("delete tech")
         deleteId=request.form.get('Id')
-        db.xenrolled_student.remove(
+
+        print(deleteId)
+        db.xenrolled_teacher.remove(
             {
-                "Id":deleteId
+                "tId":deleteId
             }
         )
 
@@ -220,7 +223,7 @@ def admin_tea_list():
         info.append(cou['tId'])
         info.append(cou['tName'])
         info.append(cou['tPhone'])
-        info.append(cou['tPassword'])
+        info.append(cou['tEmail'])
         print(info)
         data.append(info)
 

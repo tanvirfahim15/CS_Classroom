@@ -1,7 +1,6 @@
-from flask import request, session, url_for, render_template
+from flask import request, render_template
 from Database.database import db
-
-
+import smtplib
 
 class MyServer:
     def __init__(self):
@@ -13,7 +12,7 @@ class MyServer:
         return render_template("educational_management/admin_stu_add.html")
 
     def admin_stu_add(self,my_person):
-        print("Here2")
+        print("Here2x   ")
         # if not session.get('role') or session['role'] != 'admin':
         #     error = "You are not logged in or you are not an administrator"
         #     return render_template("educational_management/login.html", error=error)
@@ -38,27 +37,42 @@ class MyServer:
             sage = info['Age']
             sdept = request.form['sdept']
             sphone = info['Phone']
-            spassword = info['Password']
+            semail = info['Email']
 
-            print(sno, sname, ssex, sage, sdept, sphone, spassword);
+            print(sno, sname, ssex, sage, sdept, sphone,semail)
 
             info['Department']=request.form['sdept']
             enroll_stu = db.xenrolled_student
             enroll_stu.insert_one(info)
 
 
+            # sending mail
+            subject = "Enrollment in Online Classroom"
+            msg = "Hello "+sname+",\n  You have been enrolled in CS Online Classroom as a "+info['Person']
+            send_email(subject, msg,semail)
 
-            # result_set = cursor.execute("SELECT * FROM student WHERE sno =?", (sno,))
-            # if result_set.fetchone():
-            #     return fail_msg(content="The student already exists", return_url='/admin_stu_add')
-            # else:
-            #     sql = "insert into student(sno,sname,ssex,sage,sdept,sphone) values(?,?,?,?,?,?)"
-            #     cursor.execute(sql, (sno, sname, ssex, sage, sdept, sphone))
-            #     cursor.execute("INSERT INTO user(username,password,role,lasttime) VALUES(?,?,?,?)",
-            #                    (sno, spassword, 'student', u'You    are logging in to the system for the first time.'))
-            #     cursor.commit()
-            #     return success_msg(content="Successfully added the student", return_url=url_for('admin_stu_add'))
+
+
         return render_template('manage_classroom/admin_stu_add.html')
 
 
-from StuManager import get_db, fail_msg,success_msg
+
+def send_email(subject, msg, semail):
+    try:
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.ehlo()
+        server.starttls()
+        EMAIL_ADDRESS= "online14classroom@gmail.com"
+        PASSWORD="online.14.classroom"
+        server.login(EMAIL_ADDRESS, PASSWORD)
+        message = 'Subject: {}\n\n{}'.format(subject, msg)
+
+        receiver=semail
+        server.sendmail(EMAIL_ADDRESS, receiver,message)
+        server.quit()
+        print("Success: Email sent!")
+    except:
+        print("Email failed to send.")
+
+
+    return

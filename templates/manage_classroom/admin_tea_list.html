@@ -18,16 +18,16 @@
        <tr><td height="25">Teacher id</td>
                 <td height="25">Teacher name</td>
                 <td height="25">Phone</td>
-                <td height="25">Login password no</td>
+                <td height="25">Email address</td>
             </tr>
 
-         {% for cno, cname , cdept, cphone in teacher_data%}
+         {% for cno, cname , cdept, cemail in teacher_data%}
 
 
             <tr><td height="25">{{ cno }}</td>
                 <td height="25">{{ cname}}</td>
                 <td height="25">{{ cdept }}</td>
-                <td height="25">{{ cphone }}</td>
+                <td height="25">{{ cemail }}</td>
                 <td>
                     <form action="/admin_tea_list" method="post">
                         <input type="hidden" name="Id" value={{ cno }}>

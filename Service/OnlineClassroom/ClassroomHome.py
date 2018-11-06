@@ -7,6 +7,8 @@ from pattern.SendNotifications import NotificationSender
 def create_class_info_update(data):
     course_info = {'course_name':data['course_name'], 'course_code':data['course_code'], 'enrolled':[]}
     course_info['enrolled'].append(session['username'])
+
+    print(course_info)
     course_id = db.courses.insert_one(course_info).inserted_id
     user = db.course_users.find_one({'username':session['username']})
     if user == None:

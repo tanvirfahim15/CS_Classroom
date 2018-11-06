@@ -1,12 +1,14 @@
 from classes.ClassManagement.studentDecorator import studentDecorator
 
 
-class passwordToppings(studentDecorator):
-    password = ""
+class mailToppings(studentDecorator):
 
-    def __init__(self, password, componentperson):
-        self.description = password
+
+    def __init__(self, email, componentperson):
+        self.description = email
         self.componentperson = componentperson;
+
+        print("setting mail"+email)
 
 
     # def getDescription(self):
@@ -15,7 +17,7 @@ class passwordToppings(studentDecorator):
 
     def getDescription(self):
         info= self.componentperson.getDescription()
-        info["Password"]=self.description
+        info["Email"]=self.description
         return info
 
 
