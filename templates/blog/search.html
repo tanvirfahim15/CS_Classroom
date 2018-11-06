@@ -38,15 +38,22 @@
 <div align="center">
     <div style="width: 80%">
         <h1>Blog Search</h1>
-<form action = "/blog/search/" method = "POST" style="width: 30%">
+<form action = "/blog/search/" method = "POST" style="width: 80%">
+    <table>
+        <tr>
+        <td width="33%">
             <div class="form-group">
                 <label for="article_name">Article Name</label>
                 <input type="text" class="form-control" id="article_name" name="article_name">
             </div>
+        </td>
+        <td width="33%">
             <div class="form-group">
                 <label for="author_name">Author Name</label>
                 <input type="text" class="form-control" id="author_name" name="author_name">
             </div>
+        </td>
+        <td width="33%">
             <div class="form-group">
                 <label for="gender">Gender</label>
                 <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="gender" name="gender">
@@ -55,10 +62,19 @@
                     <option value="2">Female</option>
                 </select>
             </div>
-            <div class="form-group">
+        </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td width="50%">
+                <div class="form-group">
                 <label for="institute">Institute</label>
                 <input type="text" class="form-control" id="institute" name="institute">
             </div>
+            </td>
+            <td width="50%">
+
             <div class="form-group">
                 <label for="country">Country</label>
                 <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="country" name="country">
@@ -315,6 +331,12 @@
                 </select>
 
             </div>
+            </td>
+        </tr>
+    </table>
+
+
+
             <div class="form-group">
 
                     <div class="radio">
@@ -326,6 +348,7 @@
 
                     </div>
             </div>
+
             <div class="form-group">
                 <input type="submit" class="btn btn-dark btn-lg" value="Submit">
             </div>
@@ -348,6 +371,21 @@
                 {% endfor %}
     </div>
 </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <br/>
         <br/>
         <br/>

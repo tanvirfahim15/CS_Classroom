@@ -6,7 +6,7 @@ from flask import session
 from bson import ObjectId
 from paths.Blog.BlogArticleConcreteStrategy import BlogArticleConcreteStrategy, Context
 from pattern.SearchArticle import SearchStrategy
-
+import classes.Blog.Classify.classify as classifier
 now = datetime.datetime.now()
 
 
@@ -63,6 +63,11 @@ def blog_search(post, data):
         data['class'] = 'and'
         articles = []
         return data, articles
+
+
+def blog_classify(id):
+    article = db.article.find_one({"_id": ObjectId(id)})['body']
+    return classifier.classify(article)
 
 
 

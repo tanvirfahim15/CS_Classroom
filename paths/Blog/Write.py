@@ -26,15 +26,12 @@ def articles():
 
 @app.route('/article/<string:id>/')
 def article(id):
-    #articles = db.article.find({"_id": ObjectId(id)})
-    articles = read.blog_article_find(id, None)
-    print(articles)
-    return render_template('/tutorial/article.html', articles=articles,id=id)
+    article = read.blog_article_find(id, None)[0]
+    return render_template('/tutorial/article.html', article=article, id=id)
 
 
 @app.route('/dashboard')
 def dashboard():
-    #articles = db.article.find({"author": session['username']})
     articles = read.blog_article_find(None, session['username'])
 
     if articles is not None:

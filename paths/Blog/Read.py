@@ -34,3 +34,9 @@ def blog_search():
         data, articles = service.blog_search(False, None)
     return render_template('/blog/search.html', **locals())
 
+
+@app.route('/blog/classify/', methods=['GET', 'POST'])
+def blog_classify():
+    if request.method == 'POST':
+        id = request.form['id']
+        return service.blog_classify(id)
