@@ -1,7 +1,7 @@
-from classes.ClassManagement.studentDecorator import studentDecorator
+from classes.ClassManagement.ConcreteDecorator import ConcreteDecorator
 
 
-class genderToppings(studentDecorator):
+class genderToppings(ConcreteDecorator):
     gender=""
 
     def __init__(self, gender, componentperson):

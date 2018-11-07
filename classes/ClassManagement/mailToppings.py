@@ -1,7 +1,7 @@
-from classes.ClassManagement.studentDecorator import studentDecorator
+from classes.ClassManagement.ConcreteDecorator import ConcreteDecorator
 
 
-class mailToppings(studentDecorator):
+class mailToppings(ConcreteDecorator):
 
 
     def __init__(self, email, componentperson):

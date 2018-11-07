@@ -6,6 +6,9 @@ from classes.ClassManagement.BasicStudent import BasicStudent
 from classes.ClassManagement.addStudent import MyServer, send_email
 from classes.ClassManagement.ageToppings import ageToppings
 from classes.ClassManagement.genderTopping import genderToppings
+from classes.ClassManagement.mediatorpattern.AdminUpdate import AdminUpdate
+from classes.ClassManagement.mediatorpattern.Mediator import Mediator
+from classes.ClassManagement.mediatorpattern.getMediatorInstance import getMediatorInstance
 from classes.ClassManagement.nameToppings import nameToppings
 
 from classes.ClassManagement.phonenumberToppings import phonenumberToppings
@@ -27,8 +30,15 @@ def show_course_dashboard():
     return render_template('manage_classroom/enter_classroom.html', **locals())
 
 
+
+
+
+
+
+
 @app.route("/access_control", methods=['POST', 'GET'])
 def access_control():
+
 
     if request.method == 'POST':
         print("delete")
@@ -188,8 +198,14 @@ def admin_tea_add():
         info['tEmail'] = request.form['temail']
 
         enroll_tea = db.xenrolled_teacher
-        enroll_tea.insert_one(info)
+        # enroll_tea.insert_one(info)
 
+        # Implementing mediator pattern
+        mediator = getMediatorInstance()
+        adminUpdate = mediator.adminUpdate
+        adminUpdate.requestUpdate(enroll_tea, info)
+
+        enroll_tea
         subject = "Enrollment in Online Classroom"
         msg = "Hello " + info['tName'] + ",\n  You have been enrolled in CS Online Classroom as a teacher"
         send_email(subject, msg, info['tEmail'])

@@ -1,22 +1,15 @@
 
-# from abc import ABC, abstractmethod
-# from abc import ABCMeta
+import abc
 
-import six
-from abc import ABCMeta
 
-@six.add_metaclass(ABCMeta)
-class ComponentPerson(object):
+class ComponentPerson(metaclass=abc.ABCMeta):
 
-    # def __init__(self):
-    #     # self.description = ""
-    #     pass
+
 
     info = {}
 
-
+    @abc.abstractmethod
     def getDescription(self):
-        # return self.description
         pass
 
 

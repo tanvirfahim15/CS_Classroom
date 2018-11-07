@@ -1,6 +1,6 @@
-from classes.ClassManagement.studentDecorator import studentDecorator
+from classes.ClassManagement.ConcreteDecorator import ConcreteDecorator
 
-class ageToppings(studentDecorator):
+class ageToppings(ConcreteDecorator):
 
 
     def __init__(self,age,componentperson):

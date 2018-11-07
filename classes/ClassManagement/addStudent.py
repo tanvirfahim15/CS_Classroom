@@ -2,6 +2,9 @@ from flask import request, render_template
 from Database.database import db
 import smtplib
 
+from classes.ClassManagement.mediatorpattern.getMediatorInstance import getMediatorInstance
+
+
 class MyServer:
     def __init__(self):
         self.globalData = "hello"
@@ -30,6 +33,7 @@ class MyServer:
 
             # print(sname)
             info=my_person.getDescription()
+            info['Department'] = request.form['sdept']
 
             sno = info['Id']
             sname = info['Name']
@@ -41,9 +45,16 @@ class MyServer:
 
             print(sno, sname, ssex, sage, sdept, sphone,semail)
 
-            info['Department']=request.form['sdept']
             enroll_stu = db.xenrolled_student
-            enroll_stu.insert_one(info)
+            # enroll_stu.insert_one(info)
+
+            # Implementing mediator pattern
+            mediator = getMediatorInstance()
+            adminUpdate = mediator.adminUpdate
+            adminUpdate.requestUpdate(enroll_stu,info)
+
+
+
 
 
             # sending mail

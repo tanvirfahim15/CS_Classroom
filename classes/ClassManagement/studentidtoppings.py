@@ -1,7 +1,7 @@
-from classes.ClassManagement.studentDecorator import studentDecorator
+from classes.ClassManagement.ConcreteDecorator import ConcreteDecorator
 
 
-class studentidtoppings(studentDecorator):
+class studentidtoppings(ConcreteDecorator):
 
 
     def __init__(self, id, componentperson):

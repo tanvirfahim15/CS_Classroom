@@ -1,7 +1,7 @@
-from classes.ClassManagement.studentDecorator import studentDecorator
+from classes.ClassManagement.ConcreteDecorator import ConcreteDecorator
 
 
-class phonenumberToppings(studentDecorator):
+class phonenumberToppings(ConcreteDecorator):
     number=0
 
     def __init__(self, number, componentperson):
