@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Classroom</title>
+
+    <script>
+        window.onload=function () {
+            login();
+            document.getElementById("footer").className += " fixed-bottom";
+        }
+   </script>
+
+    <style>
+                * {
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+            background-color: #53565c;
+        }
+
+        /* Float four columns side by side */
+        .column {
+          float: left;
+          width: 25%;
+          padding: 0 10px;
+        }
+
+        /* Remove extra left and right margins, due to padding */
+        .row {margin: 0 -5px;}
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        .card{
+            background-color: #53565c;
+        }
+        .card button {
+                  border: none;
+                  outline: 0;
+                  padding: 12px;
+                  color: white;
+                  background-color: #006600;
+                  text-align: center;
+                  cursor: pointer;
+                  width: 100%;
+                  font-size: 18px;
+                }
+
+                .card button:hover {
+                  opacity: 0.7;
+                }
+        /* Style the counter cards */
+        .card {
+          {#box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);#}
+          padding: 16px;
+          text-align: center;
+          background-color: #f1f1f1;
+        }
+                .index-card {
+          background: #d5eaf0;
+        }
+        .index-card:hover {
+          background: #3a87ad;
+        }
+
+    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link href="/static/CSS/prism.css" rel="stylesheet" />
+<script src="/static/Js/prism.js"></script>
+
+
+<style>
+
+    a.black-background:link {
+        color: #3bdd79;
+    }
+
+    /* visited link */
+    a.black-background:visited {
+        color: #3bdd79;
+    }
+
+    /* mouse over link */
+    a.black-background:hover {
+        color: white;
+    }
+
+    a.dropdown-item:link, a.dropdown-item:visited, a.dropdown-item:hover, a.dropdown-item:active {
+        color: black;
+        background-color: white;
+    }
+
+    /* selected link */
+    a.black-background:active {
+        color: yellow;
+    }
+</style>
+
+
+
+<style>
+/* The container */
+.containerx {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.containerx input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.containerx:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.containerx input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.containerx input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.containerx .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+</style>
+
+
+{#    {% include "nav.html" %}#}
+</head>
+<body>
+
+<div class="container">
+
+     <br/>
+    <div class="jumbotron text-center">
+        <h1>NoticeBoard</h1>
+        <p class="lead">Send any notice to your students enrolled in the classroom. <br>
+{#'Online Classroom' streamlines assignments, boosts collaboration, and fosters seamless communication to make teaching more productive and meaningful.</p>#}
+
+         <form action = "/admin_upload_notice" method = "POST"
+         enctype = "multipart/form-data">
+         <input  type = "file" name = "file" />
+         <input class="btn btn-success"  type = "submit"/>
+      </form>
+
+    </div>
+
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.8.0/ckeditor.js"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('body');
+</script>
+
+</body>
+{#<footer> {% include "footer.html" %}</footer>#}
+</html>
