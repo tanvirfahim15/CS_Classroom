@@ -48,6 +48,24 @@
         </li>
 
     </div>
+<div class="card gedf-card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="ml-2">
+                        <div class="h5 m-0">Quiz</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <li class="list-group-item" align="center">
+            <a href="{{ url_for('classroom_feed.assingmnet',course_id=course_info["_id"]) }}">create quiz</a>
+        </li>
+        <li class="list-group-item" align="center">
+            <a href="{{ url_for('classroom_feed.assingmnet',course_id=course_info["_id"]) }}">give quiz</a>
+        </li>
+    </div>
 
 {#    -----------------Notifications------------------#}
     <div class="card gedf-card">
@@ -83,26 +101,4 @@
 {#        </div>#}
     </div>
 
-{#    ------------Populart Tutorials-----------------#}
-
-    <div class="card gedf-card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="ml-2">
-                        <div class="h5 m-0">Popular Tutorials</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-body">
-{#            <h5 class="card-title">Popular Tutorials</h5>#}
-            <h6 class="card-subtitle mb-2 text-muted">How to use flask along with django</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-            <a href="#" class="card-link">go to article</a>
-            <a href="#" class="card-link">Another related link</a>
-        </div>
-    </div>
 </di1v>
