@@ -1,7 +1,6 @@
 from flask import Blueprint
 from flask import render_template, request, redirect, session,jsonify
 from Service.OnlineClassroom import ClassroomFeed as service
-
 from pattern.AdapterPattern.addclasstopost import addclasstopost
 from pattern.AdapterPattern.assignmenttopost import assignmenttopost
 
@@ -10,7 +9,6 @@ app = Blueprint('classroom_feed', __name__)
 
 @app.route("/news-feed/<course_id>")
 def show_news_feed(course_id):
-    #course_id ='5bd316f051b1980fab57b706'
     course_info, data, users, notifications = service.show_news_feed(course_id)
     classmate_count = len(course_info['enrolled'])
     return render_template('OnlineClassroom/post_and_comment/feed.html', **locals())
@@ -18,9 +16,9 @@ def show_news_feed(course_id):
 
 @app.route("/entry_data/<course_id>" , methods=['POST', 'GET'])
 def update_post(course_id):
-    #course_id = '5bd316f051b1980fab57b706'
     if request.method=="POST":
         data = request.form
+        print(data)
         service.update_post(data , course_id)
     return redirect('/news-feed/'+str(course_id))
 

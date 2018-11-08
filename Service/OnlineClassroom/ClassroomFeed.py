@@ -3,6 +3,7 @@ from flask import session
 from Database.database import db
 from pattern.SendNotifications import NotificationSender
 from classes.OnlineClassroom.createPost import post
+from pattern.CreatePostUsingBuilderPattern.Post import Post
 
 
 def show_news_feed(course_id):
@@ -26,9 +27,13 @@ def show_news_feed(course_id):
 
 
 def update_post(data , course_id):
-
     postdetails=post(data['message'],data['files'],session['username'], course_id)
-    post_id=save_to_database(postdetails)
+    postdetails=Post.PostBuilder(course_id)\
+        .with_author(session['username'])\
+        .with_text(data['message'])\
+        .with_links(data['links'])\
+        .build()
+    post_id=save_to_database1(postdetails)
     #print(session['username'])
     course = db.courses.find_one({'_id': ObjectId(course_id)})
     course_name = course['course_name']
@@ -57,6 +62,13 @@ def update_comment(id , data):
     posts = db.comments
     post_id = posts.insert_one(data).inserted_id
     return
+
+
+def save_to_database1(postdetails):
+    data = {"posttext": postdetails.get_post_text(),
+            "authors": postdetails.get_author(), "course_id": postdetails.get_course_id(),"links":postdetails.get_links()}
+    posts = db.classroom_newsfeed
+    return posts.insert_one(data).inserted_id
 
 
 def save_to_database(postdetails):

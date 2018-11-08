@@ -40,6 +40,9 @@
             <p class="card-text">
                 {{dt["posttext"] }}
             </p>
+            {% for link in dt['links'] %}
+                <a href="{{ link }}">{{ link }}</a>
+            {% endfor  %}
         </div>
         <div class="card-footer">
 {#            <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>#}

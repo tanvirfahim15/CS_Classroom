@@ -11,6 +11,11 @@
 {#            <li class="nav-item">#}
 {#                <a class="nav-link" id="link-tab" data-toggle="tab" role="tab" aria-controls="links" aria-selected="false" href="#links">Add links</a>#}
 {#            </li>#}
+
+            <li class="nav-item">
+                <a class="nav-link" id="link-tab" data-toggle="tab" role="tab" aria-controls="links" aria-selected="false" href="#links">Add links</a>
+            </li>
+
         </ul>
     </div>
     <div class="card-body">
@@ -37,13 +42,14 @@
                 </div>
 {#                --------- add liks -------------#}
                 <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="links-tab">
-                    <div class="form-group">
-                        <div>
-                            <input type="url" class="url" id="uplink" name="links">
-                        </div>
-                    </div>
-                    <div class="py-4"></div>
+                     <a class="btn btn-success" href="#links" onclick="myFunction()">Add</a>
+                    <br>
+                    <div id="linkbroad"></div>
+                    <br>
+                    <br>
+                    <input type="hidden" class="url" name="links" id="links_container" value="">
                 </div>
+
 
             </div>
             <div class="btn-toolbar justify-content-between">

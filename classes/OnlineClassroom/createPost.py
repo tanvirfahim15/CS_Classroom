@@ -15,9 +15,9 @@ class post:
 
         return self.posttext+" "+self.postfile+self.author
 
-
     def getposttext(self):
         return self.posttext
+
     def getpostfile(self):
         return self.postfile
 

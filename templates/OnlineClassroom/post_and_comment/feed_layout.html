@@ -92,6 +92,28 @@
 <script type="text/javascript">
 
 </script>
+
+<script>
+function myFunction() {
+    var txt = "<a href=";
+    var link = prompt("Add link:", "");
+    if (link == null || link == "") {
+    } else {
+        txt += link ;
+        txt += ">";
+        txt += link
+        txt  += "</a>";
+        txt += "</br>";
+        txt ="<li class=\"list-group-item\">"+txt+"</li>";
+    }
+    document.getElementById("linkbroad").innerHTML += txt;
+    document.getElementById("links_container").value =document.getElementById("links_container").value+"," + link ;
+
+
+}
+</script>
+
+
 </body>
 <footer> {% include "footer.html" %}</footer>
 </html>

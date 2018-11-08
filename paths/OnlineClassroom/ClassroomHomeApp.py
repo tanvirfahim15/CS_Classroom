@@ -48,8 +48,6 @@ def show_course_dashboard():
 
 
     # end
-
-
     return render_template('OnlineClassroom/classroom_with_courses/dashboard.html', **locals())
 
 
