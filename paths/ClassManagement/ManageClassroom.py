@@ -1,6 +1,7 @@
-from flask import Blueprint
+from flask import Blueprint, url_for
 from flask import render_template, request, redirect, session,jsonify
 from Service.OnlineClassroom import ClassroomHome as service
+from classes.ClassManagement.dbpackage.dbquery import getAllStudent, getAllTeacher
 from classes.ClassManagement.mailToppings import mailToppings
 from classes.ClassManagement.BasicStudent import BasicStudent
 from classes.ClassManagement.addStudent import MyServer, send_email
@@ -12,10 +13,18 @@ from classes.ClassManagement.mediatorpattern.getMediatorInstance import getMedia
 from classes.ClassManagement.nameToppings import nameToppings
 
 from classes.ClassManagement.phonenumberToppings import phonenumberToppings
+from classes.ClassManagement.sendmail.sendPdfMail import sendPdfMail
 from classes.ClassManagement.studentidtoppings import studentidtoppings
-
+from werkzeug.utils import secure_filename
 from Database.database import db
 from flask_mail import Message, Mail
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+from os.path import basename
+import email
+import email.mime.application
 
 app = Blueprint('manage_classroom', __name__)
 
@@ -32,6 +41,92 @@ def show_course_dashboard():
 
 
 
+@app.route("/admin_upload_notice", methods=['POST', 'GET'])
+def admin_upload_notice():
+
+
+
+    if request.method == 'POST':
+        # admin_send_notice
+        # in construction
+
+        # admin_send_notice
+        # in construction
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        print(f.filename)
+        sendPdfMail(f,recipient)
+
+        # global recipient
+        #
+        # filestorag    e = request.files['file']
+        # filestorage.save(secure_filename(filestorage.filename))
+        # print(filestorage.filename)
+        #
+        # print(recipient)
+        # sendPdfMail(filestorage,recipient)
+
+        # return "uploaded"
+        student = getAllStudent()
+        teacher = getAllTeacher()
+        return render_template('manage_classroom/admin_choose_recipient.html', **locals())
+        # return render_template('manage_classroom/admin_choose_recipient.html', **locals())
+        # return render_template('manage_classroom/admin_choose_recipient.html', **locals())
+    # return render_template('manage_classroom/mini-upload-form/index.html', **locals())
+    print("Upload notice")
+    return render_template('manage_classroom/admin_upload_notice.html', **locals())
+    # return "failed"
+
+
+recipient=[]
+# student = [{}]
+# teacher = [{}]
+@app.route("/admin_choose_recipient", methods=['POST', 'GET'])
+def admin_choose_recipient():
+
+    # global student
+    # global teacher
+
+    if request.method == 'POST':
+
+        # global student
+        # global filestorage
+
+        student = getAllStudent()
+        teacher = getAllTeacher()
+
+        global recipient
+        for stu in student:
+            x=request.form.get(stu['Id'])
+            if(x!=None):
+                print(stu['Email'])
+                recipient.append(stu['Email'])
+
+        for tea in teacher:
+            x=request.form.get(tea['tId'])
+            if(x!=None):
+                print(tea['tEmail'])
+                recipient.append(tea['tEmail'])
+
+        print(recipient)
+        # print("ok")
+        # print(filestorage.filename)
+
+        # filestorage.save(secure_filename(filestorage.filename))
+        # print(filestorage.filename)
+        #
+        # sendPdfMail(filestorage)
+        # sendPdfMail(filestorage)
+
+        # print(request.form.get('64'))
+        # print(request.form)
+
+        return render_template('manage_classroom/admin_upload_notice.html', **locals())
+
+    student = getAllStudent()
+    teacher = getAllTeacher()
+
+    return render_template('manage_classroom/admin_choose_recipient.html', **locals())
 
 
 
@@ -56,6 +151,7 @@ def access_control():
     #     return redirect("/auth/login/")
     # return render_template('manage_classroom/admin_page.html', **locals())
     return render_template('manage_classroom/admin_page.html', **locals())
+    #
 
 
 
@@ -164,6 +260,8 @@ def admin_stu_list():
                 "Id":deleteId
             }
         )
+
+
 
     data = []
     for cou in db.xenrolled_student.find():
