@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import render_template, request, redirect, session,jsonify
+from flask import render_template, request, redirect, session,jsonify,flash
 
 from Database.database import db
 from Service.OnlineClassroom import ClassroomHome as service
@@ -68,9 +68,12 @@ def show_join_classes_entry_data():
         data = request.form
         data['course_id'].strip()
         if len(data['course_id']) != 24:
+            flash("Invalid Class Code!")
             return redirect('/classroom-courses-join')
         get_error = service.join_class_info_update(data)
         if get_error == -1:
+            # print("flashing")
+            flash("Invalid Class Code!")
             return redirect('/classroom-courses-join')
         #print(data)
         # service.join_class_info_update(data)
@@ -89,8 +92,8 @@ def show_create_classes_entry_data():
 
 
 
-        print(data['course_name'])
-        print(data['course_code'])
+        #print(data['course_name'])
+        #print(data['course_code'])
 
 
         # start

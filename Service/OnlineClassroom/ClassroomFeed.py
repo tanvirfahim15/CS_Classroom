@@ -11,9 +11,9 @@ def show_news_feed(course_id):
     pymongo_cursor = db.classroom_newsfeed.find({'course_id':course_id})
     all_data = list(pymongo_cursor)
     data = all_data
-    print(data)
+    # print(data)
     data.reverse()
-    print(data)
+    # print(data)
     course = db.courses.find_one({'_id':ObjectId(course_id)})
     users = course['enrolled']
     if session['username'] not in users:
@@ -28,14 +28,14 @@ def show_news_feed(course_id):
 
 
 def update_post(data , course_id):
-    postdetails=post(data['message'],data['files'],session['username'], course_id)
+    # postdetails=post(data['message'],data['files'],session['username'], course_id)
     postdetails=Post.PostBuilder(course_id)\
         .with_author(session['username'])\
         .with_text(data['message'])\
         .with_links(data['links'])\
         .build()
     post_id=save_to_database1(postdetails)
-    #print(session['username'])
+    # print(session['username'])
     course = db.courses.find_one({'_id': ObjectId(course_id)})
     course_name = course['course_name']
     notification = {"course_id":course_id, "course_name":course_name,"notification_type": "post", "username": session['username']}

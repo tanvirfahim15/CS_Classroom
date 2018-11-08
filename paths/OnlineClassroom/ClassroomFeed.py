@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import render_template, request, redirect, session,jsonify
+from flask import render_template, request, redirect, session,jsonify,flash
 from Service.OnlineClassroom import ClassroomFeed as service
 from pattern.AdapterPattern.addclasstopost import addclasstopost
 from pattern.AdapterPattern.assignmenttopost import assignmenttopost
@@ -18,8 +18,11 @@ def show_news_feed(course_id):
 def update_post(course_id):
     if request.method=="POST":
         data = request.form
-        print(data)
-        service.update_post(data , course_id)
+        # print(data)
+        if len(data['message']) != 0:
+            service.update_post(data , course_id)
+        else:
+            flash("Post is empty!! Write something..")
     return redirect('/news-feed/'+str(course_id))
 
 
@@ -50,9 +53,9 @@ def add_assignment(course_id):
     time = request.args.get('time', 0, type=str)
     date = request.args.get('date', 0, type=str)
     details= request.args.get('details', 0, type=str)
-    print(time)
-    print(date)
-    print(details)
+    # print(time)
+    # print(date)
+    # print(details)
     assignmenttopost(time,date,details,session['username'],course_id)
     return jsonify(result="assignment added")
 
@@ -67,8 +70,8 @@ def add_class(course_id):
     starttime = request.args.get('starttime', 0, type=str)
     endtime = request.args.get('endtime', 0, type=str)
     details= request.args.get('details', 0, type=str)
-    print(starttime)
-    print(endtime)
-    print(details)
+    # print(starttime)
+    # print(endtime)
+    # print(details)
     addclasstopost(starttime,endtime,details,session['username'],course_id)
     return jsonify(result="new class time has been announced")
