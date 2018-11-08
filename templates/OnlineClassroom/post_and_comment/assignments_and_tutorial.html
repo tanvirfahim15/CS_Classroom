@@ -61,10 +61,17 @@
             </div>
         </div>
         {% for notify in notifications %}
+         {% if notify["notification_type"] == 'post' %}
         <li class="list-group-item" align="center">
-            <a href=" {{ url_for('classroom_feed.show_news_feed',course_id=notify["course_id"]) }} ">@{{ notify['username'] }} posted on '{{ notify['course_name'] }}' Classroom</a>
+            <a href=" {{ url_for('classroom_feed.show_news_feed',course_id=notify["course_id"]) }} ">@{{ notify['username'] }} post on '{{ notify['course_name'] }}' Classroom</a>
 {#            <a href="#" class="card-link">Dibyo have posted on 'SDP LAB' Classroom</a>#}
         </li>
+            {% elif notify["notification_type"] == 'comment' %}
+        <li class="list-group-item" align="center">
+            <a href=" {{ url_for('classroom_feed.show_news_feed',course_id=notify["course_id"]) }} ">@{{ notify['username'] }} comments on @{{ notify['author'] }}'s post in '{{ notify['course_name'] }}' Classroom</a>
+{#            <a href="#" class="card-link">Dibyo have posted on 'SDP LAB' Classroom</a>#}
+        </li>
+             {% endif %}
         {% endfor %}
 {#        <li class="list-group-item" align="center">#}
 {#            <a href="#">@Ayush posted on 'SDP LAB' Classroom</a>#}

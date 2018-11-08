@@ -30,11 +30,13 @@ def comment_entry(id, course_id):
     return render_template('OnlineClassroom/post_and_comment/comment.html' ,**locals())
 
 
-@app.route("/entry_comment/<id>/<course_id>" , methods=['POST', 'GET'])
-def update_comment(id, course_id):
+@app.route("/entry_comment/<id>/<course_id>/<author>" , methods=['POST', 'GET'])
+def update_comment(id, course_id,author):
+    print(id+" "+course_id+" "+author)
     if request.method=="POST":
         data = request.form
-        service.update_comment(id ,data)
+        service.update_comment(id ,course_id,data,author)
+
     return redirect('/comment_entry/'+str(id)+'/'+str(course_id))
 
 

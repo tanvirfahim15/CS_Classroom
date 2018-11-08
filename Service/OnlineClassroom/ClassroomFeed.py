@@ -2,6 +2,7 @@ from bson import ObjectId
 from flask import session
 from Database.database import db
 from pattern.SendNotifications import NotificationSender
+from pattern.SendCommentsNotification import CommentsNotificationSender
 from classes.OnlineClassroom.createPost import post
 from pattern.CreatePostUsingBuilderPattern.Post import Post
 
@@ -37,7 +38,7 @@ def update_post(data , course_id):
     #print(session['username'])
     course = db.courses.find_one({'_id': ObjectId(course_id)})
     course_name = course['course_name']
-    notification = {"course_id":course_id, "course_name":course_name, "username": session['username']}
+    notification = {"course_id":course_id, "course_name":course_name,"notification_type": "post", "username": session['username']}
     NotificationSender.Sender(course_id, notification).notify_observer()
     return
 
@@ -57,10 +58,15 @@ def comment_entry(id, course_id):
     return poststring, comments, course_info, notifications
 
 
-def update_comment(id , data):
+def update_comment(id ,course_id, data,author):
     data = {"posttext": data['message'],"postid":id ,  "authors": session['username']}
     posts = db.comments
     post_id = posts.insert_one(data).inserted_id
+    course = db.courses.find_one({'_id': ObjectId(course_id)})
+    course_name = course['course_name']
+    notification = {"course_id": course_id, "course_name": course_name, "notification_type": "comment",
+                    "username": session['username'] ,"author":author}
+    CommentsNotificationSender.CommentSender(course_id, notification).notify_observer()
     return
 
 
