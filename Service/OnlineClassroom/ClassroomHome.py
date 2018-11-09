@@ -95,3 +95,21 @@ def leave_class_info_update(course_id):
     # print(user_info['course_id'])
     db.course_users.replace_one({'username':session['username']}, user_info)
     return
+
+
+def course_details(course_id):
+    course = db.courses.find_one({'_id':ObjectId(course_id)})
+    if course is None:
+        return None
+    users=[]
+    for user in course['enrolled']:
+        tmpUser = db.course_users.find_one({'username':user})
+        if tmpUser is not None:
+            tmpCourseList = []
+            for tmpCourse in tmpUser['course_id']:
+                tmpCourse = db.courses.find_one({'_id':ObjectId(tmpCourse)})
+                tmpCourse = tmpCourse['course_name']
+                tmpCourseList.append(tmpCourse)
+            users.append({'username':tmpUser['username'],'course_list':tmpCourseList})
+    # print(users)
+    return users

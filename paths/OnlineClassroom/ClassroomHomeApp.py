@@ -120,3 +120,10 @@ def show_create_classes_entry_data():
 def leave_class(course_id):
     service.leave_class_info_update(course_id)
     return redirect('/classroom-courses-dashboard')
+
+
+@app.route('/course_details/<course_id>')
+def course_details(course_id):
+    # print(course_id)
+    users = service.course_details(course_id)
+    return render_template('OnlineClassroom/classroom_with_courses/course_details.html', **locals())
