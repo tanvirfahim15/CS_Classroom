@@ -87,8 +87,9 @@ def add_class(course_id):
 
 
 @app.route('/give_mcq/<course_id>/<quiz_id>')
-def give_mcq(course_id , quiz_id):
-    return render_template('OnlineClassroom/post_and_comment/give_mcq.html',**locals())
+def give_mcq(course_id, quiz_id):
+    service.get_quiz_data(quiz_id)
+    return render_template('OnlineClassroom/post_and_comment/give_mcq.html', **locals())
 
 
 @app.route('/create_mcq/<c_id>')

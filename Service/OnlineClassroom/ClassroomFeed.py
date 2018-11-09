@@ -123,3 +123,10 @@ def get_quiz_lists(course_id):
         quiz_lists.append(tmpDT)
     print(quiz_lists)
     return quiz_lists
+
+
+def get_quiz_data(quiz_id):
+    curse = db.quiz.find_one({'_id': ObjectId(quiz_id)})
+    data=curse['questions']
+    print(data)
+    return
