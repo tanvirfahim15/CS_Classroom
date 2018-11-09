@@ -48,8 +48,8 @@ class Post:
             return post
 
         def get_separattionList(self, links):
-            #print("original: "+links)
-            #urls = re.findall(regex, links)
+            # print("original: "+links)
+            # urls = re.findall(regex, links)
             links = str(links)
             urls = links.split(',')
             #print(urls)

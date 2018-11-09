@@ -92,3 +92,34 @@ def save_to_database(postdetails):
     posts = db.classroom_newsfeed
     return posts.insert_one(data).inserted_id
 
+
+def save_quiz_to_databse(quiz , course_id):
+    # print(quiz.add_more_question())
+    quizList = quiz.add_more_question()
+    data ={'course_id': course_id , 'quiz_name': quiz.get_quiz_name(), 'questions':[]}
+
+    for question in quizList:
+        tmpData = {'question':question.getQuestion(), 'option1':question.getOption1() , 'option2':question.getOption2() ,'option3':question.getOption3(), 'option4':question.getOption4(),'correct_answer':question.getCorrectAnswer()}
+        # print(question.getQuestion())
+        # print(question.getOption1())
+        # print(question.getOption2())
+        # print(question.getOption3())
+        # print(question.getOption4())
+        # print(question.getCorrectAnswer())
+        data['questions'].append(tmpData)
+
+    db.quiz.insert_one(data)
+
+    return
+
+
+def get_quiz_lists(course_id):
+    pymongo_cursor = db.quiz.find({'course_id': course_id})
+    all_data = list(pymongo_cursor)
+    data = all_data
+    quiz_lists = []
+    for dt in data:
+        tmpDT ={'quiz_name':dt['quiz_name'] , 'quiz_id':dt['_id']}
+        quiz_lists.append(tmpDT)
+    print(quiz_lists)
+    return quiz_lists

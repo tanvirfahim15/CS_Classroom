@@ -66,7 +66,7 @@ class Quiz:
     def getOption4(self):
         return self.option4
 
-    def getCurrectAnswer(self):
+    def getCorrectAnswer(self):
         return self.currect_answer
 
 
