@@ -10,6 +10,8 @@ from classes.ClassManagement.genderTopping import genderToppings
 from classes.ClassManagement.mediatorpattern.AdminUpdate import AdminUpdate
 from classes.ClassManagement.mediatorpattern.Mediator import Mediator
 from classes.ClassManagement.mediatorpattern.getMediatorInstance import getMediatorInstance
+from classes.ClassManagement.mementoPattern.CareTaker import CareTaker
+from classes.ClassManagement.mementoPattern.Originator import Originator
 from classes.ClassManagement.nameToppings import nameToppings
 
 from classes.ClassManagement.phonenumberToppings import phonenumberToppings
@@ -299,7 +301,9 @@ def receive_data():
     return "shohan"
 
 
-
+originator=Originator()
+caretaker=CareTaker()
+deleteIndex=0
 @app.route('/admin_stu_list', methods=['POST', 'GET'])
 def admin_stu_list():
     # if not session.get('role') or session['role'] != 'admin':
@@ -311,11 +315,42 @@ def admin_stu_list():
     if request.method == 'POST':
         print("delete")
         deleteId=request.form.get('Id')
+
+        deleteStu=db.xenrolled_student.find(
+            {
+                "Id":deleteId
+            }
+        )
+
+        xinfo = {}
+
+        for ob in deleteStu:
+            xinfo['Name']=ob['Name']
+            xinfo['Phone']=ob['Phone']
+            xinfo['Email']=ob['Email']
+            xinfo['Age']=ob['Age']
+            xinfo['Id']=ob['Id']
+            xinfo['Department']=ob['Department']
+            xinfo['Person']=ob['Person']
+            xinfo['Gender']=ob['Gender']
+
+
+
         db.xenrolled_student.remove(
             {
                 "Id":deleteId
             }
         )
+
+        #     working start memento pattern
+        print("deleting student")
+        print(xinfo)
+        global originator, caretaker
+        student = "student"
+        originator.setState(xinfo,student)
+        caretaker.addState(originator.save(student),student)
+
+    #   working end
 
 
 
@@ -336,6 +371,23 @@ def admin_stu_list():
 
 
 
+
+@app.route('/admin_undo_stu_delete', methods=['POST', 'GET'])
+def admin_undo_stu_delete():
+    global originator,caretaker
+
+    student="student"
+    if(caretaker.getMementoSize(student)>0):
+        originator.restore(caretaker.getStateFromMemento(student),student)
+        info= originator.stu_info
+
+        print("restoring")
+        print(info)
+        if info is not None:
+            stu = db.xenrolled_student
+            stu.insert_one(info)
+
+    return redirect('/admin_stu_list')
 
 
 
@@ -380,12 +432,36 @@ def admin_tea_list():
         print("delete tech")
         deleteId=request.form.get('Id')
 
+        deletetea = db.xenrolled_teacher.find(
+            {
+                "tId": deleteId
+            }
+        )
+
+        xinfo = {}
+
+        print("In teacher")
+        for ob in deletetea:
+            print(ob)
+            xinfo['tName'] = ob['tName']
+            xinfo['tPhone'] = ob['tPhone']
+            xinfo['tEmail'] = ob['tEmail']
+            xinfo['tId'] = ob['tId']
+
         print(deleteId)
         db.xenrolled_teacher.remove(
             {
                 "tId":deleteId
             }
         )
+
+        print("deleting teacher")
+        print(xinfo)
+        global originator, caretaker
+        teacher = "teacher"
+        originator.setState(xinfo, teacher)
+        caretaker.addState(originator.save(teacher), teacher)
+
 
     data = []
     for cou in db.xenrolled_teacher.find():
@@ -401,3 +477,22 @@ def admin_tea_list():
     # return render_template('student_enter_course.html', student_data=data)
 
     return render_template('manage_classroom/admin_tea_list.html', teacher_data=data)
+
+
+
+
+@app.route('/admin_undo_tea_delete', methods=['POST', 'GET'])
+def admin_undo_tea_delete():
+    global originator,caretaker
+    teacher = "teacher"
+    if(caretaker.getMementoSize(teacher)>0):
+        originator.restore(caretaker.getStateFromMemento(teacher),teacher)
+        info= originator.tea_info
+
+        print("restoring")
+        print(info)
+        if info is not None:
+            tea = db.xenrolled_teacher
+            tea.insert_one(info)
+
+    return redirect('/admin_tea_list')
