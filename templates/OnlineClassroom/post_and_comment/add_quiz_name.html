@@ -1,0 +1,13 @@
+{% extends '/tutorial/layout.html' %}
+
+{% block body %}
+    <form action="/create_question/{{ qno }}/{{ course_id }}" + method="post">
+    <div class="jumbotron text-center">
+        <h3>Add Quiz Name</h3>
+        <input type="text" id="details">
+        <div>
+            <input type="submit" style="background-color: #3bdd79" value="Confirm and continue"/>
+        </div>
+    </div>
+    </form>
+{% endblock %}
