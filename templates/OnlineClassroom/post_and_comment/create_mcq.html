@@ -38,8 +38,9 @@
 
 {% block body %}
     <div class="jumbotron text-center">
-        <br action="/give_mcq" + method="post">
-            <h4>Question No 1:</h4>
+        {% if qno=='5' %}
+        <form action="/create_question/{{ qno }}" + method="post">
+            <h4>Question No {{ qno }}:</h4>
 
             <textarea class="form-control" id="question" name="question" rows="3"
                       placeholder=""></textarea>

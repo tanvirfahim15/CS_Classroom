@@ -1,0 +1,12 @@
+{% extends '/tutorial/layout.html' %}
+
+{% block body %}
+    <a class="btn btn-success" href="{{ url_for('classroom_feed.show_news_feed',course_id=course_id) }}">back</a>
+    <br/>
+    <div class="jumbotron text-center">
+        <h1>
+            Successfully Quiz created
+        </h1>
+            <a class="btn btn-success" href="{{ url_for('classroom_feed.show_news_feed',course_id=course_id) }}">go back to classroom</a>
+    </div>
+{% endblock %}

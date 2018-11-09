@@ -89,5 +89,27 @@ def give_mcq():
 
 @app.route('/create_mcq')
 def create_mcq():
-    print("asfasfsafasfs")
+    qno=1
     return render_template('OnlineClassroom/post_and_comment/create_mcq.html',**locals())
+
+
+@app.route('/create_question/<qno>' , methods=['POST', 'GET'])
+def create_question(qno):
+    if request.method=="POST":
+        data = request.form
+        print(data)
+    qno=int(qno)
+    qno+=1
+    print(qno)
+    return render_template('OnlineClassroom/post_and_comment/create_mcq.html',**locals())
+
+
+@app.route('/create_last_question/<qno>' , methods=['POST', 'GET'])
+def create_last_question(qno):
+    if request.method=="POST":
+        data = request.form
+        print(data)
+    qno=int(qno)
+    qno+=1
+    print(qno)
+    return render_template('OnlineClassroom/post_and_comment/successfully_quiz_created.html',**locals())
