@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="ml-2">
-                        <div class="h5 m-0"> About Course</div>
+                        <a href="{{ url_for('classroom_home.course_details',course_id = course_id) }}" class="h5 m-0"> About Course</a>
                     </div>
                 </div>
             </div>
@@ -24,6 +24,9 @@
             <li class="list-group-item">
                 <div class="h6 text-muted">Classmates</div>
                 <div class="h5">{{ classmate_count }}</div>
+            </li>
+            <li class="list-group-item">
+                <a href="{{ url_for('classroom_home.leave_class',course_id = course_id) }}" class="btn btn-success" method='POST'>Leave Us</a>
             </li>
         </ul>
     </div>

@@ -19,3 +19,12 @@ def getAllTeacher():
         data.append(cou)
 
     return data
+
+
+def getCourseUser():
+    data=[]
+
+    for cou in db.courses.find():
+        data.append(cou)
+
+    return data

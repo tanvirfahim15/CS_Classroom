@@ -195,16 +195,29 @@
     <script>
         $(document).ready(function () {
 
-            var isChecked = $('#chkSelect').prop('checked');
+            {#var isChecked = $('#chkSelect').prop('checked');#}
 
 
-            $("#semail").change(function () {
-                var semail = $('#semail').val()
-                $.post("/receivedata", {"semail": semail})
-            });
+            {#$("#semail").change(function () {#}
+            {#    var semail = $('#semail').val()#}
+            {#    $.post("/receivedata", {"semail": semail})#}
+
+
+
+
+
 
 
         });
+
+        function myFunction() {
+    {#alert("Page is loaded");#}
+       if(flag==1){
+                alert("Teacher ID is empty！");
+            }
+
+        }
+        myFunction()
     </script>
 
 
@@ -218,14 +231,20 @@
 <br>
 <br>
 <br>
+<center><div style="background-color: #5bc0de ;color: #FFFFFF">{% include 'tutorial/includes/_messages.html'%}</div></center>
 
-<form action="/admin_choose_recipient" method="post">
+    <form action="/admin_choose_recipient" method="post">
 <table class="table1" border="1" width="600" align="center" cellspacing="0" cellpadding="0">
+
+
 
     <tr>
         <td><h5>Select students</h5></td>
         <td><h5>Select Teachers</h5></td>
     </tr>
+
+
+
     <tr>
         <td>
             <ul>

@@ -10,7 +10,8 @@ class TeacherUpdate(IComponent):
 
     def __init__(self, mediator):
         self.mediator=mediator
-        self.access = 0
+        self.busy = 0
+        self.access = 1
 
 
 
@@ -32,7 +33,7 @@ class TeacherUpdate(IComponent):
         self.access = 1
 
     def checkStatus(self):
-        return self.access
+        return self.busy
 
     def setStatus(self, val):
-        self.access = val;
+        self.busy = val;

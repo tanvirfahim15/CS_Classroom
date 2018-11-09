@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        .fixed_header{
+    width: 700px;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 380px;
+}
+
+.fixed_header thead tr {
+   display: block;
+}
+
+.fixed_header thead {
+  background: black;
+  color:#fff;
+}
+
+.fixed_header th, .fixed_header td {
+  padding: 5px;
+  text-align: left;
+  width: 200px;
+}
+</style>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+</head>
+  <body bgcolor="#8dd8f8">
+<div align="center"><strong><font color="#000080" size="5" face="华文楷体">Student teacher enrollment information<br><br><br></font></strong></div>
+
+       <table class="fixed_header" border="1" width="600" align="center" cellspacing="0" cellpadding="0">
+
+        <thead>
+
+        <tr>
+                <th height="25">Name</th>
+                <th height="25">Course</th>
+                <th height="25">Course_ID</th>
+                <th height="25">Role</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+
+            {% for data in wholedata%}
+
+                <tr>
+                <td height="25"> {{ data['enroll']}}</td>
+                <td height="25"> {{ data['course_name'] }} </td>
+                <td height="25"> {{ data['course_code']}}</td>
+                <td height="25"> {{ data['role']}}</td>
+                </tr>
+
+{#                <tr>#}
+{##}
+{#                {{ data['enroll']}}  is enrolled in {{ data['course_name'] }}  ({{ data['course_code']}})#}
+{##}
+{#                </tr>#}
+
+{#
+{##}
+{#         {% for cno, cname , cdept, cemail in teacher_data%}#}
+{##}
+{##}
+{#            <tr><td height="25">{{ cno }}</td>#}
+{#                <td height="25">{{ cname}}</td>#}
+{#                <td height="25">{{ cdept }}</td>#}
+{#                <td height="25">{{ cemail }}</td>#}
+{#                <td>#}
+{#                    <form action="/admin_tea_list" method="post">#}
+{#                        <input type="hidden" name="Id" value={{ cno }}>#}
+{#                    <button name="forwardBtn" type="submit"  >Delete</button>#}
+{#                    </form>#}
+{##}
+{#                </td>#}
+{##}
+{##}
+{#            </tr>#}
+{#             <tr>{{ cname}}</tr>#}
+{#             <br>#}
+{##}
+         {% endfor %}
+
+        </tbody>
+
+
+        </table>
+</body>
+</html>

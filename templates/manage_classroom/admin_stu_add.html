@@ -63,9 +63,15 @@
   		document.formaddstu.elements[4].focus();
   		return  false;
   	}
-  	if(formaddstu.spassword.value == "")
+  	if(formaddstu.sphone.value == "")
   	{
-  		window.alert("password can not be blank！");
+  		window.alert("phone can not be blank！");
+  		document.formaddstu.elements[6].focus();
+  		return  false;
+  	}
+  	if(formaddstu.semail.value == "")
+  	{
+  		window.alert("email can not be blank！");
   		document.formaddstu.elements[6].focus();
   		return  false;
   	}

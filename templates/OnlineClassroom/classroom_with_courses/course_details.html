@@ -1,0 +1,23 @@
+{% include 'OnlineClassroom/classroom_with_courses/course_dashboard_layout.html' %}
+{% block body %}
+    <div class="row">
+        {% for user in users %}
+{#      ?  <div class="row">#}
+            <div class="card">
+{#                <div class="index-card" >#}
+                    <h3>{{ user['username'] }}</h3>
+                    <h6 class="class_name">Enrolled Classes:</h6>
+                    {% for course in user['course_list'] %}
+                      {{ course }} ,
+                    {% endfor %}
+    {#                <p><button class="btn btn-success">Join Us</button></p>#}
+{#                    <p><a href="{{ url_for('classroom_home.course_details',course_id = course_id) }}" class="btn btn-success" method='POST'>Join Us</a></p>#}
+
+    {#                <a href="{{ url_for('classroom_feed.show_news_feed',course_id = course["_id"]) }}" class="card-link" method='POST'><i class="fa fa-comment"></i> Comment</a>#}
+{#                </div>#}
+            </div>
+{#        </div>#}
+        {% endfor %}
+    </div>
+
+{% endblock %}

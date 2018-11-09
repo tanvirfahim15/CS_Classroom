@@ -7,6 +7,15 @@ from classes.OnlineClassroom.createPost import post
 from pattern.CreatePostUsingBuilderPattern.Post import Post
 
 
+def check_is_enrolled(course_id):
+    course = db.courses.find_one({'_id':ObjectId(course_id)})
+    if course is None:
+        return -1
+    if session['username'] in course['enrolled']:
+        return 1
+    return -1
+
+
 def show_news_feed(course_id):
     pymongo_cursor = db.classroom_newsfeed.find({'course_id':course_id})
     all_data = list(pymongo_cursor)
