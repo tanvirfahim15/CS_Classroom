@@ -129,4 +129,4 @@ def get_quiz_data(quiz_id):
     curse = db.quiz.find_one({'_id': ObjectId(quiz_id)})
     data=curse['questions']
     print(data)
-    return
+    return curse

@@ -6,10 +6,14 @@ from pattern.AdapterPattern.assignmenttopost import assignmenttopost
 from pattern.CreateQuizBuilderPattern.Quiz import Quiz
 from pattern.QuizDecoratorPatterm.BasicQuiz import ConcreteBasicQuiz
 from pattern.QuizDecoratorPatterm.DecoratorQuiz import ConcreteCodiment
+from pattern.GiveAQuizDecoratorPattern.DecoratorGiveQuiz import CodimentGiveDecorator,ConcreteGiveCodiment
+from pattern.GiveAQuizDecoratorPattern.BasicGiveQuiz import BasicGiveQuiz,ConcreteBasicGiveQuiz
+
+from classes.OnlineClassroom.Answer import Answer
 app = Blueprint('classroom_feed', __name__)
 
 global_quiz = ConcreteBasicQuiz(None)
-
+global_answer= ConcreteBasicGiveQuiz(None)
 
 @app.route("/news-feed/<course_id>")
 def show_news_feed(course_id):
@@ -88,7 +92,28 @@ def add_class(course_id):
 
 @app.route('/give_mcq/<course_id>/<quiz_id>')
 def give_mcq(course_id, quiz_id):
-    service.get_quiz_data(quiz_id)
+    curse=service.get_quiz_data(quiz_id)
+    print("in app route")
+    print(curse)
+    data=curse['questions']
+    qno=0
+    global global_answer
+    global_answer=ConcreteBasicGiveQuiz(data='quiz')
+    return render_template('OnlineClassroom/post_and_comment/give_mcq.html', **locals())
+
+
+@app.route('/next_mcq/<quiz_id>/<qno>/<course_id>/<question>',methods=['POST','GET'])
+def next_mcq(quiz_id,qno,course_id,question):
+    if request.method=="POST":
+        answerdata = request.form
+    curse = service.get_quiz_data(quiz_id)
+    data=curse['questions']
+    qno=int(qno)
+    qno+=1
+    print('answerdata')
+    print(answerdata)
+    answer=Answer(question,answerdata['radioName1'])
+
     return render_template('OnlineClassroom/post_and_comment/give_mcq.html', **locals())
 
 
@@ -160,6 +185,5 @@ def quiz_result(course_id):
     if request.method=="POST":
         data = request.form
         print(data)
-    print(course_id)
     return render_template('OnlineClassroom/post_and_comment/quiz_result.html',**locals())
 

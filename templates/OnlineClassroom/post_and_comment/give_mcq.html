@@ -40,28 +40,65 @@
 {% block body %}
     <br/>
     <div class="jumbotron text-center">
-        <form action="/quiz_result/{{ course_id }}" + method="post">
-            <h4>first question?</h4>
-            <div class="radio-option">
-                <input type="radio" name="radioName1" value="option1"/>
-                option 1
-            </div>
-            <div class="radio-option">
-                <input type="radio" name="radioName1" value="option2"/>
-                option 2
-            </div>
-            <div class="radio-option">
-                <input type="radio" name="radioName1" value="option3"/>
-                option 3
-            </div>
-            <div class="radio-option">
-                <input type="radio" name="radioName1" value="option4"/>
-                option 4
-            </div>
-            <div>
-                <input type="submit" style="background-color: #3bdd79" value="Confirm and continue"/>
-            </div>
+        {% if qno != 4%}
+            <form action="/next_mcq/{{ quiz_id }}/{{ qno }}/{{ course_id }}/{{ data[qno]['question'] }}" + method="post">
+                <h4>{{ data[qno]['question'] }}</h4>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option1"/>
+                    {{ data[qno]['option1'] }}
+                </div>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option2"/>
+                    {{ data[qno]['option2'] }}
+                </div>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option3"/>
+                    {{ data[qno]['option3'] }}
+                </div>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option4"/>
+                    {{ data[qno]['option4'] }}
+                </div>
+                <br/>
+                <div>
+                    <input type="submit" style="background-color: #3bdd79" value="Confirm and continue"/>
+                </div>
 
-        </form>
+            </form>
+        {% elif qno== 4 %}
+            <form action="/quiz_result/{{ course_id }}" + method="post">
+                <h4>{{ data[qno]['question'] }}</h4>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option1"/>
+                    {{ data[qno]['option1'] }}
+                </div>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option2"/>
+                    {{ data[qno]['option2'] }}
+                </div>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option3"/>
+                    {{ data[qno]['option3'] }}
+                </div>
+                <br/>
+                <div class="radio-option">
+                    <input type="radio" name="radioName1" value="option4"/>
+                    {{ data[qno]['option4'] }}
+                </div>
+            <br/>
+                <div>
+                    <input type="submit" style="background-color: #3bdd79" value="submit"/>
+                </div>
+
+            </form>
+        {% endif %}
+
     </div>
 {% endblock %}
