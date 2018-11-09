@@ -1,9 +1,10 @@
 {% include 'OnlineClassroom/classroom_with_courses/course_dashboard_layout.html' %}
 {% block body %}
-    <div class="row">
+    <div>
         {% for user in users %}
 {#      ?  <div class="row">#}
-            <div class="card">
+            <center>
+            <li class="list-group-item">
 {#                <div class="index-card" >#}
                     <h3>{{ user['username'] }}</h3>
                     <h6 class="class_name">Enrolled Classes:</h6>
@@ -15,7 +16,8 @@
 
     {#                <a href="{{ url_for('classroom_feed.show_news_feed',course_id = course["_id"]) }}" class="card-link" method='POST'><i class="fa fa-comment"></i> Comment</a>#}
 {#                </div>#}
-            </div>
+            </li>
+            </center>
 {#        </div>#}
         {% endfor %}
     </div>
