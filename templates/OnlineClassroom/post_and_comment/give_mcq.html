@@ -70,7 +70,7 @@
 
             </form>
         {% elif qno== 4 %}
-            <form action="/quiz_result/{{ course_id }}" + method="post">
+            <form action="/quiz_result/{{ quiz_id }}/{{ course_id }}/{{ data[qno]['question'] }}" + method="post">
                 <h4>{{ data[qno]['question'] }}</h4>
                 <br/>
                 <div class="radio-option">

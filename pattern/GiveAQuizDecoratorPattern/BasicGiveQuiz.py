@@ -18,6 +18,7 @@ class ConcreteBasicGiveQuiz(BasicGiveQuiz):
 
     def __init__(self, quiz_name):
         self.quiz_name = quiz_name
+        self.question_list =[]
 
     def add_more_question(self):
         return self.question_list
