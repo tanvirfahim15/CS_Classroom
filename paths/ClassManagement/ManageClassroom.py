@@ -1,7 +1,7 @@
-from flask import Blueprint, url_for
+from flask import Blueprint, url_for, flash
 from flask import render_template, request, redirect, session,jsonify
 from Service.OnlineClassroom import ClassroomHome as service
-from classes.ClassManagement.dbpackage.dbquery import getAllStudent, getAllTeacher
+from classes.ClassManagement.dbpackage.dbquery import getAllStudent, getAllTeacher, getCourseUser
 from classes.ClassManagement.mailToppings import mailToppings
 from classes.ClassManagement.BasicStudent import BasicStudent
 from classes.ClassManagement.addStudent import MyServer, send_email
@@ -32,19 +32,60 @@ app = Blueprint('manage_classroom', __name__)
 @app.route("/manage_classroom")
 def show_course_dashboard():
 
-    print("shohan")
+    # print("shohan")
     # if "username" not in session.keys():
     #     return redirect("/auth/login/")
     # return render_template('manage_classroom/admin_page.html', **locals())
     return render_template('manage_classroom/enter_classroom.html', **locals())
 
 
+@app.route("/admin_home_page")
+def admin_home_page():
+    courseUser=getCourseUser()
+
+
+    wholedata=[]
+
+    student = getAllStudent()
+    teacher = getAllTeacher()
+
+    for course in courseUser:
+        # print(course['course_name'])
+        data = {}
+        for enroll in course['enrolled']:
+            # print(enroll)
+            data['enroll']=enroll
+            data['course_name']=course['course_name']
+            data['course_code']=course['course_code']
+
+
+            for stu in student:
+                if(stu['Name']==enroll):
+                    data['role']="student"
+                    break
+
+            for tea in teacher:
+                if(tea['tName']==enroll):
+                    data['role']="teacher"
+                    break
+
+
+
+
+        if(len(data)):
+            wholedata.append(data)
+
+
+    return render_template('manage_classroom/admin_home_page.html', **locals())
+
+
+
+
+
 
 
 @app.route("/admin_upload_notice", methods=['POST', 'GET'])
 def admin_upload_notice():
-
-
 
     if request.method == 'POST':
         # admin_send_notice
@@ -96,6 +137,7 @@ def admin_choose_recipient():
         teacher = getAllTeacher()
 
         global recipient
+        recipient=[]
         for stu in student:
             x=request.form.get(stu['Id'])
             if(x!=None):
@@ -109,6 +151,11 @@ def admin_choose_recipient():
                 recipient.append(tea['tEmail'])
 
         print(recipient)
+
+        if(len(recipient)==0):
+            flag=1
+            flash('No Recipient, At least select on recipient','danger')
+            return render_template('manage_classroom/admin_choose_recipient.html', **locals())
         # print("ok")
         # print(filestorage.filename)
 
@@ -303,7 +350,7 @@ def admin_tea_add():
         adminUpdate = mediator.adminUpdate
         adminUpdate.requestUpdate(enroll_tea, info)
 
-        enroll_tea
+
         subject = "Enrollment in Online Classroom"
         msg = "Hello " + info['tName'] + ",\n  You have been enrolled in CS Online Classroom as a teacher"
         send_email(subject, msg, info['tEmail'])

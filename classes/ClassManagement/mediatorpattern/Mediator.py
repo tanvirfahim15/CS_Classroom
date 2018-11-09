@@ -19,6 +19,7 @@ class Mediator(IMediator):
 
     def set(self, component, db, value):
         if isinstance(component, AdminUpdate):
+            print("in set and checking instanceof")
             self.setadminUpdate(db,value)
 
         if isinstance(component, StudentUpdate):
@@ -33,43 +34,48 @@ class Mediator(IMediator):
 
     def setadminUpdate(self, db, value):
        #  check conditions
-       if self.teacherUpdate.checkStatus() == 0 and self.adminUpdate.checkStatus() == 0:
+
+       print("checking conditions: ")
+       print(self.teacherUpdate.checkStatus())
+       print(self.studentUpdate.checkStatus())
+       # print()
+       if self.teacherUpdate.checkStatus() == 0 and self.studentUpdate.checkStatus() == 0:
            self.teacherUpdate.pauseUpdate()
-           self.adminUpdate.pauseUpdate()
+           self.studentUpdate.pauseUpdate()
 
            print("setting admin Update with conditions")
-           self.studentUpdate.setStatus(1)
+           self.adminUpdate.setStatus(1)
            self.adminUpdate.update(db,value)
-           self.studentUpdate.setStatus(0)
+           self.adminUpdate.setStatus(0)
 
            self.teacherUpdate.resumeUpdate()
-           self.adminUpdate.resumeUpdate()
+           self.studentUpdate.resumeUpdate()
 
 
 
     def setstudentUpdate(self,db,value):
-        if self.studentUpdate.checkStatus() == 0 and self.adminUpdate.checkStatus() == 0:
-            self.studentUpdate.pauseUpdate()
+        if self.teacherUpdate.checkStatus() == 0 and self.adminUpdate.checkStatus() == 0:
+            self.teacherUpdate.pauseUpdate()
             self.adminUpdate.pauseUpdate()
 
-            self.teacherUpdate.setStatus(1)
-            self.teacherUpdate.update(db,value)
-            self.teacherUpdate.setStatus(0)
+            self.studentUpdate.setStatus(1)
+            self.studentUpdate.update(db,value)
+            self.studentUpdate.setStatus(0)
 
-            self.studentUpdate.resumeUpdate()
+            self.teacherUpdate.resumeUpdate()
             self.adminUpdate.resumeUpdate()
 
 
 
     def setteacherUpdate(self,db,value):
-        if self.teacherUpdate.checkStatus() == 0 and self.studentUpdate.checkStatus() == 0:
-            self.teacherUpdate.pauseUpdate()
+        if self.adminUpdate.checkStatus() == 0 and self.studentUpdate.checkStatus() == 0:
+            self.adminUpdate.pauseUpdate()
             self.studentUpdate.pauseUpdate()
 
-            self.adminUpdate.setStatus(1)
-            self.adminUpdate.update(db,value)
-            self.adminUpdate.setStatus(0)
+            self.teacherUpdate.setStatus(1)
+            self.teacherUpdate.update(db,value)
+            self.teacherUpdate.setStatus(0)
 
-            self.teacherUpdate.resumeUpdate()
+            self.adminUpdate.resumeUpdate()
             self.studentUpdate.resumeUpdate()
 
