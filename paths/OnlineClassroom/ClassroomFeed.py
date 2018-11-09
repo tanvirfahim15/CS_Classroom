@@ -81,20 +81,20 @@ def add_class(course_id):
     return jsonify(result="new class time has been announced")
 
 
-@app.route('/give_mcq')
-def give_mcq():
-    print("sdfasfsafsfa")
+@app.route('/give_mcq/<course_id>')
+def give_mcq(course_id):
     return render_template('OnlineClassroom/post_and_comment/give_mcq.html',**locals())
 
 
-@app.route('/create_mcq')
-def create_mcq():
+@app.route('/create_mcq/<c_id>')
+def create_mcq(c_id):
+    course_id=c_id
     qno=1
     return render_template('OnlineClassroom/post_and_comment/create_mcq.html',**locals())
 
 
-@app.route('/create_question/<qno>' , methods=['POST', 'GET'])
-def create_question(qno):
+@app.route('/create_question/<qno>/<course_id>' , methods=['POST', 'GET'])
+def create_question(qno,course_id):
     if request.method=="POST":
         data = request.form
         print(data)
@@ -104,12 +104,22 @@ def create_question(qno):
     return render_template('OnlineClassroom/post_and_comment/create_mcq.html',**locals())
 
 
-@app.route('/create_last_question/<qno>' , methods=['POST', 'GET'])
-def create_last_question(qno):
+@app.route('/create_last_question/<qno>/<course_id>' , methods=['POST', 'GET'])
+def create_last_question(qno,course_id):
     if request.method=="POST":
         data = request.form
         print(data)
     qno=int(qno)
     qno+=1
     print(qno)
+    print(course_id)
     return render_template('OnlineClassroom/post_and_comment/successfully_quiz_created.html',**locals())
+
+@app.route('/quiz_result/<course_id>' , methods=['POST', 'GET'])
+def quiz_result(course_id):
+    if request.method=="POST":
+        data = request.form
+        print(data)
+    print(course_id)
+    return render_template('OnlineClassroom/post_and_comment/quiz_result.html',**locals())
+

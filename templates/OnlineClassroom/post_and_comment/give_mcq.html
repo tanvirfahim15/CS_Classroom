@@ -1,52 +1,118 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
 <style>
     .output {
-    font: 1rem 'Fira Sans', sans-serif;
-}
+        font: 1rem 'Fira Sans', sans-serif;
+    }
 
-legend {
-    background-color: rgba(0, 0, 0, 0.92);
-    color: #fff;
-    padding: 3px 6px;
-}
-.control {
-    margin: 1rem 0;
-}
-input[type=text], select {
-    text-align: center;
-}
-label {
-    display: inline-block;
-    text-align: right;
-    font-size: .8rem;
-}
+    legend {
+        background-color: rgba(0, 0, 0, 0.92);
+        color: #fff;
+        padding: 3px 6px;
+    }
 
-.hours {
-    font-size: .7em;
-    color: #999;
-}
-form {
-  text-align: center;
-}
+    .control {
+        margin: 1rem 0;
+    }
+
+    input[type=text], select {
+        text-align: center;
+    }
+
+    label {
+        display: inline-block;
+        text-align: right;
+        font-size: .8rem;
+    }
+
+    .hours {
+        font-size: .7em;
+        color: #999;
+    }
+
+    form {
+        text-align: center;
+    }
 </style>
 
 
 {% extends '/tutorial/layout.html' %}
 
 {% block body %}
-    <a class="btn btn-success" href="{{ url_for('classroom_feed.show_news_feed',course_id=course_id) }}">back</a>
     <br/>
     <div class="jumbotron text-center">
-        <form action="/give_mcq" + method="post">
-    <div class="radio-option">
-        <input type="radio" name="radioName" value="val_1" />
-    </div>
-    <div class="radio-option">
-        <input type="radio" name="radioName" value="val_2"/>
-    </div>
-    <div>
-        <input type="submit" value="Confirm and continue"/>
-    </div>
-    </form>
+        <form action="/quiz_result/{{ course_id }}" + method="post">
+            <h4>first question?</h4>
+            <div class="radio-option">
+                <input type="radio" name="radioName1" value="option1"/>
+                option 1
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName1" value="option2"/>
+                option 2
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName1" value="option3"/>
+                option 3
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName1" value="option4"/>
+                option 4
+            </div>
+            <h4>second question?</h4>
+            <div class="radio-option">
+                <input type="radio" name="radioName2" value="option1"/>
+                option 1
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName2" value="option2"/>
+                option 2
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName2" value="option3"/>
+                option 3
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName2" value="option4"/>
+                option 4
+            </div>
+            <h4>third question?</h4>
+            <div class="radio-option">
+                <input type="radio" name="radioName3" value="option1"/>
+                option 1
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName3" value="option2"/>
+                option 2
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName3" value="option3"/>
+                option 3
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName3" value="option4"/>
+                option 4
+            </div>
+            <h4>forth question?</h4>
+            <div class="radio-option">
+                <input type="radio" name="radioName4" value="option1"/>
+                option 1
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName4" value="option2"/>
+                option 2
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName4" value="option3"/>
+                option 3
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName4" value="option4"/>
+                option 4
+            </div>
+            <div>
+                <input type="submit" style="background-color: #3bdd79" value="Confirm and continue"/>
+            </div>
+
+        </form>
     </div>
 {% endblock %}

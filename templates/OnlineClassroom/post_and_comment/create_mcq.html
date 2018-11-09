@@ -38,8 +38,8 @@
 
 {% block body %}
     <div class="jumbotron text-center">
-        {% if qno=='5' %}
-        <form action="/create_question/{{ qno }}" + method="post">
+        {% if qno != 5  %}
+        <form action="/create_question/{{ qno }}/{{ course_id }}" + method="post">
             <h4>Question No {{ qno }}:</h4>
 
             <textarea class="form-control" id="question" name="question" rows="3"
@@ -74,5 +74,42 @@
                 <input type="submit" style="background-color: #3bdd79" value="Confirm and continue"/>
             </div>
         </form>
+        {% elif qno== 5 %}
+        <form action="/create_last_question/{{ qno }}/{{ course_id }}" + method="post">
+            <h4>Question No {{ qno }}:</h4>
+            <textarea class="form-control" id="question" name="question" rows="3"
+                      placeholder=""></textarea>
+            <br>
+            <h6>Option 1:</h6>
+            <input type="text" name="option1" value=""/>
+            <h6>Option 2:</h6>
+            <input type="text" name="option2" value=""/>
+            <h6>Option 3:</h6>
+            <input type="text" name="option3" value=""/>
+            <h6>Option 4:</h6>
+            <input type="text" name="option4" value=""/>
+            <h6>Currect Answer</h6>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option1"/>
+                option 1
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option2"/>
+                option 2
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option3"/>
+                option 3
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option4"/>
+                option 4
+            </div>
+            <div>
+                <input type="submit" style="background-color: #3bdd79" value="Confirm and continue"/>
+            </div>
+        </form>
+        {% endif %}
+
     </div>
 {% endblock %}
