@@ -75,3 +75,15 @@ def add_class(course_id):
     # print(details)
     addclasstopost(starttime,endtime,details,session['username'],course_id)
     return jsonify(result="new class time has been announced")
+
+
+@app.route('/give_mcq')
+def give_mcq():
+    print("sdfasfsafsfa")
+    return render_template('OnlineClassroom/post_and_comment/give_mcq.html',**locals())
+
+
+@app.route('/create_mcq')
+def create_mcq():
+    print("asfasfsafasfs")
+    return render_template('OnlineClassroom/post_and_comment/create_mcq.html',**locals())

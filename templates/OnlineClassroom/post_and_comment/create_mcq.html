@@ -1,0 +1,77 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<style>
+    .output {
+        font: 1rem 'Fira Sans', sans-serif;
+    }
+
+    legend {
+        background-color: rgba(0, 0, 0, 0.92);
+        color: #fff;
+        padding: 3px 6px;
+    }
+
+    .control {
+        margin: 1rem 0;
+    }
+
+    input[type=text], select {
+        text-align: center;
+    }
+
+    label {
+        display: inline-block;
+        text-align: right;
+        font-size: .8rem;
+    }
+
+    .hours {
+        font-size: .7em;
+        color: #999;
+    }
+
+    form {
+        text-align: center;
+    }
+</style>
+
+{% extends '/tutorial/layout.html' %}
+
+{% block body %}
+    <div class="jumbotron text-center">
+        <br action="/give_mcq" + method="post">
+            <h4>Question No 1:</h4>
+
+            <textarea class="form-control" id="question" name="question" rows="3"
+                      placeholder=""></textarea>
+            <br>
+            <h6>Option 1:</h6>
+            <input type="text" name="option1" value=""/>
+            <h6>Option 2:</h6>
+            <input type="text" name="option2" value=""/>
+            <h6>Option 3:</h6>
+            <input type="text" name="option3" value=""/>
+            <h6>Option 4:</h6>
+            <input type="text" name="option4" value=""/>
+            <h6>Currect Answer</h6>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option1"/>
+                option 1
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option2"/>
+                option 2
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option3"/>
+                option 3
+            </div>
+            <div class="radio-option">
+                <input type="radio" name="radioName" value="option4"/>
+                option 4
+            </div>
+            <div>
+                <input type="submit" style="background-color: #3bdd79" value="Confirm and continue"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}

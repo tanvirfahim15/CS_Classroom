@@ -1,0 +1,52 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<style>
+    .output {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+legend {
+    background-color: rgba(0, 0, 0, 0.92);
+    color: #fff;
+    padding: 3px 6px;
+}
+.control {
+    margin: 1rem 0;
+}
+input[type=text], select {
+    text-align: center;
+}
+label {
+    display: inline-block;
+    text-align: right;
+    font-size: .8rem;
+}
+
+.hours {
+    font-size: .7em;
+    color: #999;
+}
+form {
+  text-align: center;
+}
+</style>
+
+
+{% extends '/tutorial/layout.html' %}
+
+{% block body %}
+    <a class="btn btn-success" href="{{ url_for('classroom_feed.show_news_feed',course_id=course_id) }}">back</a>
+    <br/>
+    <div class="jumbotron text-center">
+        <form action="/give_mcq" + method="post">
+    <div class="radio-option">
+        <input type="radio" name="radioName" value="val_1" />
+    </div>
+    <div class="radio-option">
+        <input type="radio" name="radioName" value="val_2"/>
+    </div>
+    <div>
+        <input type="submit" value="Confirm and continue"/>
+    </div>
+    </form>
+    </div>
+{% endblock %}
