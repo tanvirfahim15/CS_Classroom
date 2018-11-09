@@ -5,7 +5,7 @@ from email.mime.application import MIMEApplication
 import email
 import email.mime.application
 
-def sendPdfMail(fo,receiver):
+def sendPdfMail(fo,receiver): # need update
     receiver = list(set(receiver))
 
     html = """
@@ -23,7 +23,7 @@ def sendPdfMail(fo,receiver):
     HTML_Contents = MIMEText(html, 'html')
 
     # Adding pptx file attachment
-    # filename = 'mypdf.pdf'
+    # filename = '/home/musfiq/PycharmProjects/CS_Classroom_Updated/classes/ClassManagement/sendmail/mypdf.pdf'
     # fo = open(filename, 'rb')
     # attach = email.mime.application.MIMEApplication(fo.read(), _subtype="pdf")
 
@@ -49,11 +49,11 @@ def sendPdfMail(fo,receiver):
     EMAIL_ADDRESS = "online14classroom@gmail.com"
     PASSWORD = "online.14.classroom"
     s_information.login(EMAIL_ADDRESS, PASSWORD)
-    s_information.sendmail(msg['From'], msg['To'], msg.as_string())
+    # s_information.sendmail(msg['From'], msg['To'], msg.as_string())
 
 
-    # for rec in receiver:
-    #     print("sending to "+rec)
-    #     s_information.sendmail(msg['From'], rec , msg.as_string())
+    for rec in receiver:
+        print("sending to "+rec)
+        s_information.sendmail(msg['From'], rec , msg.as_string())
 
     s_information.quit()
