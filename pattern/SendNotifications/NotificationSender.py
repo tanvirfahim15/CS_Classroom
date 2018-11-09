@@ -35,7 +35,8 @@ class Sender(Subject):
 
     def remove_observer(self, observer):
         course = db.courses.find_one({'_id': ObjectId(self.course_id)})
-        course['enrolled'].remove(observer)
+        if observer in course['enrolled']:
+            course['enrolled'].remove(observer)
         db.courses.replace_one({'_id': ObjectId(self.course_id)}, course)
         return
 

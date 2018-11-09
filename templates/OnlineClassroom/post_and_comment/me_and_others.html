@@ -25,6 +25,9 @@
                 <div class="h6 text-muted">Classmates</div>
                 <div class="h5">{{ classmate_count }}</div>
             </li>
+            <li class="list-group-item">
+                <a href="{{ url_for('classroom_home.leave_class',course_id = course_id) }}" class="btn btn-success" method='POST'>Leave Us</a>
+            </li>
         </ul>
     </div>
 </div>

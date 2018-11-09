@@ -77,6 +77,10 @@ def show_join_classes_entry_data():
             return redirect('/classroom-courses-join')
         #print(data)
         # service.join_class_info_update(data)
+        if get_error == 1:
+            flash('Successfully joined the class.')
+        else:
+            flash('You are already enrolled into the class.')
     return render_template('OnlineClassroom/classroom_with_courses/dashboard.html' ,**locals())
 
 
@@ -108,4 +112,11 @@ def show_create_classes_entry_data():
         #end
 
         # service.create_class_info_update(data)
+        flash('Successfully created the '+str(data['course_name'])+' class.')
     return render_template('OnlineClassroom/classroom_with_courses/dashboard.html' ,**locals())
+
+
+@app.route('/leave_class/<course_id>')
+def leave_class(course_id):
+    service.leave_class_info_update(course_id)
+    return redirect('/classroom-courses-dashboard')

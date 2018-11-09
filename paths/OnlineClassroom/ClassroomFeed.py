@@ -9,6 +9,10 @@ app = Blueprint('classroom_feed', __name__)
 
 @app.route("/news-feed/<course_id>")
 def show_news_feed(course_id):
+    enrolled_flag = service.check_is_enrolled(course_id)
+    if enrolled_flag == -1:
+        flash('You are not enrolled. Join the class please.')
+        return redirect('/classroom-courses-dashboard')
     course_info, data, users, notifications = service.show_news_feed(course_id)
     classmate_count = len(course_info['enrolled'])
     return render_template('OnlineClassroom/post_and_comment/feed.html', **locals())

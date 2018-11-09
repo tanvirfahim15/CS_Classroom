@@ -53,14 +53,16 @@ def join_class_info_update(data):
     users = course['enrolled']
     if session['username'] not in users:
         NotificationSender.Sender(course_id, "").register_observer(session['username'])
+    else:
+        return 2
 
-    return
+    return 1
 
 
 def enrolled_class_info_show():
     courses = db.course_users.find_one({'username':session['username']})
-    print(courses)
-    if courses == None:
+    # print(courses)
+    if courses is None:
         course_list = []
         return course_list
     courses = courses['course_id']
@@ -74,3 +76,22 @@ def enrolled_class_info_show():
     # print(course_list)
     return course_list
 
+
+def leave_class_info_update(course_id):
+    course = db.courses.find_one({'_id':ObjectId(course_id)})
+    if course is None:
+        return
+    NotificationSender.Sender(course_id, "").remove_observer(session['username'])
+    user_info = db.course_users.find_one({'username':session['username']})
+    if user_info is None:
+        # print(user_info)
+        # print(session['username'])
+        return
+    # print(user_info['course_id'])
+    if course_id in user_info['course_id']:
+        user_info['course_id'].remove(course_id)
+    if ObjectId(course_id) in user_info['course_id']:
+        user_info['course_id'].remove(ObjectId(course_id))
+    # print(user_info['course_id'])
+    db.course_users.replace_one({'username':session['username']}, user_info)
+    return

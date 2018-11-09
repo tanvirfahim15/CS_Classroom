@@ -19,7 +19,7 @@ class CommentReceiver(CommentObserver):
 
     def update(self):
         user = db.notifications.find_one({'username': self.user_id})
-        if user== None:
+        if user is None:
             data = {'username':self.user_id, 'notifications':[]}
             db.notifications.insert_one(data)
             user = db.notifications.find_one({'username': self.user_id})
