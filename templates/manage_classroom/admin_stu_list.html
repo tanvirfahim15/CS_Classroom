@@ -6,6 +6,29 @@
     <meta charset=utf-8>
     <title></title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+        <style type="text/css">
+          .wrapper {
+    text-align: center;
+}
+
+.button {
+    position: absolute;
+    top: 50%;
+}
+      </style>
+
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+
+
+
+    <meta charset=utf-8>
+
+
   </head>
   
   <body bgcolor="#8dd8f8">
@@ -45,5 +68,16 @@
 
         </table>
 
+
+ <br><br>
+
+  <form action="/admin_undo_stu_delete" method="post">
+       <div class="wrapper">
+    <center><input class="w3-btn w3-black" type="submit"  value="Undo"/> </center>
+       </div>
+  </form>
+
+
+  <br><br><br>
   </body>
 </html>
