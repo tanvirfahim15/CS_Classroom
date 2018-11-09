@@ -32,6 +32,9 @@ app = Blueprint('manage_classroom', __name__)
 @app.route("/manage_classroom")
 def show_course_dashboard():
 
+    if "username" not in session.keys():
+        return redirect("/auth/login/")
+
     # print("shohan")
     # if "username" not in session.keys():
     #     return redirect("/auth/login/")
@@ -181,19 +184,25 @@ def admin_choose_recipient():
 @app.route("/access_control", methods=['POST', 'GET'])
 def access_control():
 
+    # if "username" not in session.keys():
+    #     return redirect("/auth/login/")
 
     if request.method == 'POST':
         print("delete")
-        role = request.form.get('role')
+        # role = request.form.get('role')
         passw= request.form.get('password')
 
-        print(role,passw)
+        # print(role,passw)
+        print(passw)
 
-        if(role!='admin' and passw!='admin'):
+        # if(role!='admin' and passw!='admin'):
+        if(passw=='admin' or passw=='shohan' or passw=='kashob'):
+            pass
+        else:
             return render_template('manage_classroom/enter_classroom.html', **locals())
 
 
-    print("shohan")
+    print("going admin_page")
     # if "username" not in session.keys():
     #     return redirect("/auth/login/")
     # return render_template('manage_classroom/admin_page.html', **locals())

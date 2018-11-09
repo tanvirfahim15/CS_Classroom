@@ -17,7 +17,7 @@ class AdminObserver(IEnrollmentObserver):
         print(techerCreateClass)
 
 
-        if studentEnroll:
+        if studentEnroll: #need work a little
             enroll_stu = db.xenrolled_student
             enroll_stu.insert_one(studentEnroll)
 

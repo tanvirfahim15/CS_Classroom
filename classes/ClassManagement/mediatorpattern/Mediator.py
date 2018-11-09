@@ -35,9 +35,9 @@ class Mediator(IMediator):
     def setadminUpdate(self, db, value):
        #  check conditions
 
-       print("checking conditions: ")
-       print(self.teacherUpdate.checkStatus())
-       print(self.studentUpdate.checkStatus())
+       # print("checking conditions: ")
+       # print(self.teacherUpdate.checkStatus())
+       # print(self.studentUpdate.checkStatus())
        # print()
        if self.teacherUpdate.checkStatus() == 0 and self.studentUpdate.checkStatus() == 0:
            self.teacherUpdate.pauseUpdate()
