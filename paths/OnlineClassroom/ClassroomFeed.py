@@ -93,14 +93,22 @@ def add_class(course_id):
 @app.route('/give_mcq/<course_id>/<quiz_id>')
 def give_mcq(course_id, quiz_id):
     curse=service.get_quiz_data(quiz_id)
-    print("in app route")
-    print(curse)
+    # print("in app route")
+    # print(curse)
     data=curse['questions']
     qno=0
     global global_answer
     global_answer=None
     global_answer=ConcreteBasicGiveQuiz(curse['quiz_name'])
-    print(global_answer.question_list)
+    # print(global_answer.question_list)
+    return render_template('OnlineClassroom/post_and_comment/give_mcq.html', **locals())
+
+
+@app.route('/re_next_mcq/<quiz_id>/<qno>/<course_id>')
+def re_next_mcq(quiz_id, qno, course_id):
+    curse = service.get_quiz_data(quiz_id)
+    qno = int(qno)
+    data = curse['questions']
     return render_template('OnlineClassroom/post_and_comment/give_mcq.html', **locals())
 
 
@@ -108,15 +116,19 @@ def give_mcq(course_id, quiz_id):
 def next_mcq(quiz_id,qno,course_id,question):
     if request.method=="POST":
         answerdata = request.form
-    curse = service.get_quiz_data(quiz_id)
-    data=curse['questions']
-    qno=int(qno)
-    qno+=1
-    print('answerdata')
-    print(answerdata)
-    answer=Answer(question,answerdata['radioName1'])
-    global global_answer
-    global_answer = ConcreteGiveCodiment(global_answer, answer)
+        flag_is_answered = service.check_is_answer_selected(answerdata)
+        if flag_is_answered == -1:
+            flash("Please Choose an Option.")
+            return redirect('/re_next_mcq/'+str(quiz_id)+'/'+str(qno)+'/'+str(course_id))
+        curse = service.get_quiz_data(quiz_id)
+        data=curse['questions']
+        qno=int(qno)
+        qno+=1
+        # print('answerdata')
+        # print(answerdata)
+        answer=Answer(question,answerdata['radioName1'])
+        global global_answer
+        global_answer = ConcreteGiveCodiment(global_answer, answer)
     return render_template('OnlineClassroom/post_and_comment/give_mcq.html', **locals())
 
 
@@ -133,8 +145,18 @@ def add_quiz_name(c_id):
         data = request.form
         course_id = c_id
         qno = 1
+        # print('add_quiz_name:')
+        # print(data['name'])
+        if len(data['name']) == 0:
+            flash('Please Add a Quiz name')
+            return redirect('/create_mcq/'+str(course_id))
         global global_quiz
         global_quiz = ConcreteBasicQuiz(data['name'])
+    return render_template('OnlineClassroom/post_and_comment/create_mcq.html', **locals())
+
+
+@app.route('/re_create_question/<course_id>/<qno>')
+def re_create_question(course_id, qno):
     return render_template('OnlineClassroom/post_and_comment/create_mcq.html', **locals())
 
 
@@ -142,7 +164,11 @@ def add_quiz_name(c_id):
 def create_question(qno,course_id):
     if request.method=="POST":
         data = request.form
-        print(data)
+        # print(data)
+        flag_for_all = service.check_is_all_field_fill_up(data)
+        if flag_for_all == -1:
+            flash('Please fill up all fields.')
+            return redirect('/re_create_question/'+str(course_id)+'/'+str(qno))
         quiz = Quiz.QuizBuilder(data['question'])\
             .with_option1(data['option1'])\
             .with_option2(data['option2'])\
@@ -150,13 +176,13 @@ def create_question(qno,course_id):
             .with_option4(data['option4'])\
             .with_currect_answer(data['radioName'])\
             .build()
-        print(quiz)
+        # print(quiz)
         global global_quiz
         global_quiz = ConcreteCodiment(global_quiz, quiz)
 
-    qno=int(qno)
-    qno+=1
-    print(qno)
+        qno=int(qno)
+        qno+=1
+        # print(qno)
     return render_template('OnlineClassroom/post_and_comment/create_mcq.html',**locals())
 
 
@@ -164,7 +190,11 @@ def create_question(qno,course_id):
 def create_last_question(qno,course_id):
     if request.method=="POST":
         data = request.form
-        print(data)
+        # print(data)
+        flag_for_all = service.check_is_all_field_fill_up(data)
+        if flag_for_all == -1:
+            flash('Please fill up all fields.')
+            return redirect('/re_create_question/' + str(course_id) + '/' + str(qno))
         quiz = Quiz.QuizBuilder(data['question']) \
             .with_option1(data['option1']) \
             .with_option2(data['option2']) \
@@ -175,39 +205,44 @@ def create_last_question(qno,course_id):
         global global_quiz
         global_quiz = ConcreteCodiment(global_quiz, quiz)
         service.save_quiz_to_databse(global_quiz, course_id)
-    qno=int(qno)
-    qno+=1
-    print(qno)
-    print(course_id)
+        qno=int(qno)
+        qno+=1
+        # print(qno)
+        # print(course_id)
     return render_template('OnlineClassroom/post_and_comment/successfully_quiz_created.html',**locals())
 
 
-@app.route('/quiz_result/<quiz_id>/<course_id>/<question>' , methods=['POST', 'GET'])
-def quiz_result(quiz_id,course_id,question):
+@app.route('/quiz_result/<quiz_id>/<qno>/<course_id>/<question>' , methods=['POST', 'GET'])
+def quiz_result(quiz_id,qno,course_id,question):
     if request.method=="POST":
         answerdata = request.form
-    curse = service.get_quiz_data(quiz_id)
-    data=curse['questions']
-    print('answerdata')
-    print(answerdata)
-    answer=Answer(question,answerdata['radioName1'])
-    global global_answer
-    global_answer = ConcreteGiveCodiment(global_answer, answer)
-    list=global_answer.add_more_question()
-    for answer in list:
-        print(answer.get_question(),answer.get_answer())
-    score=calculate_score(data,list)
+        flag_is_answered = service.check_is_answer_selected(answerdata)
+        if flag_is_answered == -1:
+            flash("Please Choose an Option.")
+            return redirect('/re_next_mcq/' + str(quiz_id) + '/' + str(qno) + '/' + str(course_id))
+        curse = service.get_quiz_data(quiz_id)
+        data=curse['questions']
+        # print('answerdata')
+        # print(answerdata)
+        answer=Answer(question,answerdata['radioName1'])
+        global global_answer
+        global_answer = ConcreteGiveCodiment(global_answer, answer)
+        list=global_answer.add_more_question()
+        # for answer in list:
+        #     print(answer.get_question(),answer.get_answer())
+        score=calculate_score(data,list)
     return render_template('OnlineClassroom/post_and_comment/quiz_result.html',**locals())
 
+
 def calculate_score(data, list):
-    print("calculate score")
-    print(data)
-    print(list)
+    # print("calculate score")
+    # print(data)
+    # print(list)
     score = 0
     for i in range(0,5):
-        print(data[i]['correct_answer']+" "+list[i].get_answer())
+        # print(data[i]['correct_answer']+" "+list[i].get_answer())
         if data[i]['correct_answer'] == list[i].get_answer():
             score += 20
-    print("calculate score")
-    print(score)
+    # print("calculate score")
+    # print(score)
     return score

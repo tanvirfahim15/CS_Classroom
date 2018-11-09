@@ -122,13 +122,40 @@ def get_quiz_lists(course_id):
     for dt in data:
         tmpDT ={'quiz_name':dt['quiz_name'] , 'quiz_id':dt['_id']}
         quiz_lists.append(tmpDT)
-    print(quiz_lists)
+    # print(quiz_lists)
     return quiz_lists
 
 
 def get_quiz_data(quiz_id):
     curse = db.quiz.find_one({'_id': ObjectId(quiz_id)})
     data=curse['questions']
-    print(data)
+    # print(data)
     return curse
+
+
+def check_is_all_field_fill_up(data):
+    if len(data['question']) == 0:
+        return -1
+    if len(data['option1']) == 0:
+        return -1;
+    if len(data['option2']) == 0:
+        return -1;
+    if len(data['option3']) == 0:
+        return -1;
+    if len(data['option4']) == 0:
+        return -1;
+    # print('check_is_all_field')
+    dt = data.get('radioName')
+    if dt is None:
+        return -1
+    if data['radioName'] is None or len(data['radioName']) == 0:
+        return -1
+    return 1
+
+
+def check_is_answer_selected(data):
+    dt = data.get('radioName1')
+    if dt is None:
+        return -1
+    return 1
 
