@@ -167,7 +167,7 @@ def create_question(qno,course_id):
         # print(data)
         flag_for_all = service.check_is_all_field_fill_up(data)
         if flag_for_all == -1:
-            flash('Please fill up all fields.')
+            flash('Please fill up all field.')
             return redirect('/re_create_question/'+str(course_id)+'/'+str(qno))
         quiz = Quiz.QuizBuilder(data['question'])\
             .with_option1(data['option1'])\

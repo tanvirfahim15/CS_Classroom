@@ -113,7 +113,6 @@ def save_quiz_to_databse(quiz , course_id):
     return
 
 
-
 def get_quiz_lists(course_id):
     pymongo_cursor = db.quiz.find({'course_id': course_id})
     all_data = list(pymongo_cursor)
