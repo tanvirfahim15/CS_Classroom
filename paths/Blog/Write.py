@@ -93,12 +93,14 @@ def edit_article(id):
         return redirect(url_for('blog_write.dashboard'))
     return render_template('/tutorial/edit_article.html', form=form)
 
+
 @app.route('/delete_article/<string:id>', methods=['GET', 'POST'])
 def delete_article(id):
     #db.article.remove({"_id": ObjectId(id)})
     read.blog_article_remove(id)
     flash('Article Deleted', 'success')
     return redirect(url_for('blog_write.dashboard'))
+
 
 @app.route('/online_forum/forum_home')
 def forum_home():

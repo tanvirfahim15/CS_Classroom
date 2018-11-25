@@ -44,19 +44,28 @@
         <br/>
 
         <form action = "/auth/login-validation" method = "POST" style="width: 30%">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username">
-                <span id="username_msg" style="font-size: small;color: red"></span>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-                <span id="password_msg" style="font-size: small;color: red"></span>
-            </div>
-            <div class="form-group">
+            <table>
+                <tr>
+                    <td width="20%">Username:</td>
+                    <td width="46%">  <input type="text" class="form-control" id="username" name="username"></td>
+                    <td width="33%">         <span id="username_msg" style="font-size: small;color: red"></span>
+</td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td width="20%">Password: </td>
+                    <td width="46%"><input type="password" class="form-control" id="password" name="password">
+                    <td width="33%">
+                <span id="password_msg" style="font-size: small;color: red"></span></td>
+                </tr>
+            </table>
+
+<br/>
+            <table><tr><td width="80%"><div class="form-group">
                 <input type="submit" class="btn btn-dark btn-lg" value="Log In">
-            </div>
+            </div></td><td></td></tr></table>
         </form>
         <a href="/auth/register">Register</a>
     </div>

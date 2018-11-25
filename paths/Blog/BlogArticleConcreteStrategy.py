@@ -1,5 +1,6 @@
 from paths.Blog import ArticleStrategy
 
+
 class Context:
     title = ""
     body = ""
@@ -28,6 +29,7 @@ class Context:
 
     def setAuthor(self, author):
         self.author = author
+
 
 class BlogArticleConcreteStrategy(ArticleStrategy.ArticleStrategy):
     title = ""
